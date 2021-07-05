@@ -2,10 +2,10 @@
 Official Website of Coding Club BITS Pilani
 
 ## Modules
-- [] Portfolio 
-- [] Blog
-- [] Exam Portal
-- [] Recruitment Portal 
+[ ] Portfolio 
+[ ] Blog
+[ ] Exam Portal
+[ ] Recruitment Portal 
 
 ## Tech-Stack
 - Frontend UI: React.js
