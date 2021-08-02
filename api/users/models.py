@@ -64,6 +64,8 @@ class Member(models.Model):
     bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False)
     department = models.CharField(choices=departments, blank=False, null=False)
     github = models.CharField(max_length=20, blank=False, null=False)
+    linked_in = models.CharField(max_length=20)
+    summary = models.TextField()
 
     def __str__(self):
         return f"{self.user.name}'s Profile"
