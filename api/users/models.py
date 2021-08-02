@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 
 from PIL import Image
 
@@ -56,3 +57,36 @@ class CustomUser(AbstractUser):
     .
     .
 '''
+
+departments=  (
+        ('cp', 'Competitive Programing'),
+        ('fe', 'Frontend Web Dvelopment'),
+        ('be', 'Backend Web Dvelopment'),
+				('ap', 'App Devlpment '),
+				( 'ui', 'UI/UX ')
+    )
+gender_choices = (
+	('M','Male'),
+	('F','Female'),
+	('O','Others')
+)
+
+class Candidate (CustomUser) :
+	gender= models.Choices(max_length=1,Choices=gender_choices)
+	githubid=models.CharField(max_length=30,unique=True)
+    
+	pr1 = models.CharField(verbose_name="First Priority",max_length=2,choices=departments,default=None)
+	pr2 = models.CharField(verbose_name="Second Priority",max_length=2,choices=departments,default=None)
+	pr3 = models.CharField(verbose_name="Third Priority",max_length=2,choices=departments,default=None)
+	pr4 = models.CharField(verbose_name="Fourth Priority",max_length=2,choices=departments,default=None)
+	pr5 = models.CharField(verbose_name="Fifth Priority",max_length=2,choices=departments,default=None)
+
+	def __str__(self):
+		return f"{self.user.username}'s Profile"
+	
+	def save(self,*args,**kwargs) :
+		super().save(*args,**kwargs)
+
+	def field_validate(self):
+		if (self.pr1 == self.pr2 or self.pr1 == self.pr3 or self.pr1 == self.pr4 or self.pr1 == self.pr5 or self.pr2 == self.pr3 or self.pr2 == self.pr4 or self.pr2 == self.pr5 or self.pr3 == self.pr4 or self.pr3 == self.pr5 or self.pr4 == self.pr5  ):
+			raise ValidationError("All choices should be different ")
