@@ -34,10 +34,16 @@ class CustomUser(AbstractUser):
 '''
     name
     phone
-    .
+    interests
     .
     .
 '''
+class Visitor(CustomUser):
+    phone = models.PhoneNumberField(unique=True)
+    interests = models.TextField(blank=True, max_length=100)
+    # city = models.CharField(blank=True)
+
+
 
 # 2. Member     --- Sanyam
 '''
