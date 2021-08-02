@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 from PIL import Image
+from django.db.models.enums import Choices
+from django.db.models.expressions import F
 
 from users.managers import UserManager
 
@@ -47,6 +49,24 @@ class CustomUser(AbstractUser):
     githubHandle
     ...
 '''
+
+class Member(models.Model):
+    departments = (
+        ('cp', 'Competetive Programming'),
+        ('fe', 'Frontend Web Development'),
+        ('be', 'Backend Web Development'),
+        ('ap', 'App Development'),
+        ('ui', 'UI/UX'),
+    )
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="member")
+    bits_id = models.CharField(max_length=50, blank=False, null=False, verbose_name="BITS ID")
+    bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False)
+    department = models.CharField(choices=departments, blank=False, null=False)
+    github = models.CharField(max_length=20, blank=False, null=False)
+
+    def __str__(self):
+        return f"{self.user.name}'s Profile"
 
 # 3. Candidate  --- Dhruv
 '''
