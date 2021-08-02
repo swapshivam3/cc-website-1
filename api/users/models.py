@@ -89,4 +89,4 @@ class Candidate (CustomUser) :
 
 	def field_validate(self):
 		if (self.pr1 == self.pr2 or self.pr1 == self.pr3 or self.pr1 == self.pr4 or self.pr1 == self.pr5 or self.pr2 == self.pr3 or self.pr2 == self.pr4 or self.pr2 == self.pr5 or self.pr3 == self.pr4 or self.pr3 == self.pr5 or self.pr4 == self.pr5  ):
-			raise ValidationError("All choices should be different ")
+			raise ValidationError("All preference choices should be different ")
