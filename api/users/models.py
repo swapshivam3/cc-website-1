@@ -93,14 +93,17 @@ gender_choices = (
 	('F','Female'),
 	('O','Others')
 )
+
+class Candidate (CustomUser) :
+	
 '''
 A user who registers for recrutiment is a candidate. 
 Candidate class inerits CustomUser and had additionally gender , githubid , first to fifth priority of any candidate
 field_validate function checks if any choice is repeated in the priority of candidate
 '''
-class Candidate (CustomUser) :
 	gender= models.Choices(max_length=1,Choices=gender_choices)
-	githubid=models.CharField(max_length=30,unique=True,blank=True)
+	bits_id = models.CharField(verbose_name="BITS ID",max_length=13,unique=True,blank=False)
+	githubid=models.CharField(verbose_name="Github ID",max_length=30,unique=True,blank=True)
 
 	pr1 = models.CharField(verbose_name="First Priority",max_length=2,choices=departments,default=None)
 	pr2 = models.CharField(verbose_name="Second Priority",max_length=2,choices=departments,default=None)
@@ -115,5 +118,6 @@ class Candidate (CustomUser) :
 		super().save(*args,**kwargs)
 
 	def field_validate(self):
-		if (self.pr1 == self.pr2 or self.pr1 == self.pr3 or self.pr1 == self.pr4 or self.pr1 == self.pr5 or self.pr2 == self.pr3 or self.pr2 == self.pr4 or self.pr2 == self.pr5 or self.pr3 == self.pr4 or self.pr3 == self.pr5 or self.pr4 == self.pr5  ):
+		list[pr1,pr2,pr3,pr4,pr5]
+		if len(list) != len(set(list)):
 			raise ValidationError("All preference choices should be different ")
