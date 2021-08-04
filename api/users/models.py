@@ -31,17 +31,14 @@ class CustomUser(AbstractUser):
 
 
 # 1. Visitor    --- Aditya
-'''
-    name
-    phone
-    interests
-    .
-    .
-'''
+
 class Visitor(CustomUser):
+    '''
+    Visitor class inherits CustomUser and has additional fields of phone, interests and city
+    '''
     phone = models.PhoneNumberField(unique=True)
-    interests = models.TextField(blank=True, max_length=100)
-    # city = models.CharField(blank=True)
+    interests = models.TextField(blank=True, max_length=100) #optional field
+    city = models.CharField(blank=True) #optional field
 
 
 
