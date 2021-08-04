@@ -1,5 +1,7 @@
+from typing_extensions import Required
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
 
 from PIL import Image
 from django.db.models.enums import Choices
@@ -78,3 +80,44 @@ class Member(models.Model):
     .
     .
 '''
+
+departments=  (
+        ('cp', 'Competitive Programing'),
+        ('fe', 'Frontend Web Dvelopment'),
+        ('be', 'Backend Web Dvelopment'),
+				('ap', 'App Devlpment '),
+				( 'ui', 'UI/UX ')
+    )
+gender_choices = (
+	('M','Male'),
+	('F','Female'),
+	('O','Others')
+)
+
+class Candidate (CustomUser) :
+	
+'''
+A user who registers for recrutiment is a candidate. 
+Candidate class inerits CustomUser and had additionally gender , githubid , first to fifth priority of any candidate
+field_validate function checks if any choice is repeated in the priority of candidate
+'''
+	gender= models.Choices(max_length=1,Choices=gender_choices)
+	bits_id = models.CharField(verbose_name="BITS ID",max_length=13,unique=True,blank=False)
+	githubid=models.CharField(verbose_name="Github ID",max_length=30,unique=True,blank=True)
+
+	pr1 = models.CharField(verbose_name="First Priority",max_length=2,choices=departments,default=None)
+	pr2 = models.CharField(verbose_name="Second Priority",max_length=2,choices=departments,default=None)
+	pr3 = models.CharField(verbose_name="Third Priority",max_length=2,choices=departments,default=None)
+	pr4 = models.CharField(verbose_name="Fourth Priority",max_length=2,choices=departments,default=None)
+	pr5 = models.CharField(verbose_name="Fifth Priority",max_length=2,choices=departments,default=None)
+
+	def __str__(self):
+		return self.name
+	
+	def save(self,*args,**kwargs) :
+		super().save(*args,**kwargs)
+
+	def field_validate(self):
+		list[pr1,pr2,pr3,pr4,pr5]
+		if len(list) != len(set(list)):
+			raise ValidationError("All preference choices should be different ")
