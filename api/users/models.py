@@ -20,7 +20,7 @@ class CustomUser(AbstractUser):
     name = models.CharField(verbose_name = "Name", max_length=50)
     username = models.CharField(max_length=255, blank = True, null = True, default = "user")    
     
-    REQUIRED_FIELDS = ['name', 'email']
+    REQUIRED_FIELDS = ['name']
     USERNAME_FIELD = 'email'
 
     def __str__(self):
@@ -67,7 +67,7 @@ class Member(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="member")
     bits_id = models.CharField(max_length=50, blank=False, null=False, verbose_name="BITS ID")
     bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False)
-    department = models.CharField(choices=departments, blank=False, null=False)
+    department = models.CharField(choices=departments, blank=False, null=False,max_length=2)
     github = models.CharField(max_length=20, blank=False, null=False)
     linked_in = models.CharField(max_length=20)
     summary = models.TextField()
@@ -115,12 +115,12 @@ class Candidate (CustomUser) :
     pr5 = models.CharField(verbose_name="Fifth Priority",max_length=2,choices=departments,default=None)
 
     def __str__(self):
-	    return self.name
-	
+        return self.name
+    
     def save(self,*args,**kwargs) :
-	    super().save(*args,**kwargs)
+        super().save(*args,**kwargs)
 
     def field_validate(self):
-	    list[pr1,pr2,pr3,pr4,pr5]
-	    if len(list) != len(set(list)):
-		    raise ValidationError("All preference choices should be different ")
+        list=[pr1,pr2,pr3,pr4,pr5]
+        if len(list) != len(set(list)):
+            raise ValidationError("All preference choices should be different ")
