@@ -48,3 +48,8 @@ class VisitorUpdateView(APIView):
                 # Update values here
                 return Response({'msg': 'User Updated'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Login/Logout --- Swapnil
+# Change Password ---  Swapnil
+
+# Member Views  ----- Sanyam

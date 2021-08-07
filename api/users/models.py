@@ -45,17 +45,15 @@ class Visitor(CustomUser):
     city = models.CharField(blank=True,max_length=20) #optional field
 
 
-
 # 2. Member     --- Sanyam
-'''
+class Member(models.Model):
+    '''
     BITS ID
     BITS Email
     department
     githubHandle
-    ...
-'''
-
-class Member(models.Model):
+    '''
+    
     departments = (
         ('cp', 'Competetive Programming'),
         ('fe', 'Frontend Web Development'),
@@ -74,15 +72,6 @@ class Member(models.Model):
 
     def __str__(self):
         return f"{self.user.name}'s Profile"
-
-# 3. Candidate  --- Dhruv
-'''
-    DomainOfInterest 
-    Gender 
-    .
-    .
-    .
-'''
 
 departments=  (
         ('cp', 'Competitive Programing'),
