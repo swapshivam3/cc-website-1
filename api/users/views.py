@@ -1,4 +1,4 @@
-from django.http.response import Response
+from rest_framework.response import Response
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import serializers, status
@@ -9,8 +9,13 @@ from .models import Visitor
 
 class VisitorRegistrationView(APIView):
     """
-    Register a visitor into full list
+    Create a new Visitor
     """
+    # def get(self,request,format=None):
+    #     visitors = Visitor.objects.all()
+    #     serializer = VisitorSerializer(visitors, many=True)
+    #     return Response(serializer.data)
+
 
     def post(self, request, format=None):
         serializer = VisitorSerializer(data=request.data)
@@ -43,3 +48,8 @@ class VisitorUpdateView(APIView):
                 # Update values here
                 return Response({'msg': 'User Updated'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+# Login/Logout --- Swapnil
+# Change Password ---  Swapnil
+
+# Member Views  ----- Sanyam
