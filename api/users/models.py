@@ -110,6 +110,6 @@ class Candidate (CustomUser) :
         super().save(*args,**kwargs)
 
     def field_validate(self):
-        list=[pr1,pr2,pr3,pr4,pr5]
+        list=[self.pr1,self.pr2,self.pr3,self.pr4,self.pr5]
         if len(list) != len(set(list)):
             raise ValidationError("All preference choices should be different ")
