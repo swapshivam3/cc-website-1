@@ -2,8 +2,8 @@ from rest_framework.response import Response
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import serializers, status
-from .serializers import VisitorSerializer
-from .models import Visitor
+from .serializers import VisitorSerializer, FeedbackSerializer
+from .models import Feedback, Visitor ,Candidate
 # from django.http import JsonResponse
 
 
@@ -48,6 +48,9 @@ class VisitorUpdateView(APIView):
                 # Update values here
                 return Response({'msg': 'User Updated'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 # Login/Logout --- Swapnil
 # Change Password ---  Swapnil

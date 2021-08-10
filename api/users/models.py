@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 
 from PIL import Image
-from django.db.models.enums import Choices
+
 from django.db.models.expressions import F
 
 from users.managers import UserManager
@@ -102,7 +102,7 @@ class Candidate (CustomUser) :
     pr3 = models.CharField(verbose_name="Third Priority",max_length=2,choices=departments,default=None)
     pr4 = models.CharField(verbose_name="Fourth Priority",max_length=2,choices=departments,default=None)
     pr5 = models.CharField(verbose_name="Fifth Priority",max_length=2,choices=departments,default=None)
-
+    
     def __str__(self):
         return self.name
     
@@ -110,6 +110,9 @@ class Candidate (CustomUser) :
         super().save(*args,**kwargs)
 
     def field_validate(self):
-        list=[pr1,pr2,pr3,pr4,pr5]
+        list=[self.pr1,self.pr2,self.pr3,self.pr4,self.pr5]
         if len(list) != len(set(list)):
             raise ValidationError("All preference choices should be different ")
+
+    
+    
