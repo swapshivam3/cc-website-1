@@ -1,3 +1,28 @@
 from django.db import models
+from users.models import Member 
+
 
 # Create your models here.
+
+class Department(models.Model):
+    '''
+    Department class contains the different departments of the club. 
+    It has the fields of name, a short description, details of the tech stack used and members field.
+    The members class and Department class have a ManyToMany relationship
+
+    '''
+    departments = (
+        ('cp', 'Competetive Programming'),
+        ('fe', 'Frontend Web Development'),
+        ('be', 'Backend Web Development'),
+        ('ap', 'App Development'),
+        ('ui', 'UI/UX'),
+    )
+    name = models.CharField(choices=departments, blank=False, null=False, max_length=2, primary_key=True)
+    description = models.TextField()
+    tech_stack = models.CharField(max_length=200)
+    members = models.ManyToManyField(Member, related_name= "dept_member")
+
+
+    def __str__(self):
+        return self.name
