@@ -2,7 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-
+from phonenumber_field.modelfields import PhoneNumberField
 from PIL import Image
 
 from django.db.models.expressions import F
@@ -40,9 +40,9 @@ class Visitor(CustomUser):
     '''
     Visitor class inherits CustomUser and has additional fields of phone, interests and city
     '''
-    phone = models.PhoneNumberField(unique=True)
+    phone = PhoneNumberField(unique=True)
     interests = models.TextField(blank=True, max_length=100) #optional field
-    city = models.CharField(blank=True,max_length=20) #optional field
+    city = models.CharField(blank=True, max_length=100) #optional field
 
 
 # 2. Member     --- Sanyam
