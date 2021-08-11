@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'recruitment.apps.RecruitmentConfig',
     'users.apps.UsersConfig',
+     
+     'phonenumber_field',
 ]
 
 MIDDLEWARE = [
