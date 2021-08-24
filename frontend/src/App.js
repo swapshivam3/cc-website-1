@@ -5,6 +5,7 @@ import Login from "./Components/Login/Login"
 import Departments from "./Containers/Departments/Departments"
 import Navbar from './Components/Navbar/Navbar'
 import BlogCards from './Components/Blogcards/blogcard'
+import OurProjects from './Components/OurProjects/Ourprojects'
 
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
@@ -21,6 +22,7 @@ function App() {
             <li><Link to={'/departments'} className="nav-link">Departments</Link></li>
             <li><Link to={'/login'} className="nav-link">Login</Link></li>
             <li><Link to={'/blog'} className="nav-link">Blog</Link></li>
+            <li><Link to={'/ourprojects'} className="nav-link">Our Projects</Link></li>
           </ul>
           </nav>
           <hr />
@@ -30,6 +32,7 @@ function App() {
               <Route path='/departments' component={Departments} />
               <Route path='/login' component={Login} />
               <Route path='/blog' component={BlogCards} />
+              <Route path='/ourprojects' component={OurProjects} /> 
           </Switch>
         </div>
       </Router>
