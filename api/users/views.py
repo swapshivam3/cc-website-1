@@ -2,9 +2,10 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404, render
 from rest_framework.views import APIView
 
-from .models import CustomUser, Member, Visitor
+from .models import CustomUser, Member, Visitor, Feedback, Candidate
 from rest_framework import serializers, status,generics
-from .serializers import VisitorSerializer,CustomUserSerializer, MemberSerializer
+
+from .serializers import VisitorSerializer,CustomUserSerializer, MemberSerializer, FeedbackSerializer
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_bytes,smart_str,force_bytes,force_str,DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
@@ -14,6 +15,7 @@ from .utils import Util
 from django.contrib.auth import login,authenticate,logout
 from django.http import HttpResponsePermanentRedirect
 import os
+
 
 
 class VisitorRegistrationView(APIView):
@@ -57,6 +59,13 @@ class VisitorUpdateView(APIView):
             # Update values here
             return Response({'msg': 'User Updated'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
+
+# Login/Logout --- Swapnil
+# Change Password ---  Swapnil
 
 
 class LoginView(APIView):
