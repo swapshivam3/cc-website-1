@@ -72,11 +72,12 @@ class Member(models.Model):
         ('ui', 'UI/UX'),
     )
 
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True,related_name="member")
-    bits_id = models.CharField(max_length=50, blank=False, null=False, verbose_name="BITS ID")
-    bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False)
-    department = models.CharField(choices=departments, blank=False, null=False,max_length=2)
-    github = models.CharField(max_length=20, blank=False, null=False)
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="member")
+    bits_id = models.CharField(max_length=50, blank=False, null=False, verbose_name="BITS ID", default="20XXXXXSXXXX")
+    bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False, default="f20xxxxxx@*.bits-pilani.ac.in")
+    department = models.CharField(choices=departments, blank=False, null=False,max_length=2, default='cp')
+    github = models.CharField(max_length=20, blank=False, null=False, default="my_github")
     linked_in = models.CharField(max_length=20)
     summary = models.TextField()
 
@@ -120,6 +121,6 @@ class Candidate (models.Model) :
         super().save(*args,**kwargs)
 
     def field_validate(self):
-        list=[pr1,pr2,pr3,pr4,pr5]
+        list=[self.pr1,self.pr2,self.pr3,self.pr4,self.pr5]
         if len(list) != len(set(list)):
             raise ValidationError("All preference choices should be different ")

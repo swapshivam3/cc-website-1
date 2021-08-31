@@ -1,9 +1,10 @@
 from rest_framework.response import Response
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, render
 from rest_framework.views import APIView
+
+from .models import CustomUser, Member, Visitor
 from rest_framework import serializers, status,generics
-from .serializers import VisitorSerializer,CustomUserSerializer
-from .models import Visitor,CustomUser
+from .serializers import VisitorSerializer,CustomUserSerializer, MemberSerializer
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_bytes,smart_str,force_bytes,force_str,DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
@@ -154,3 +155,56 @@ class SetNewPasswordView(APIView):
             return Response({'msg': 'Error'}, status=status.HTTP_401_UNAUTHORIZED)
             
 # Member Views  ----- Sanyam
+class MemberRegistrationView(APIView):
+    '''
+        Registration for a member of the club.
+    '''
+    
+    def post(self, request):
+        request.data['is_member'] = True
+        serializer = CustomUserSerializer(data=request.data)
+
+        if serializer.is_valid():
+            queryset = CustomUser.objects.filter(email=request.data['email'])
+
+            if queryset.exists():
+                return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+            serializer.save()
+            user = CustomUser.objects.filter(email=request.data['email'])[0]
+            Member.objects.create(user=user)
+            return Response({'msg': 'User Created'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)        
+
+
+
+class MemberProfileView(APIView):
+    '''
+        Get and Update member profile information.
+    '''
+    def get(self, request):
+        try:
+            user = request.user
+            member = Member.objects.get(user=user)
+            serializer = MemberSerializer(member)
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Member.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+
+    def put(self, request):
+        try:
+            user = request.user
+            member = Member.objects.get(user=user)
+            serializer = MemberSerializer(data=request.data, instance=member)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({'msg': 'User profile updated.'}, status=status.HTTP_201_CREATED)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)    
+        except Member.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
