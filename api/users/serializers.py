@@ -1,6 +1,5 @@
 from rest_framework import serializers
-
-from .models import CustomUser, Visitor
+from .models import CustomUser, Visitor, Member
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -14,7 +13,9 @@ class VisitorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Visitor
         fields = '__all__'  # change later
-
         extra_kwargs = {'password': {'write_only': True}}
 
-
+class MemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Member
+        exclude = ('user', )        

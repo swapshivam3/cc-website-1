@@ -1,0 +1,39 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+.card {
+  background-color: #c4c4c4;
+  width: 32.125rem;
+  height: 8.4375rem;
+  margin-left: -4.4375rem;
+}
+
+.text {
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.5625rem;
+  line-height: 1.875rem;
+  text-align: center;
+}
+
+.text1 {
+  font-family: "Montserrat", sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1.125rem;
+  line-height: 1.375rem;
+}
+
+.btn {
+  background-color: #f31824;
+  margin-top: 1rem;
+  /* position: relative;
+  top: -1.9rem;
+  left: 26rem; */
+}
+
+.member-content {
+  width: 31.9rem;
+  /* visibility: collapse; */
+}
