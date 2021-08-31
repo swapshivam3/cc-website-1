@@ -1,8 +1,8 @@
-from api.users.models import Visitor
-from api import users
+from users.models import Visitor
+import users
 from django.db import models
 
-from users.models import Visitor ,Member
+from users.models import Visitor ,Member,CustomUser
 
 
 
@@ -11,7 +11,7 @@ from users.models import Visitor ,Member
 # Feedback ----  Dhruv
 
 class Feedback(models.Model):
-    user = models.ForeignKey(Visitor)
+    user = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
     review = models.TextField(help_text="Write your valuable feedback")
 

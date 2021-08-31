@@ -2,10 +2,12 @@ from rest_framework.response import Response
 from django.shortcuts import get_object_or_404, render
 from rest_framework.views import APIView
 
-from .models import CustomUser, Member, Visitor, Feedback, Candidate
+from .models import CustomUser, Member, Visitor, Candidate
+from main.models import Feedback
 from rest_framework import serializers, status,generics
 
-from .serializers import VisitorSerializer,CustomUserSerializer, MemberSerializer, FeedbackSerializer
+from .serializers import VisitorSerializer,CustomUserSerializer, MemberSerializer
+from main.serializers import FeedbackSerializer
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_bytes,smart_str,force_bytes,force_str,DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_decode,urlsafe_base64_encode
