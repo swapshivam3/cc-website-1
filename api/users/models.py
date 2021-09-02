@@ -4,7 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from phonenumber_field.modelfields import PhoneNumberField
 from PIL import Image
-from django.db.models.enums import Choices
+
 from django.db.models.expressions import F
 
 from users.managers import UserManager
@@ -50,7 +50,7 @@ class Visitor(models.Model):
     '''
 
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True,related_name="visitor")
-    phone = models.PhoneNumberField(unique=True)
+    phone = PhoneNumberField(unique=True)
     interests = models.TextField(blank=True, max_length=100) #optional field
     city = models.CharField(blank=True, max_length=100) #optional field
 
@@ -72,11 +72,12 @@ class Member(models.Model):
         ('ui', 'UI/UX'),
     )
 
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True,related_name="member")
-    bits_id = models.CharField(max_length=50, blank=False, null=False, verbose_name="BITS ID")
-    bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False)
-    department = models.CharField(choices=departments, blank=False, null=False,max_length=2)
-    github = models.CharField(max_length=20, blank=False, null=False)
+
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="member")
+    bits_id = models.CharField(max_length=50, blank=False, null=False, verbose_name="BITS ID", default="20XXXXXSXXXX")
+    bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False, default="f20xxxxxx@*.bits-pilani.ac.in")
+    department = models.CharField(choices=departments, blank=False, null=False,max_length=2, default='cp')
+    github = models.CharField(max_length=20, blank=False, null=False, default="my_github")
     linked_in = models.CharField(max_length=20)
     summary = models.TextField()
 
@@ -112,7 +113,7 @@ class Candidate (models.Model) :
     pr3 = models.CharField(verbose_name="Third Priority",max_length=2,choices=departments,default=None)
     pr4 = models.CharField(verbose_name="Fourth Priority",max_length=2,choices=departments,default=None)
     pr5 = models.CharField(verbose_name="Fifth Priority",max_length=2,choices=departments,default=None)
-
+    
     def __str__(self):
         return self.name
     
@@ -120,6 +121,9 @@ class Candidate (models.Model) :
         super().save(*args,**kwargs)
 
     def field_validate(self):
-        list=[pr1,pr2,pr3,pr4,pr5]
+        list=[self.pr1,self.pr2,self.pr3,self.pr4,self.pr5]
         if len(list) != len(set(list)):
             raise ValidationError("All preference choices should be different ")
+
+    
+    
