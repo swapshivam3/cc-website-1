@@ -1,4 +1,5 @@
 from django.contrib.auth.models import BaseUserManager
+from django.contrib.auth.hashers import make_password
 
 class UserManager(BaseUserManager):
     def create_user(self, email, name, password=None, is_admin=False, is_staff=False, is_active=True):
@@ -14,7 +15,7 @@ class UserManager(BaseUserManager):
         )
         user.username = email
         user.name = name
-        user.password = password
+        user.password = make_password(password)
         user.is_admin = is_admin
         user.is_staff = is_staff
         user.is_active = is_active
@@ -28,7 +29,7 @@ class UserManager(BaseUserManager):
         user.username = email
         user.name = name,
         user_role=user_role
-        user.password=password
+        user.password=make_password(password)
         user.is_staff=True
         user.is_active=True
         user.is_superuser=True
@@ -47,7 +48,7 @@ class UserManager(BaseUserManager):
         )
         user.username = email
         user.name = name
-        user.password = password
+        user.password = make_password(password)
         user.admin = True
         user.is_staf = True
         user.is_superuser = True
