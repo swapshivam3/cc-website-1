@@ -74,10 +74,10 @@ class Member(models.Model):
 
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="member")
-    bits_id = models.CharField(max_length=50, blank=False, null=False, verbose_name="BITS ID", default="20XXXXXSXXXX")
-    bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False, default="f20xxxxxx@*.bits-pilani.ac.in")
-    department = models.CharField(choices=departments, blank=False, null=False,max_length=2, default='cp')
-    github = models.CharField(max_length=20, blank=False, null=False, default="my_github")
+    bits_id = models.CharField(max_length=50, blank=True, null=False, verbose_name="BITS ID", default="20XXXXXSXXXX")
+    bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=True, null=False, default="f20xxxxxx@*.bits-pilani.ac.in")
+    department = models.CharField(choices=departments, blank=True, null=False,max_length=2, default='cp')
+    github = models.CharField(max_length=20, blank=True, null=False, default="my_github")
     linked_in = models.CharField(max_length=20)
     summary = models.TextField()
 

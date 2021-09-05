@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404, render
 from rest_framework.views import APIView
@@ -37,6 +38,8 @@ class VisitorRegistrationView(APIView):
             queryset = CustomUser.objects.filter(email=request.data['email'])
             if queryset.exists():
                 return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+            serializer.validated_data['password'] = make_password(serializer.validated_data['password'])    
             serializer.save()
             user=CustomUser.objects.filter(email=request.data['email'])[0]
             Visitor.objects.create(user=user)
@@ -181,6 +184,7 @@ class MemberRegistrationView(APIView):
             if queryset.exists():
                 return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
+            serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
             serializer.save()
             user = CustomUser.objects.filter(email=request.data['email'])[0]
             Member.objects.create(user=user)
@@ -201,19 +205,24 @@ class MemberProfileView(APIView):
             serializer = MemberSerializer(member)
 
             return Response(serializer.data, status=status.HTTP_200_OK)
-        except Member.DoesNotExist:
-                return Response(status=status.HTTP_404_NOT_FOUND)
+        except:
+                return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
 
     def put(self, request):
         try:
             user = request.user
             member = Member.objects.get(user=user)
-            serializer = MemberSerializer(data=request.data, instance=member)
-            if serializer.is_valid():
-                serializer.save()
-                return Response({'msg': 'User profile updated.'}, status=status.HTTP_201_CREATED)
-            else:
-                return Response(status=status.HTTP_400_BAD_REQUEST)    
+
+            allowed_updates = ['bits_id', 'bits_email', 'department', 'github', 'linked_in', 'summary']
+
+            for update in allowed_updates:
+                if update in request.data:
+                    setattr(member, update, request.data[update])
+
+            member.save()
+
+            return Response({"msg": "Profile updated."}, status=status.HTTP_200_OK)
+                
         except Member.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
 
