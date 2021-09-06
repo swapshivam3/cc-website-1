@@ -15,6 +15,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
     # description = serializers.CharField()
     # tech_stack = serializers.CharField(max_length=200)
     # member = MemberSerializer(required=False)
+    longname=serializers.CharField(source='get_name_display')
     class Meta:
         model=Department
         fields='__all__'
