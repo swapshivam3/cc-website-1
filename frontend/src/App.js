@@ -26,6 +26,7 @@ function App() {
           <Route path="/departments" component={Departments} />
           <Route path="/login" component={Login} />
           <Route path="/blog" component={BlogCards} />
+          <Route path="/ourProjects" component={OurProjects} />
         </Switch>
       </div>
     </Router>
