@@ -49,7 +49,7 @@ class DepartmentListView(APIView):
         departments = Department.objects.all()
         # the many param informs the serializer that it will be serializing more than a single article.
         serializer = DepartmentSerializer(departments, many=True)
-        return Response({"departments": departments})
+        return Response(serializer.data)
 
 
 
