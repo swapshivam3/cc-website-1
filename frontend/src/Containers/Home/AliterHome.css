@@ -1,0 +1,48 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap");
+
+.video {
+  height: 100vh;
+  width: 100%;
+  object-fit: cover;
+  opacity: 1;
+}
+
+.typing {
+  font-family: "Courier New", Courier, monospace;
+}
+.type-text {
+  mix-blend-mode: difference;
+  display: inline-block;
+  overflow: hidden;
+  letter-spacing: 2px;
+  animation: typing 5s steps(11, end), blink 0.75s step-end infinite;
+  white-space: nowrap;
+  font-weight: bolder;
+  font-family: "Roboto Mono", sans-serif;
+  border-right: 4px solid white;
+  box-sizing: border-box;
+}
+
+@keyframes typing {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: white;
+  }
+}
+
+.cloud {
+  width: 30rem;
+  height: 20rem;
+}
