@@ -11,10 +11,10 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 function App() {
   return (
     <Router>
-      <div>
-        <h1 className="text-3xl">Temporary Nav</h1>
+      <div className="relative z-10 text-white">
+        <h1 className="text-3xl text-center">Temporary Nav</h1>
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-          <ul className="navbar-nav mr-auto">
+          <ul className="navbar-nav mr-auto flex justify-around">
             <li>
               <Link to={"/home"} className="nav-link">
                 {" "}
