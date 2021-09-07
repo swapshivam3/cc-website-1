@@ -1,0 +1,161 @@
+.Mainbox{
+    width: 80%;
+    height: 80%;
+    margin-top: 10%;
+    margin-bottom: 10%;
+    margin-left: 10%;
+    }
+
+.slick-next , .slick-prev{
+    background-color: black;
+}
+
+.slick-slide{
+    position: relative;
+    padding-left: 13em;
+}
+
+.project-items{
+  background:linear-gradient(to bottom left, #bbdbd7 40%, #611a52 100%);
+  width: 650px !important; 
+  height: 415px;
+  position: relative;
+  border-radius: 24px;
+    box-shadow: 12px 12px 30px #0a0817;
+  top: 25%;
+  transition: background 2s ease;
+  /* box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5); */
+
+
+}
+
+.project-items:hover{
+    background: linear-gradient(to top right, #9ce0d8 40%, #d6b9d0 100%);
+   
+}
+
+.project-img {
+    background-color:rgba(0, 0, 0, 0.5)(0,0,0,0.7);
+    
+    overflow: visible !important;
+    width: 25em !important;
+    height: 25em !important;
+    position: relative !important;
+    border-radius: 15px !important;
+    top: 3.5em !important;
+    right: 2em !important;
+    position: relative;
+    
+}
+
+
+.project-content {
+    position: relative;
+    bottom: 72%;
+    width: 40%;
+    left: 60%;
+    text-align: center;
+    
+}
+
+.project-content > div {
+    position: relative;
+    top: 15%;
+}
+
+.hover-4 {
+    text-decoration: none;
+  display: inline-block;
+  font-family: 'Oswald', sans-serif;
+  font-weight: bolder;
+  font-size: 25px;
+  padding: 0 20px;
+}
+
+.project-desc {
+    font-family: 'Open Sans', sans-serif;
+    
+    position: relative;
+}
+
+.hover-4::after {
+    content: '';
+    display: block;
+    width: 0;
+    margin-bottom: 10px;
+    height: 2px;
+    background-color: black;
+    transition: width .3s ,transform .5s ease;;
+}
+
+.hover-4:hover::after {
+    width: 100%;
+    transition: width .3s;
+}
+
+@media screen and (max-width: 1080px) {
+
+    .project-items{
+        height: 20em !important;
+        width: 20em !important;
+    }
+
+    .project-img{
+        height: 10em !important;
+        width: 10em !important;
+    }
+
+    .project-desc{
+        font-size: 15px;
+    }
+
+    .hover-4{
+        font-size: 20px ;
+    }
+
+    .project-content{
+        position: relative;
+    bottom: 40%;
+    width: 50%;
+    left: 45%;
+    }
+
+    /* .hover-4 :hover::after {
+        width: 0%;
+    } */
+
+
+  }
+
+  @media screen and (max-width: 650px) {
+
+    .project-items{
+        height: 10em !important;
+        width: 10em !important;
+    }
+
+    .project-img{
+        height: 5em !important;
+        width: 5em !important;
+    }
+
+    .project-desc{
+        font-size: 7px;
+    }
+
+    .hover-4{
+        font-size: 10px ;
+    }
+
+    .project-content{
+        position: relative;
+    bottom: 40%;
+    width: 40%;
+    left: 40%;
+    }
+
+    /* .hover-4 :hover::after {
+        width: 0%;
+    } */
+
+  }

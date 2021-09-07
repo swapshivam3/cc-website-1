@@ -1,11 +1,12 @@
-from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import make_password,check_password
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404, render
 from rest_framework.views import APIView
 
 from .models import CustomUser, Member, Visitor, Candidate
-from main.models import Feedback
+from main.models import Feedback, Department
 from rest_framework import serializers, status,generics
+
 
 from .serializers import VisitorSerializer,CustomUserSerializer, MemberSerializer, CandidateSerializer
 from main.serializers import FeedbackSerializer
@@ -80,12 +81,20 @@ class LoginView(APIView):
         data = request.data
         username = data['email']
         password = data['password']
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return Response(status=status.HTTP_200_OK)
-        else:
-            return Response({'msg':'Provided Credentials do not match'})
+        try:
+            encoded_password=CustomUser.objects.filter(email=username)[0].password
+            if check_password(password, encoded_password):
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return Response(status=status.HTTP_200_OK)
+                else:
+                    return Response({'msg': 'Provided Credentials do not match'})
+            else:
+                return Response({'msg': 'Provided Credentials do not match'})
+        except:
+            return Response({'msg': 'User does not exist'})  
+        
 
 class LogoutView(APIView):
     """
@@ -161,7 +170,7 @@ class SetNewPasswordView(APIView):
             if not PasswordResetTokenGenerator().check_token(user, token):
                 return Response({'msg':'Error'},status=status.HTTP_401_UNAUTHORIZED)
 
-            user.password=password
+            user.password=make_password(password)
             user.save()
             return (user)
         except:
@@ -172,7 +181,12 @@ class MemberRegistrationView(APIView):
     '''
         Registration for a member of the club.
     '''
-    
+
+    def get(self, request, format=None):
+        members = Member.objects.all()
+        serializer = MemberSerializer(members, many=True)
+        return Response(serializer.data)
+
     def post(self, request):
         request.data['is_member'] = True
         serializer = CustomUserSerializer(data=request.data)
@@ -186,7 +200,21 @@ class MemberRegistrationView(APIView):
             serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
             serializer.save()
             user = CustomUser.objects.filter(email=request.data['email'])[0]
+            serializer=MemberSerializer(data=request.data)
             Member.objects.create(user=user)
+            member = Member.objects.get(user=user)
+
+            allowed_updates = ['bits_id', 'bits_email',
+                               'department', 'github', 'linked_in', 'summary']
+
+            dept_name=request.data['department']
+            request.data['department']=Department.objects.filter(name=dept_name)[0]     #this should always work because depts are fixed
+            request.data['department'].members.add(member)
+            for update in allowed_updates:
+                if update in request.data:
+                    setattr(member, update, request.data[update])
+
+            member.save()
             return Response({'msg': 'User Created'}, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)        

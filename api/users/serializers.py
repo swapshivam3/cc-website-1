@@ -9,7 +9,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = '__all__'
-        extra_kwargs = {'password': {'write_only': True}}
+        # extra_kwargs = {'password': {'write_only': True}}
 
 
 class VisitorSerializer(serializers.ModelSerializer):
@@ -17,7 +17,7 @@ class VisitorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Visitor
         fields = '__all__'  # change later
-        extra_kwargs = {'password': {'write_only': True}}
+        # extra_kwargs = {'password': {'write_only': True}}
 
 class CandidateSerializer(serializers.ModelSerializer):
     class Meta:
@@ -37,8 +37,10 @@ class CandidateSerializer(serializers.ModelSerializer):
 
 
 class MemberSerializer(serializers.ModelSerializer):
+    user = CustomUserSerializer(required=False)
     class Meta:
         model = Member
+        # extra_kwargs = {'password': {'write_only': True}}
         exclude = ('user', )   
     
     def validate(self, attrs):
@@ -51,3 +53,4 @@ class MemberSerializer(serializers.ModelSerializer):
         if mail == None : 
              raise serializers.ValidationError("Invalid BITS Email ")   
         return attrs
+
