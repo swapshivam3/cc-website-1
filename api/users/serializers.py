@@ -28,9 +28,9 @@ class CandidateSerializer(serializers.ModelSerializer):
         if len(list) != len(set(list)):
             raise serializers.ValidationError("All preference choices should be different ")
         yr = date.today().year
-        p= re.match("(%s)+(A[1-7A]{1}(PS)|B[1-5]{1})((PS)|A[1-7A]{1})[0-9]{4}P" %yr,  attrs['bits_id'],re.IGNORECASE)
+        id= re.match("(%s)+(A[1-7A]{1}(PS)|B[1-5]{1})((PS)|A[1-7A]{1})[0-9]{4}P" %yr,  attrs['bits_id'],re.IGNORECASE)
 
-        if p : pass
+        if id : pass
         else :
              raise serializers.ValidationError("Invalid BITS ID ")
         return attrs
