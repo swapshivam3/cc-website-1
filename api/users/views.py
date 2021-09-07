@@ -207,6 +207,7 @@ class MemberProfileView(APIView):
         except:
                 return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
 
+    
     def put(self, request):
         try:
             user = request.user
@@ -244,13 +245,10 @@ class CandidateRegistrationView(APIView):
         if serializer.is_valid():
             queryset = CustomUser.objects.filter(email=request.data['email'])
             if queryset.exists():
-                return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
-            # if Candidate.field_validate() ==0:
-            #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+                return Response({'msg': 'Candidate already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
             serializer.save()
             user=CustomUser.objects.filter(email=request.data['email'])[0]
             Candidate.objects.create(user=user)
-            return Response({'msg': 'Candidate Created'}, status=status.HTTP_201_CREATED)
+            return Response({'msg': 'Candidate Registered'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
