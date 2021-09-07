@@ -1,10 +1,15 @@
 import "./App.css";
 import Home from "./Containers/Home/AliterHome";
 import OurTeam from "./Containers/OurTeam/OurTeam";
-import Login from "./Components/Login/Login";
-import Departments from "./Containers/Departments/Departments";
-import Navbar from "./Components/Navbar/Navbar";
-import BlogCards from "./Components/Blogcards/blogcard";
+
+import Login from "./Components/Login/Login"
+import Departments from "./Containers/Departments/Departments"
+import Navbar from './Components/Navbar/Navbar'
+import BlogCards from './Components/Blogcards/blogcard'
+import OurProjects from './Components/OurProjects/Ourprojects'
+
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
