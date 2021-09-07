@@ -42,6 +42,7 @@
     ]
   },
   "devDependencies": {
+    "@material-ui/icons": "^4.11.2",
     "autoprefixer": "^9.8.6",
     "postcss": "^7.0.35",
     "tailwind-scroll-behavior": "^1.0.0",
