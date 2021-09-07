@@ -32,11 +32,11 @@ class CustomUser(AbstractUser):
         self.username = self.email
         super().save(*args, **kwargs)
         
-    def check_password(self, raw_password):
-        if self.password == raw_password:
-            return True
-        else:
-            return False
+    # def check_password(raw_password, hashed_password):           //dont use right now
+    #     if self.password == raw_password:
+    #         return True
+    #     else:
+    #         return False
         
 
     objects = UserManager()
@@ -50,7 +50,7 @@ class Visitor(models.Model):
     '''
 
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True,related_name="visitor")
-    phone = PhoneNumberField(unique=True)
+    # phone = PhoneNumberField(unique=True)
     interests = models.TextField(blank=True, max_length=100) #optional field
     city = models.CharField(blank=True, max_length=100) #optional field
 
@@ -63,17 +63,9 @@ class Member(models.Model):
     department
     githubHandle
     '''
-    
-    departments = (
-        ('cp', 'Competetive Programming'),
-        ('fe', 'Frontend Web Development'),
-        ('be', 'Backend Web Development'),
-        ('ap', 'App Development'),
-        ('ui', 'UI/UX'),
-    )
-
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="member")
+
     bits_id = models.CharField(max_length=50, blank=False, null=False, verbose_name="BITS ID", default="20XXXXXSXXXX")
     bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False, default="f20xxxxxx@*.bits-pilani.ac.in")
     department = models.CharField(choices=departments, blank=False, null=False,max_length=2, default='cp')
