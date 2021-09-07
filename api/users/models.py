@@ -74,14 +74,12 @@ class Member(models.Model):
 
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="member")
-
     bits_id = models.CharField(max_length=50, blank=False, null=False, verbose_name="BITS ID", default="20XXXXXSXXXX")
     bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False, default="f20xxxxxx@*.bits-pilani.ac.in")
     department = models.CharField(choices=departments, blank=False, null=False,max_length=2, default='cp')
     github = models.CharField(max_length=20, blank=False, null=False, default="my_github")
     codeforces_id=models.CharField(max_length=30,blank=True)
-
-    linked_in = models.CharField(max_length=20)
+    linked_in = models.CharField(max_length=20,blank=True)
     summary = models.TextField()
 
     def __str__(self):
@@ -113,10 +111,10 @@ class Candidate (models.Model) :
     bits_id = models.CharField(verbose_name="BITS ID",max_length=13,unique=True,blank=False)
     githubid=models.CharField(verbose_name="Github ID",max_length=30,unique=True,blank=True)
     pr1 = models.CharField(verbose_name="First Priority",max_length=2,choices=departments,default=None,blank=True)
-    pr2 = models.CharField(verbose_name="Second Priority",max_length=2,choices=departments,default=None,blank=True)
-    pr3 = models.CharField(verbose_name="Third Priority",max_length=2,choices=departments,default=None,blank=True)
-    pr4 = models.CharField(verbose_name="Fourth Priority",max_length=2,choices=departments,default=None,blank=True)
-    pr5 = models.CharField(verbose_name="Fifth Priority",max_length=2,choices=departments,default=None,blank=True)
+    pr2 = models.CharField(verbose_name="Second Priority",max_length=2,choices=departments,default=None)
+    pr3 = models.CharField(verbose_name="Third Priority",max_length=2,choices=departments,default=None)
+    pr4 = models.CharField(verbose_name="Fourth Priority",max_length=2,choices=departments,default=None)
+    pr5 = models.CharField(verbose_name="Fifth Priority",max_length=2,choices=departments,default=None)
     
 
     # department_priorties=ArrayField(

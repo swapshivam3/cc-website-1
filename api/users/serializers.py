@@ -35,17 +35,19 @@ class CandidateSerializer(serializers.ModelSerializer):
              raise serializers.ValidationError("Invalid BITS ID ")
         return attrs
 
+
 class MemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = Member
-     #   exclude = ('user', )   
+        exclude = ('user', )   
     
     def validate(self, attrs):
         yr = date.today().year
-        p = re.match("(%s|%s|%s|%s|%s)(A[1-7A]{1}(PS)|B[1-5]{1})((PS)|A[1-7A]{1})[0-9]{4}P" %(str(yr),str(yr-1),str(yr-2),str(yr-3),str(yr-4)) ,attrs['bits_id'],re.IGNORECASE)
-        if p : pass
-        else :
+        id = re.match("(%s|%s|%s|%s|%s)(A[1-7A]{1}(PS)|B[1-5]{1})((PS)|A[1-7A]{1})[0-9]{4}P" %(str(yr),str(yr-1),str(yr-2),str(yr-3),str(yr-4)) ,attrs['bits_id'],re.IGNORECASE)
+        if id == None : 
              raise serializers.ValidationError("Invalid BITS ID ")     
        
-        p = re.match("f20[0-9]{6}@pilani.bits-pilani.ac.in" ,attrs['bits_email'],re.IGNORECASE)
+        mail = re.match("f20[0-9]{6}@pilani.bits-pilani.ac.in" ,attrs['bits_email'],re.IGNORECASE)
+        if mail == None : 
+             raise serializers.ValidationError("Invalid BITS Email ")   
         return attrs
