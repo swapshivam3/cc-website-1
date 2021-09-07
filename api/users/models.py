@@ -110,7 +110,7 @@ class Candidate (models.Model) :
     gender= models.CharField(max_length=1,choices=gender_choices)
     bits_id = models.CharField(verbose_name="BITS ID",max_length=13,unique=True,blank=False)
     githubid=models.CharField(verbose_name="Github ID",max_length=30,unique=True,blank=True)
-    pr1 = models.CharField(verbose_name="First Priority",max_length=2,choices=departments,default=None,blank=True)
+    pr1 = models.CharField(verbose_name="First Priority",max_length=2,choices=departments,default=None)
     pr2 = models.CharField(verbose_name="Second Priority",max_length=2,choices=departments,default=None)
     pr3 = models.CharField(verbose_name="Third Priority",max_length=2,choices=departments,default=None)
     pr4 = models.CharField(verbose_name="Fourth Priority",max_length=2,choices=departments,default=None)
