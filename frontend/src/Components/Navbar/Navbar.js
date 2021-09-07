@@ -49,7 +49,7 @@ class Navbar extends Component {
                       <h3 className="logo" >Coding Club</h3>
                       </Grid>
                       <Grid item lg={6} xs={6}>
-                       <Link className="login-link">Login 
+                       <Link className="login-link" to="/login">Login 
                        <ArrowRightAltIcon />
                        </Link>
                       </Grid>
