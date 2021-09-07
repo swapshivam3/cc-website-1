@@ -1,4 +1,4 @@
-import users
+
 from django.db import models
 
 from users.models import Visitor ,Member,CustomUser
