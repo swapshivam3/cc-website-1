@@ -64,11 +64,11 @@ class Member(models.Model):
     githubHandle
     '''
 
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="member")
-
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="member")   
+    
     bits_id = models.CharField(max_length=50, blank=False, null=False, verbose_name="BITS ID", default="20XXXXXSXXXX")
     bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False, default="f20xxxxxx@*.bits-pilani.ac.in")
-    department = models.CharField(choices=departments, blank=False, null=False,max_length=2, default='cp')
+    department = models.ForeignKey('main.Department', on_delete=models.CASCADE, related_name="department", blank=True,null=True)    
     github = models.CharField(max_length=20, blank=False, null=False, default="my_github")
     codeforces_id=models.CharField(max_length=30,blank=True)
     linked_in = models.CharField(max_length=20,blank=True)
