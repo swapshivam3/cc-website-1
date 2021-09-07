@@ -4,10 +4,10 @@ from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from phonenumber_field.modelfields import PhoneNumberField
 from PIL import Image
-
 from django.db.models.expressions import F
+# from django.contrib.postgres.fields import ArrayField
 
-from users.managers import UserManager
+from .managers import UserManager
 
 # Base User
 class CustomUser(AbstractUser):
@@ -78,6 +78,7 @@ class Member(models.Model):
     bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False, default="f20xxxxxx@*.bits-pilani.ac.in")
     department = models.CharField(choices=departments, blank=False, null=False,max_length=2, default='cp')
     github = models.CharField(max_length=20, blank=False, null=False, default="my_github")
+    codeforces_id=models.CharField(max_length=30,blank=True)
     linked_in = models.CharField(max_length=20)
     summary = models.TextField()
 
@@ -86,9 +87,9 @@ class Member(models.Model):
 
 departments=  (
         ('cp', 'Competitive Programing'),
-        ('fe', 'Frontend Web Dvelopment'),
-        ('be', 'Backend Web Dvelopment'),
-				('ap', 'App Devlpment '),
+        ('fe', 'Frontend Web Development'),
+        ('be', 'Backend Web Development'),
+				('ap', 'App Development '),
 				( 'ui', 'UI/UX ')
     )
 gender_choices = (
@@ -96,6 +97,7 @@ gender_choices = (
 	('F','Female'),
 	('O','Others')
 )
+
 
 class Candidate (models.Model) :
 	
@@ -108,22 +110,25 @@ class Candidate (models.Model) :
     gender= models.CharField(max_length=1,choices=gender_choices)
     bits_id = models.CharField(verbose_name="BITS ID",max_length=13,unique=True,blank=False)
     githubid=models.CharField(verbose_name="Github ID",max_length=30,unique=True,blank=True)
-    pr1 = models.CharField(verbose_name="First Priority",max_length=2,choices=departments,default=None)
-    pr2 = models.CharField(verbose_name="Second Priority",max_length=2,choices=departments,default=None)
-    pr3 = models.CharField(verbose_name="Third Priority",max_length=2,choices=departments,default=None)
-    pr4 = models.CharField(verbose_name="Fourth Priority",max_length=2,choices=departments,default=None)
-    pr5 = models.CharField(verbose_name="Fifth Priority",max_length=2,choices=departments,default=None)
+    pr1 = models.CharField(verbose_name="First Priority",max_length=2,choices=departments,default=None,blank=True)
+    pr2 = models.CharField(verbose_name="Second Priority",max_length=2,choices=departments,default=None,blank=True)
+    pr3 = models.CharField(verbose_name="Third Priority",max_length=2,choices=departments,default=None,blank=True)
+    pr4 = models.CharField(verbose_name="Fourth Priority",max_length=2,choices=departments,default=None,blank=True)
+    pr5 = models.CharField(verbose_name="Fifth Priority",max_length=2,choices=departments,default=None,blank=True)
     
+
+    # department_priorties=ArrayField(
+    # models.CharField(verbose_name="Department Priorities",max_length=2,choices=departments,default=None,validators=[field_validate]),
+    # size=5
+    # )
+
     def __str__(self):
         return self.name
     
     def save(self,*args,**kwargs) :
         super().save(*args,**kwargs)
-
-    def field_validate(self):
-        list=[self.pr1,self.pr2,self.pr3,self.pr4,self.pr5]
-        if len(list) != len(set(list)):
-            raise ValidationError("All preference choices should be different ")
+    
+   
 
     
     

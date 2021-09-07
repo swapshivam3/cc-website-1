@@ -6,7 +6,7 @@ from .models import CustomUser, Member, Visitor, Candidate
 from main.models import Feedback
 from rest_framework import serializers, status,generics
 
-from .serializers import VisitorSerializer,CustomUserSerializer, MemberSerializer
+from .serializers import VisitorSerializer,CustomUserSerializer, MemberSerializer, CandidateSerializer
 from main.serializers import FeedbackSerializer
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.encoding import smart_bytes,smart_str,force_bytes,force_str,DjangoUnicodeDecodeError
@@ -42,7 +42,6 @@ class VisitorRegistrationView(APIView):
             Visitor.objects.create(user=user)
             return Response({'msg': 'User Created'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class VisitorUpdateView(APIView):
     """
@@ -218,4 +217,31 @@ class MemberProfileView(APIView):
                 return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+
+class CandidateRegistrationView(APIView):
+    """
+    Creates a new Candidate
+    """
+    def get(self,request,format=None):
+        candidate = Candidate.objects.all()
+        serializer = CandidateSerializer(candidate, many=True)
+        return Response(serializer.data)
+
+
+
+    def post(self, request, format=None):
+        request.data['is_candidate']=True
+        serializer = CustomUserSerializer(data=request.data)
+        if serializer.is_valid():
+            queryset = CustomUser.objects.filter(email=request.data['email'])
+            if queryset.exists():
+                return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+            # if Candidate.field_validate() ==0:
+            #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+            serializer.save()
+            user=CustomUser.objects.filter(email=request.data['email'])[0]
+            Candidate.objects.create(user=user)
+            return Response({'msg': 'Candidate Created'}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
