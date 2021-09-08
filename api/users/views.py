@@ -32,20 +32,60 @@ class VisitorRegistrationView(APIView):
         return Response(serializer.data)
 
 
-    def post(self, request, format=None):
-        request.data['is_visitor']=True
-        serializer = CustomUserSerializer(data=request.data)
-        if serializer.is_valid():
-            queryset = CustomUser.objects.filter(email=request.data['email'])
-            if queryset.exists():
-                return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+    # def post(self, request, format=None):
+    #     request.data['is_visitor']=True
+    #     serializer = CustomUserSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         queryset = CustomUser.objects.filter(email=request.data['email'])
+    #         if queryset.exists():
+    #             return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-            serializer.validated_data['password'] = make_password(serializer.validated_data['password'])    
-            serializer.save()
-            user=CustomUser.objects.filter(email=request.data['email'])[0]
-            Visitor.objects.create(user=user)
-            return Response({'msg': 'User Created'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #         serializer.validated_data['password'] = make_password(serializer.validated_data['password'])    
+    #         serializer.save()
+    #         user=CustomUser.objects.filter(email=request.data['email'])[0]
+    #         Visitor.objects.create(user=user)
+    #         return Response({'msg': 'User Created'}, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request):
+        request.data['is_visitor'] = True
+        serializer = CustomUserSerializer(data=request.data)
+        visitor_serializer = VisitorSerializer(data=request.data)
+
+        if serializer.is_valid():
+            if visitor_serializer.is_valid():
+                queryset = CustomUser.objects.filter(
+                    email=request.data['email'])
+
+                if queryset.exists():
+                    return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+                serializer.validated_data['password'] = make_password(
+                    serializer.validated_data['password'])
+                serializer.save()
+                user = CustomUser.objects.filter(
+                    email=request.data['email'])[0]
+
+                Visitor.objects.create(user=user)
+                visitor = Visitor.objects.get(user=user)
+
+                allowed_updates = ['phone', 'interests', 'city']
+
+
+                for update in allowed_updates:
+                    if update in request.data:
+                        setattr(visitor, update, request.data[update])
+
+                visitor.save()
+                return Response({'msg': 'User Created'}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"error_visitor": visitor_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"error_user": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 class VisitorUpdateView(APIView):
     """
@@ -53,18 +93,44 @@ class VisitorUpdateView(APIView):
     """
     # Could not make get_object return properly so temporarily shifted that part inside put method
 
-    def put(self, request, format=None):
+    def get(self, request):
         try:
-            user=CustomUser.objects.get(email=request.data['email'])
-            visitor=Visitor.objects.get(pk=user.id)
-        except Visitor.DoesNotExist:
-            return Response({'msg', 'User Not Found'}, status=status.HTTP_404_NOT_FOUND)
-        serializer = VisitorSerializer(visitor, data=request.data)
-        if serializer.is_valid():
-            # Update values here
-            return Response({'msg': 'User Updated'}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            user = request.user
+            visitor = Visitor.objects.get(user=user)
+            serializer = VisitorSerializer(visitor)
 
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
+
+    # def put(self, request, format=None):
+    #     try:
+    #         user=CustomUser.objects.get(email=request.data['email'])
+    #         visitor=Visitor.objects.get(pk=user.id)
+    #     except Visitor.DoesNotExist:
+    #         return Response({'msg', 'User Not Found'}, status=status.HTTP_404_NOT_FOUND)
+    #     serializer = VisitorSerializer(visitor, data=request.data)
+    #     if serializer.is_valid():
+    #         # Update values here
+    #         return Response({'msg': 'User Updated'}, status=status.HTTP_200_OK)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request):
+        try:
+            user = request.user
+            visitor = Visitor.objects.get(user=user)
+
+            allowed_updates = ['phone','interests','city']
+            for update in allowed_updates:
+                if update in request.data:
+                    setattr(visitor, update, request.data[update])
+
+            visitor.save()
+
+            return Response({"msg": "Profile updated."}, status=status.HTTP_200_OK)
+
+        except Visitor.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -182,10 +248,10 @@ class MemberRegistrationView(APIView):
         Registration for a member of the club.
     '''
 
-    # def get(self, request, format=None):
-    #     members = Member.objects.all()
-    #     serializer = MemberSerializer(members, many=True)
-    #     return Response(serializer.data)
+    def get(self, request, format=None):
+        members = Member.objects.all()
+        serializer = MemberSerializer(members, many=True)
+        return Response(serializer.data)
 
     def post(self, request):
         request.data['is_member'] = True
