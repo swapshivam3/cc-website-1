@@ -2,6 +2,11 @@
   perspective: 600px;
 }
 
+.cube-carousel-position {
+  position: relative;
+  top: 150vh;
+}
+
 .cube {
   width: 100%;
   height: 100%;
