@@ -1,3 +1,5 @@
+import React from 'react'
+
 export const MenuSocial = [
     {
         title: <i class="fab fa-twitter"></i> , 

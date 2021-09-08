@@ -1,56 +1,72 @@
-import React, { useState } from 'react'
-import './Login.css'
-// import img from './'
-function Login() {
+// import "./App.css";
+import React, { useState} from "react";
+import "./Login.css"
 
-    const [firstName, setfirstName] = useState(" ")
-    const [lastName, setlastName] = useState(" ")
+function App() {
+  const [Name, setName] = useState(" ");
+//   const [lastName, setlastName] = useState(" ");
 
-    const submitHandler = e => {
-        e.preventDefault()
-        alert(`HELLO ${firstName} ${lastName} YOU ARE SUCCESSFULLY REGISTERED`)
+  const submitHandler = (e) => {
+    e.preventDefault();
+    alert(`HELLO ${Name} YOU ARE SUCCESSFULLY REGISTERED`);
+  };
 
-    }
-    return (
-        <div className="grid grid-cols-3 text-tt font-body">
-            <div className="col-span-1 border-yellow-600 border-2 bg-gray-500 relative">
-                <img src="https://picsum.photos/id/1/500/520" alt=""></img>
-                {/* <div className="absolute top-10 ml-2 mt-2 text-3xl">CODING CLUB</div> */}
-                </div>
-            <div className="col-span-2 border-red-600 border-2 bg-bm">
+  return (
+    <div>
+      <div className="grid grid-cols-4 text-white font-body"> {/*container*/}
+        <div className="col-span-2 bg-B4A797 h-96 text-center relative"> {/*top-left*/}
+          <div className="top-20 left-48 px-4 bg-black opacity-90 rounded-lg absolute"> {/*form*/}
+              <form onSubmit={submitHandler}>
+                <p className="mt-8 ml-10 text-left text-4xl">Contact Us</p>  {/*head*/}
+                  
+                  <div className="flex flex-col mt-0">   {/*fields*/}
+                      
+                      
+                      <div className="flex flex-col py-4">  {/*columns*/}
+                        <label className="ml-10 tracking-wider text-base text-left">Name</label>  {/*labels*/}
+                          <input type="text" placeholder="Enter Your Name"
+                          onChange={(e) => setName(e.target.value)}
+                          className="outline-none py-1 px-1 bg-transparent rounded-xl ml-10 mr-10 border-red-700 border-r-2 border-l-2 w-64" />  {/*input-fields*/}
+                      </div>
 
-                <form onSubmit={submitHandler}>
-                    <label className="p-8 flex justify-center text-6xl text-tt">Registration</label>
-                    <div className="flex flex-col">
-                        <div className="p-8 flex justify-center">
-                            <label className="text-2xl required">First Name</label>
-                            <input type="text" onChange={e => setfirstName(e.target.value)} className="border-yellow-600 border-2 ml-4"></input>
+                    
+                      <div className="flex flex-col py-4"> {/*columns*/}
+                        <label className="ml-10 tracking-wider text-base text-left">Mobile No.</label>
+                        <input type="text" placeholder="Enter Your Mobile No."
+                        //   onChange={(e) => setlastName(e.target.value)}
+                          className="outline-none py-1 px-1 bg-transparent rounded-xl ml-10 mr-10 border-red-700 border-r-2 border-l-2 w-64" />  {/*input-fields*/}
+                      </div>
 
-                        </div>
+                    
+                      <div className="flex flex-col py-4">  {/*columns*/}
+                        <label className="ml-10 tracking-wider text-base text-left">Email</label>  {/*labels*/}
+                        <input type="text" placeholder="Enter Your Email"
+                        //   onChange={(e) => setlastName(e.target.value)}
+                          className="outline-none py-1 px-1 bg-transparent rounded-xl ml-10 mr-10 border-red-700 border-r-2 border-l-2 w-64" />  {/*input-fields*/}
+                      </div>
 
-                        <div className="p-8 flex justify-center">
-                            <label className="text-2xl required">Last Name</label>
-                            <input type="text" onChange={e => setlastName(e.target.value)} className="border-yellow-600 border-2 ml-4"></input>
-                        </div>
 
-                        {/* <div className="p-8 flex justify-center">
-                            <label className="text-2xl">First Name</label>
-                            <input type="text" className="border-yellow-600 border-2 ml-4"></input>
-                        </div> */}
-                    </div>
-                    {/* <div className="flex justify-center">
-                        <a href="google.com" class="text-white btn border-primary hover:bg-primary hover:text-white transition ease-out duration-500">Cancel</a> */}
-                    {/* <button>    <a href="google.com" class="text-white ml-2 btn border-primary hover:bg-primary hover:text-white transition ease-out duration-500">Confirm</a></button>
-                    </div>
-                     */}
-                     <div className="flex justify-center">
-                     <button class="text-white btn border-primary hover:bg-primary hover:text-white transition ease-out duration-500">Submit</button>
-                     </div>
-    
-                </form>
-        </div>
-        </div >
-    )
+                      {/* <div className="flex flex-col py-4">  columns */}
+                        {/* <label className="text-lg required"></label> */}
+                        {/* <input type="text" placeholder="Leave a Message for us....."
+                          onChange={(e) => setlastName(e.target.value)} 
+                          className="py-1 px-1 bg-transparent rounded-xl ml-10 border-yellow-700 border-r-8 border-l-8 w-64" /> */}
+                          {/*input-fields*/}
+                      {/* </div> */}
+
+                      <div className="flex justify-center mt-2">  {/*button-div*/}
+                        <button class="text-red-100  w-64 py-2 mb-8 rounded-2xl bg-red-700 border-2 border-BD4B4B hover:text-black  hover:bg-green-500 hover:border-green-500 transition ease-out duration-500">Submit</button>  {/*button*/}
+                      </div>
+
+                  </div>        
+              </form>
+          </div>
+        </div>  
+        <div className="col-span-2 bg-EFD4CB h-96 text-center"></div>  {/*top-right*/}
+      </div>
+    </div>    
+      
+);
 }
 
-export default Login
+export default App;
