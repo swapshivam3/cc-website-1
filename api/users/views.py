@@ -182,10 +182,10 @@ class MemberRegistrationView(APIView):
         Registration for a member of the club.
     '''
 
-    def get(self, request, format=None):
-        members = Member.objects.all()
-        serializer = MemberSerializer(members, many=True)
-        return Response(serializer.data)
+    # def get(self, request, format=None):
+    #     members = Member.objects.all()
+    #     serializer = MemberSerializer(members, many=True)
+    #     return Response(serializer.data)
 
     def post(self, request):
         request.data['is_member'] = True
@@ -193,33 +193,36 @@ class MemberRegistrationView(APIView):
         member_serializer=MemberSerializer(data=request.data)
 
         if serializer.is_valid():
-            queryset = CustomUser.objects.filter(email=request.data['email'])
+            if member_serializer.is_valid():
+                queryset = CustomUser.objects.filter(email=request.data['email'])
 
-            if queryset.exists():
-                return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+                if queryset.exists():
+                    return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-            serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
-            serializer.save()
-            user = CustomUser.objects.filter(email=request.data['email'])[0]
+                serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
+                serializer.save()
+                user = CustomUser.objects.filter(email=request.data['email'])[0]
 
-            Member.objects.create(user=user)
-            member = Member.objects.get(user=user)
+                Member.objects.create(user=user)
+                member = Member.objects.get(user=user)
 
-            allowed_updates = ['bits_id', 'bits_email',
-                                 'github', 'linked_in', 'summary']
+                allowed_updates = ['bits_id', 'bits_email',
+                                    'github', 'linked_in', 'summary']
 
-            dept_name=request.data['department']
-            department=Department.objects.filter(name=dept_name)[0]     #this should always work because depts are fixed
-            department.members.add(member)
-            member.department = department
-            for update in allowed_updates:
-                if update in request.data:
-                    setattr(member, update, request.data[update])
+                dept_name=request.data['department']
+                department=Department.objects.filter(name=dept_name)[0]     #this should always work because depts are fixed
+                department.members.add(member)
+                member.department = department
+                for update in allowed_updates:
+                    if update in request.data:
+                        setattr(member, update, request.data[update])
 
-            member.save()
-            return Response({'msg': 'User Created'}, status=status.HTTP_201_CREATED)
+                member.save()
+                return Response({'msg': 'User Created'}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"error_member": member_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)   
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)        
+            return Response({"error_user": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)        
 
 
 
