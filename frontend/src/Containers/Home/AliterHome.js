@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./AliterHome.css";
 import Carousel from "../../Components/Carousel/Carousel";
+import CubeCarousel from "../../Components/CubeCarousel/CubeCarousel";
 
 const AliterHome = () => {
   const [render, setRender] = useState(false);
@@ -41,6 +42,7 @@ const AliterHome = () => {
         </h1>
       </div>
       <Carousel />
+      <CubeCarousel />
     </div>
   );
 };
