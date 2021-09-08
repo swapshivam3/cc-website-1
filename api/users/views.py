@@ -190,6 +190,7 @@ class MemberRegistrationView(APIView):
     def post(self, request):
         request.data['is_member'] = True
         serializer = CustomUserSerializer(data=request.data)
+        member_serializer=MemberSerializer(data=request.data)
 
         if serializer.is_valid():
             queryset = CustomUser.objects.filter(email=request.data['email'])
@@ -200,16 +201,17 @@ class MemberRegistrationView(APIView):
             serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
             serializer.save()
             user = CustomUser.objects.filter(email=request.data['email'])[0]
-            serializer=MemberSerializer(data=request.data)
+
             Member.objects.create(user=user)
             member = Member.objects.get(user=user)
 
             allowed_updates = ['bits_id', 'bits_email',
-                               'department', 'github', 'linked_in', 'summary']
+                                 'github', 'linked_in', 'summary']
 
             dept_name=request.data['department']
-            request.data['department']=Department.objects.filter(name=dept_name)[0]     #this should always work because depts are fixed
-            request.data['department'].members.add(member)
+            department=Department.objects.filter(name=dept_name)[0]     #this should always work because depts are fixed
+            department.members.add(member)
+            member.department = department
             for update in allowed_updates:
                 if update in request.data:
                     setattr(member, update, request.data[update])
@@ -241,7 +243,7 @@ class MemberProfileView(APIView):
             user = request.user
             member = Member.objects.get(user=user)
 
-            allowed_updates = ['bits_id', 'bits_email', 'department', 'github', 'linked_in', 'summary']
+            allowed_updates = ['bits_id', 'bits_email', 'github', 'linked_in', 'summary']
 
             for update in allowed_updates:
                 if update in request.data:

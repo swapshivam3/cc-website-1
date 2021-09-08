@@ -37,12 +37,11 @@ class CandidateSerializer(serializers.ModelSerializer):
 
 
 class MemberSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer(required=False)
+    # user = CustomUserSerializer(required=False)
     class Meta:
         model = Member
         # extra_kwargs = {'password': {'write_only': True}}
-        # exclude = ('user', )   
-        fields='__all__'
+        exclude = ('user', 'id', )   
 
     def validate(self, attrs):
         yr = date.today().year
