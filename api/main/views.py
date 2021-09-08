@@ -4,8 +4,8 @@ from .models import Department
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .serializers import  FeedbackSerializer
-from .models import Feedback,Department
+from .serializers import  FeedbackSerializer, AchievementSerializer
+from .models import Feedback,Department, Achievement
 from rest_framework import serializers
 from django.shortcuts import render, get_object_or_404
 from users.models import CustomUser
@@ -62,4 +62,14 @@ class DepartmentDetailView(APIView):
         department = get_object_or_404(Department,name=name)
         serializer = DepartmentSerializer(department)
         return Response(serializer.data)
+
+class AchievementView(APIView):
+    '''
+    Get all the club achievements from the database.
+    '''
+    def get(self, request):
+        achievements = Achievement.objects.all()
+        serializer = AchievementSerializer(achievements, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 

@@ -41,3 +41,12 @@ class Department(models.Model):
 
     def __str__(self):
         return self.name
+
+class Achievement(models.Model):
+    title = models.CharField(max_length=100, blank=False, null=False)
+    description = models.TextField()
+    slug = models.SlugField(max_length=420, unique=True)
+    image = models.ImageField(upload_to="", blank=True, null=True) # Update this.
+
+    def __str__(self):
+        return self.title 

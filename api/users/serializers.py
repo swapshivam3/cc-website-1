@@ -37,16 +37,19 @@ class CandidateSerializer(serializers.ModelSerializer):
 
 
 class MemberSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer(required=False)
+    # user = CustomUserSerializer(required=False)
+    codeforces_id = serializers.CharField(required=False, max_length=2000)
+    github = serializers.CharField(required=False, max_length=2000)
+    linked_in = serializers.CharField(required=False, max_length=2000)
+    summary = serializers.CharField(required=False, max_length=2000)
     class Meta:
         model = Member
         # extra_kwargs = {'password': {'write_only': True}}
-        # exclude = ('user', )   
-        fields='__all__'
+        exclude = ('user', 'id', )   
 
     def validate(self, attrs):
         yr = date.today().year
-        id = id = re.match("(%s|%s|%s|%s|%s)(((A[1-7A]{1})((B[1-5]{1})|(PS)))|((B[1-5]{1})((A[1-7A]{1})|(PS))))[0-9]{4}P" %(str(yr),str(yr-1),str(yr-2),str(yr-3),str(yr-4)) ,attrs['bits_id'],re.IGNORECASE)
+        id =  re.match("(%s|%s|%s|%s|%s)(((A[1-8A]{1})((B[1-5]{1})|(PS)))|((B[1-5]{1})((A[1-8A]{1})|(PS)|(TS))))[0-9]{4}P" %(str(yr),str(yr-1),str(yr-2),str(yr-3),str(yr-4)) ,attrs['bits_id'],re.IGNORECASE)
         if id == None : 
              raise serializers.ValidationError("Invalid BITS ID ")     
        
