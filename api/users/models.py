@@ -50,7 +50,7 @@ class Visitor(models.Model):
     '''
 
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True,related_name="visitor")
-    # phone = PhoneNumberField(unique=True)
+    phone = PhoneNumberField(unique=True, null=True)
     interests = models.TextField(blank=True, max_length=100) #optional field
     city = models.CharField(blank=True, max_length=100) #optional field
 
