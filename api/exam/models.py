@@ -4,18 +4,19 @@ from django.db import models
 
 
 class Question(models.Model):
-    #Images are to be handled properly as too heavy, change this, will probably need Image processors
-    #Considering 5KB images, 5 images per question, 20 questions, 1000 students -> ~ 500 MB transfer
     is_blank=models.BooleanField()
-    question=models.CharField(max_length=500)
-    question_image=models.ImageField(blank=True)
-    answer=models.IntegerField(blank=False)
-    blank_answer = models.CharField(max_length=500)
-    option_one_text = models.CharField(max_length=500)
-    option_one_image=models.ImageField()
-    option_two_text = models.CharField(max_length=500)
-    option_two_image=models.ImageField()
-    option_three_text = models.CharField(max_length=500)
-    option_three_image = models.ImageField()
-    option_four_text = models.CharField(max_length=500)
-    option_four_image = models.ImageField()
+    question = models.CharField(max_length=500, blank=True,null=True)
+    question_file = models.FileField(blank=True, null=True)
+    answer = models.IntegerField(blank=True, null=True)
+    blank_answer = models.CharField(max_length=500, blank=True,null=True)
+    option_one_text = models.CharField(max_length=500, blank=True, null=True)
+    option_one_file = models.FileField(blank=True, null=True)
+    option_two_text = models.CharField(max_length=500, blank=True, null=True)
+    option_two_file = models.FileField(blank=True, null=True)
+    option_three_text = models.CharField(max_length=500, blank=True, null=True)
+    option_three_file = models.FileField(blank=True, null=True)
+    option_four_text = models.CharField(max_length=500, blank=True, null=True)
+    option_four_file = models.FileField(blank=True, null=True)
+
+    def __str__(self):
+        return self.question

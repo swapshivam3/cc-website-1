@@ -14,35 +14,61 @@ import random
 # Create your views here.
 class QuestionGetView(APIView):
     def get(self,request):
-        # fix the image fields here as well
+        # fix the file fields here as well if wanted
+        #will fail if db is empty, create an object first using admin 
         raw_questions=Question.objects.all()
         questions=[]
+        # print(raw_questions)
         for raw_question in raw_questions:
+            # print(raw_question)
             question={}
             question['id']=raw_question.id
             question['qtxt']=raw_question.question
             question['is_blank'] = raw_question.is_blank
-            question['question_image'] = str(raw_question.question_image)
+            try:
+                question['question_file.url'] = (raw_question.question_file.url)
+            except:
+                question['question_file.url']="null"
             # question['answer'] = raw_question.is_blank (duh)
             options=[]
             option={}
             option['text'] = raw_question.option_one_text
-            option['image'] = str(raw_question.option_one_image)
-            options.append(option)
+            try:
+                option['file'] = (raw_question.option_one_file.url)
+            except:
+                option['file']="null"
+            options.append(option.copy())
             option['text'] = raw_question.option_two_text
-            option['image'] = str(raw_question.option_two_image)
-            options.append(option)
+            try:
+                option['file'] = (raw_question.option_two_file.url)
+            except:
+                option['file'] = "null"
+            options.append(option.copy())
             option['text'] = raw_question.option_three_text
-            option['image'] = str(raw_question.option_three_image)
-            options.append(option)
+            try:
+                option['file'] = (raw_question.option_three_file.url)
+            except:
+                option['file'] = "null"
+            options.append(option.copy())
+            # print(options)
             option['text'] = raw_question.option_four_text
-            option['image'] = str(raw_question.option_four_image)
-            options.append(option)
+            try:
+                option['file'] = (raw_question.option_four_file.url)
+            except:
+                option['file'] = "null"
+            options.append(option.copy())
             question['options']=options
-            questions.append(question)
-            # random.shuffle(questions) (discuss later)
+            # print(options)
+            questions.append(question.copy())
+            # print(question)
+                # random.shuffle(questions) (discuss later)
         return JsonResponse(questions,safe=False)
 
 # class AnswerPostView(APIView):
-# #TODO Receive an array of answers with the question id, link to candidate model to calc scores
-# [{"qid":"1", "answer":"", "answertxt":""}]  if is_blank,use answertxt to compare string else use answer to compare mcq answer no  
+    # def post(self,request):
+
+# TODO Receive an array of answers with the question id, and save to some model with candidate as foreign key
+# [{"qid":"1", "answer":"", "answertxt":""}]  if is_blank,use answertxt to compare  else use answer to compare mcq answer no  
+
+
+#TODO write an endpoint to start uploading of image questions to s3bucket using file names (like q1_q as question q1_a as option)
