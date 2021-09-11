@@ -10,6 +10,10 @@ from django.shortcuts import render, get_object_or_404
 from users.models import CustomUser
 from django.http import JsonResponse
 import random
+from .questions import question_list
+from api.settings import MEDIA_ROOT
+import boto3
+
 
 # Create your views here.
 class QuestionGetView(APIView):
@@ -70,5 +74,61 @@ class QuestionGetView(APIView):
 # TODO Receive an array of answers with the question id, and save to some model with candidate as foreign key
 # [{"qid":"1", "answer":"", "answertxt":""}]  if is_blank,use answertxt to compare  else use answer to compare mcq answer no  
 
+class CreateQuestionView(APIView):
+    #Hit this endpoint to add questions to DB and upload images to aws, NOT SUPPOSED to be done again and again
+    def get(self,request):
+        if request.user:
+            Question.objects.all().delete()
+            i=1
+            s3=boto3.resource('s3')
+            for question in question_list[1:]:
+                # print(question_list)
+                q_image_path ='questions/q'+str(i)+'.jpg'
+                q_op1_path = 'questions/q'+str(i)+'a.jpg'
+                q_op2_path = 'questions/q'+str(i)+'b.jpg'
+                q_op3_path = 'questions/q'+str(i)+'c.jpg'
+                q_op4_path = 'questions/q'+str(i)+'d.jpg'
+                # print(q_image_path)
+                q=Question.objects.create(is_blank=question['is_blank'],question=question['question'],
+                                        answer=question['answer'],blank_answer=question['blank_answer'],
+                                        option_one_text=question['option_one_text'], option_two_text=question['option_two_text'],
+                                        option_three_text=question['option_three_text'], option_four_text=question['option_four_text'])
+                try:
+                    q.question_file=q_image_path
+                    s3.meta.client.upload_file(
+                        MEDIA_ROOT+q_image_path, 'cc-quiz', q_image_path, ExtraArgs={'ContentType': "image/jpeg"})
+                except:
+                    pass
+                try:
+                    q.option_one_file = q_op1_path
+                    s3.meta.client.upload_file(
+                        MEDIA_ROOT+q_op1_path, 'cc-quiz', q_op1_path, ExtraArgs={'ContentType': "image/jpeg"})
+                except:
+                    pass
+                
+                try:
+                    q.option_two_file = q_op2_path
+                    s3.meta.client.upload_file(
+                        MEDIA_ROOT+q_op1_path, 'cc-quiz', q_op2_path, ExtraArgs={'ContentType': "image/jpeg"})
+                except:
+                    pass
+                        
+                try:
+                    q.option_three_file = q_op3_path
+                    s3.meta.client.upload_file(
+                        MEDIA_ROOT+q_op3_path, 'cc-quiz', q_op3_path, ExtraArgs={'ContentType': "image/jpeg"})
+                except:
+                    pass
 
-#TODO write an endpoint to start uploading of image questions to s3bucket using file names (like q1_q as question q1_a as option)
+                try:
+                    q.option_four_file = q_op4_path
+                    s3.meta.client.upload_file(
+                        MEDIA_ROOT+q_op4_path, 'cc-quiz', q_op4_path, ExtraArgs={'ContentType': "image/jpeg"})
+                except:
+                    pass
+
+                q.save()
+                print(q.question_file.url)
+                i+=1
+                
+            return JsonResponse({"success":"done"})
