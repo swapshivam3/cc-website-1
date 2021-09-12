@@ -1,10 +1,10 @@
-from .views import QuestionGetView,CreateQuestionView
+from .views import QuestionGetView,CreateQuestionView,AnswerPostView
 from django.urls import path
 
 
 urlpatterns = [
-    path('questions',QuestionGetView.as_view()),
-    path('createquestions',CreateQuestionView.as_view()),
-    # path('answerpost',Ans)
+    path('GetQuestions',QuestionGetView.as_view()),
+    path('CreateQuestions',CreateQuestionView.as_view()),
+    path('PostAnswers',AnswerPostView.as_view())
 
 ]
