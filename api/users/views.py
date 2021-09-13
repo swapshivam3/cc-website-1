@@ -338,16 +338,59 @@ class CandidateRegistrationView(APIView):
 
 
 
-    def post(self, request, format=None):
-        request.data['is_candidate']=True
-        serializer = CustomUserSerializer(data=request.data)
-        if serializer.is_valid():
-            queryset = CustomUser.objects.filter(email=request.data['email'])
-            if queryset.exists():
-                return Response({'msg': 'Candidate already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
-            serializer.save()
-            user=CustomUser.objects.filter(email=request.data['email'])[0]
-            Candidate.objects.create(user=user)
-            return Response({'msg': 'Candidate Registered'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        request.data['is_candidate'] = True
+        user_serializer = CustomUserSerializer(data=request.data)
+        candidate_serializer=CandidateSerializer(data=request.data)
+        if user_serializer.is_valid():
+            if candidate_serializer.is_valid():
+                queryset = CustomUser.objects.filter(email=request.data['email'])
 
+                if queryset.exists():
+                    return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+                user_serializer.validated_data['password'] = make_password(user_serializer.validated_data['password'])
+                user_serializer.save()
+                user = CustomUser.objects.filter(email=request.data['email'])[0]
+
+                Candidate.objects.create(user=user,pr1=request.data["pr1"],pr2=request.data["pr2"],pr3=request.data["pr3"],pr4=request.data["pr4"],
+                pr5=request.data["pr5"],bits_id=request.data['bits_id'],bits_email=request.data[ 'bits_email'],github=request.data['github'],gender=request.data['gender'])
+
+                return Response({'msg': 'Candidate Registered'}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"error_candidate": candidate_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)   
+        else:
+            return Response({"error_user": user_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)        
+
+
+class CandidateProfileView(APIView):
+    '''
+        Get and Update candidate profile information.
+    '''
+    def get(self, request):
+        try:
+            user = request.user
+            member = Candidate.objects.get(user=user)
+            serializer = CandidateSerializer(member)
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+                return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
+
+    
+    def put(self, request):
+        try:
+            user = request.user
+            candidate = Candidate.objects.get(user=user)
+
+            allowed_updates = ['bits_id', 'bits_email', 'github', 'pr1', 'pr2', 'pr3', 'pr4','pr5']
+
+            for update in allowed_updates:
+                if update in request.data:
+                    setattr(candidate, update, request.data[update])
+            candidate.save()
+
+            return Response({"msg": "Profile updated."}, status=status.HTTP_200_OK)
+                
+        except Candidate.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)
