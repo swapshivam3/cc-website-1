@@ -1,40 +1,77 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
+import Zoom from "react-medium-image-zoom";
+import "react-medium-image-zoom/dist/styles.css";
 import "./CubeCarousel.css";
 
 const CubeCarousel = () => {
   const [clicked, setClicked] = useState(false);
+  // const [dimension, setDimension] = useState({
+  //   height: "16rem",
+  //   width: "32rem",
+  // });
+  // let height, width;
+
+  // useEffect(() => {
+  //   console.log("yo");
+  //   height = document.querySelector(".a").clientHeight;
+  //   width = document.querySelector(".a").clientWidth;
+  //   console.log(height, width);
+  // });
 
   const expandImage = () => {
     console.log("Clicked");
-    setClicked(!clicked);
+    //setClicked(!clicked);
+    //   setDimension({
+    //     height: height + 500,
+    //     width: width + 500,
+    //   });
+    //document.querySelector(".cube").classList.toggle("cube-animation");
+    //   console.log(dimension.height, dimension.width);
   };
+
+  // const imgStyle = {
+  //   height: dimension.height,
+  //   width: dimension.width,
+  // };
 
   return (
     <div className="cube-carousel-position w-screen h-screen ">
       <div className=" scene m-auto pt-40 scene w-20 h-20">
-        <div className="cube relative">
+        <div className="cube cube-animation relative">
           <div className="face a absolute  text-center  bg-red-500 text-white front">
-            <img
-              onClick={expandImage}
-              src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-              alt="wall"
-            />
+            <Zoom zoomMargin={40} overlayBgColorEnd={"rgba(0,0,0,0.1)"}>
+              <img
+                onClick={expandImage}
+                src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
+                alt="wall"
+                style={{ height: "16rem", width: "32rem" }}
+              />
+            </Zoom>
           </div>
           <div className="face b absolute text-center  bg-purple-500 text-white back">
+            <Zoom zoomMargin={40} overlayBgColorEnd={"rgba(0,0,0,0.1)"}>
+              <img
+                onClick={expandImage}
+                src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
+                alt="wall"
+                style={{ height: "16rem", width: "32rem" }}
+              />
+            </Zoom>
+          </div>
+          <div
+            className="face c absolute text-center  bg-pink-500 text-white right"
+            style={{ width: "16rem" }}
+          >
             <img
               onClick={expandImage}
               src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
               alt="wall"
             />
           </div>
-          <div className="face c absolute text-center  bg-pink-500 text-white right">
-            <img
-              onClick={expandImage}
-              src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-              alt="wall"
-            />
-          </div>
-          <div className="face d absolute text-center bg-green-500 text-white left">
+          <div
+            className="face d absolute text-center bg-green-500 text-white left"
+            style={{ width: "16rem" }}
+          >
             <img
               onClick={expandImage}
               src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
@@ -42,18 +79,24 @@ const CubeCarousel = () => {
             />
           </div>
           <div className="face e absolute text-center bg-blue-500 text-white top">
-            <img
-              onClick={expandImage}
-              src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-              alt="wall"
-            />
+            <Zoom zoomMargin={40} overlayBgColorEnd={"rgba(0,0,0,0.1)"}>
+              <img
+                onClick={expandImage}
+                src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
+                alt="wall"
+                style={{ height: "16rem", width: "32rem" }}
+              />
+            </Zoom>
           </div>
           <div className="face f absolute text-center  bg-yellow-500 text-white bottom">
-            <img
-              onClick={expandImage}
-              src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-              alt="wall"
-            />
+            <Zoom zoomMargin={40} overlayBgColorEnd={"rgba(0,0,0,0.1)"}>
+              <img
+                onClick={expandImage}
+                src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
+                alt="wall"
+                style={{ height: "16rem", width: "32rem" }}
+              />
+            </Zoom>
           </div>
         </div>
       </div>
@@ -63,7 +106,7 @@ const CubeCarousel = () => {
             onClick={() => {
               setClicked(false);
             }}
-            className="relative m-auto z-10 -mt-20 modal"
+            className="relative m-auto  z-10 -mt-20 modal"
             src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
             alt="wall"
           />
