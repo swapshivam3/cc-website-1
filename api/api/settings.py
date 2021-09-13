@@ -133,6 +133,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = (
@@ -145,3 +148,15 @@ EMAIL_PORT=587
 EMAIL_USE_TLS=True
 EMAIL_HOST_USER=os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_PASS')
+
+AWS_ACCESS_KEY_ID = "AKIA2OQQB327YIFMBUGN"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "cc-quiz"
+# AWS_S3_SIGNATURE_VERSION = 's3v4'
+# S3_USE_SIGV4 = True
+AWS_S3_ADDRESSING_STYLE = "virtual"
+AWS_S3_REGION_NAME = "ap-south-1"
+AWS_S3_FILE_OVERWRITE = True
+AWS_DEFAULT_ACL = None
+AWS_S3_VERIFY = True
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
