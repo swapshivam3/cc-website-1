@@ -1,7 +1,7 @@
 import "./App.css";
 import Home from "./Containers/Home/AliterHome";
 import OurTeam from "./Containers/OurTeam/OurTeam";
-
+import React from 'react'
 import Login from "./Components/Login/Login"
 import Departments from "./Containers/Departments/Departments"
 import Navbar from './Components/Navbar/Navbar'

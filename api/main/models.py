@@ -1,5 +1,4 @@
 
-
 from django.db import models
 
 from users.models import Visitor ,Member,CustomUser
@@ -34,7 +33,7 @@ class Department(models.Model):
         ('ap', 'App Development'),
         ('ui', 'UI/UX'),
     )
-    name = models.CharField(choices=departments, blank=False, null=False, max_length=2, primary_key=True)
+    name = models.CharField(choices=departments, blank=False, max_length=2, primary_key=True)
     description = models.TextField()
     tech_stack = models.CharField(max_length=200)
     members = models.ManyToManyField(Member, related_name= "dept_member")
@@ -42,3 +41,12 @@ class Department(models.Model):
 
     def __str__(self):
         return self.name
+
+class Achievement(models.Model):
+    title = models.CharField(max_length=100, blank=False, null=False)
+    description = models.TextField()
+    slug = models.SlugField(max_length=420, unique=True)
+    image = models.ImageField(upload_to="", blank=True, null=True) # Update this.
+
+    def __str__(self):
+        return self.title 

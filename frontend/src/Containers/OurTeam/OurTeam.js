@@ -1,4 +1,5 @@
 import TeamMemberCard from "../../Components/TeamMemberCard/TeamMemberCard";
+import React from 'react'
 
 const OurTeam = () => {
   return (
