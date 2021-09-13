@@ -19,7 +19,7 @@ import boto3
 class QuestionGetView(APIView):
     def get(self,request):
         # fix the file fields here as well if wanted
-        #will fail if db is empty, create an object first using admin 
+        #will fail if db is empty, create an object first using admin or the CreateQuestions view
         raw_questions=Question.objects.all()
         questions=[]
         # print(raw_questions)
@@ -69,20 +69,20 @@ class QuestionGetView(APIView):
 
 class AnswerPostView(APIView):
     def post(self,request):
-        # user=request.user
-        #write proper logic, this was just to test the post request
-        c=Candidate.objects.all()[0]
-        c.answer_json=request.data
-        c.save()
-        return JsonResponse({"success":"Success"})
+        try:
+            user = request.user
+            candidate=Candidate.objects.filter(user=user)[0]
+        except:
+            return Response({"error":"Not authorized"},status=status.HTTP_401_UNAUTHORIZED)
+        candidate.answer_json=request.data
+        candidate.exam_given=True
+        candidate.save()
+        return Response({"msg":"Success"},status=status.HTTP_200_OK)
 
-        #The post request works, can access fields using obbject.answer_json[0]['fieldname']
-
-# TODO Receive an array of answers with the question id, and save to some model with candidate as foreign key
-# [{"qid":"1", "answer":"", "answertxt":""}]  if is_blank,use answertxt to compare  else use answer to compare mcq answer no  
 
 class CreateQuestionView(APIView):
     #Hit this endpoint to add questions to DB and upload images to aws, NOT SUPPOSED to be done again and again
+    #DO NOT call this endpoint by mistake after answers have been saved as the question id changes and will give errors
     def get(self,request):
         if request.user:
             Question.objects.all().delete()

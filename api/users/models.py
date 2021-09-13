@@ -109,6 +109,10 @@ class Candidate (models.Model) :
     pr4 = models.CharField(verbose_name="Fourth Priority",max_length=2,choices=departments,default=None)
     pr5 = models.CharField(verbose_name="Fifth Priority",max_length=2,choices=departments,default=None)
     answer_json=JSONField()
+    exam_given=models.BooleanField()
+    score=models.IntegerField(default=0,blank=True)
+    #a phone number field is required over here, or link it using visitor upgrade to candidate
+
 
     # department_priorties=ArrayField(
     # models.CharField(verbose_name="Department Priorities",max_length=2,choices=departments,default=None,validators=[field_validate]),
