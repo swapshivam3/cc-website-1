@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from users.serializers import MemberSerializer
-from .models import Department, Feedback
+from .models import Department, Feedback, Achievement
 
 
 class FeedbackSerializer(serializers.ModelSerializer):
@@ -24,3 +24,8 @@ class DepartmentSerializer(serializers.ModelSerializer):
         rep = super().to_representation(instance)
         rep["members"] = MemberSerializer(instance.members.all(), many=True).data
         return rep
+
+class AchievementSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Achievement
+        exclude = ('slug', )

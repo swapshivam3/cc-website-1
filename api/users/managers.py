@@ -50,7 +50,7 @@ class UserManager(BaseUserManager):
         user.name = name
         user.password = make_password(password)
         user.admin = True
-        user.is_staf = True
+        user.is_staff = True
         user.is_superuser = True
         user.is_active = True
         user.save(using=self._db)

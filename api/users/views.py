@@ -32,20 +32,60 @@ class VisitorRegistrationView(APIView):
         return Response(serializer.data)
 
 
-    def post(self, request, format=None):
-        request.data['is_visitor']=True
-        serializer = CustomUserSerializer(data=request.data)
-        if serializer.is_valid():
-            queryset = CustomUser.objects.filter(email=request.data['email'])
-            if queryset.exists():
-                return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+    # def post(self, request, format=None):
+    #     request.data['is_visitor']=True
+    #     serializer = CustomUserSerializer(data=request.data)
+    #     if serializer.is_valid():
+    #         queryset = CustomUser.objects.filter(email=request.data['email'])
+    #         if queryset.exists():
+    #             return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-            serializer.validated_data['password'] = make_password(serializer.validated_data['password'])    
-            serializer.save()
-            user=CustomUser.objects.filter(email=request.data['email'])[0]
-            Visitor.objects.create(user=user)
-            return Response({'msg': 'User Created'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #         serializer.validated_data['password'] = make_password(serializer.validated_data['password'])    
+    #         serializer.save()
+    #         user=CustomUser.objects.filter(email=request.data['email'])[0]
+    #         Visitor.objects.create(user=user)
+    #         return Response({'msg': 'User Created'}, status=status.HTTP_201_CREATED)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request):
+        request.data['is_visitor'] = True
+        serializer = CustomUserSerializer(data=request.data)
+        visitor_serializer = VisitorSerializer(data=request.data)
+
+        if serializer.is_valid():
+            if visitor_serializer.is_valid():
+                queryset = CustomUser.objects.filter(
+                    email=request.data['email'])
+
+                if queryset.exists():
+                    return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+                serializer.validated_data['password'] = make_password(
+                    serializer.validated_data['password'])
+                serializer.save()
+                user = CustomUser.objects.filter(
+                    email=request.data['email'])[0]
+
+                Visitor.objects.create(user=user)
+                visitor = Visitor.objects.get(user=user)
+
+                allowed_updates = ['phone', 'interests', 'city']
+
+
+                for update in allowed_updates:
+                    if update in request.data:
+                        setattr(visitor, update, request.data[update])
+
+                visitor.save()
+                return Response({'msg': 'User Created'}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"error_visitor": visitor_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"error_user": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 class VisitorUpdateView(APIView):
     """
@@ -53,18 +93,44 @@ class VisitorUpdateView(APIView):
     """
     # Could not make get_object return properly so temporarily shifted that part inside put method
 
-    def put(self, request, format=None):
+    def get(self, request):
         try:
-            user=CustomUser.objects.get(email=request.data['email'])
-            visitor=Visitor.objects.get(pk=user.id)
-        except Visitor.DoesNotExist:
-            return Response({'msg', 'User Not Found'}, status=status.HTTP_404_NOT_FOUND)
-        serializer = VisitorSerializer(visitor, data=request.data)
-        if serializer.is_valid():
-            # Update values here
-            return Response({'msg': 'User Updated'}, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            user = request.user
+            visitor = Visitor.objects.get(user=user)
+            serializer = VisitorSerializer(visitor)
 
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
+
+    # def put(self, request, format=None):
+    #     try:
+    #         user=CustomUser.objects.get(email=request.data['email'])
+    #         visitor=Visitor.objects.get(pk=user.id)
+    #     except Visitor.DoesNotExist:
+    #         return Response({'msg', 'User Not Found'}, status=status.HTTP_404_NOT_FOUND)
+    #     serializer = VisitorSerializer(visitor, data=request.data)
+    #     if serializer.is_valid():
+    #         # Update values here
+    #         return Response({'msg': 'User Updated'}, status=status.HTTP_200_OK)
+    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def put(self, request):
+        try:
+            user = request.user
+            visitor = Visitor.objects.get(user=user)
+
+            allowed_updates = ['phone','interests','city']
+            for update in allowed_updates:
+                if update in request.data:
+                    setattr(visitor, update, request.data[update])
+
+            visitor.save()
+
+            return Response({"msg": "Profile updated."}, status=status.HTTP_200_OK)
+
+        except Visitor.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -190,34 +256,39 @@ class MemberRegistrationView(APIView):
     def post(self, request):
         request.data['is_member'] = True
         serializer = CustomUserSerializer(data=request.data)
+        member_serializer=MemberSerializer(data=request.data)
 
         if serializer.is_valid():
-            queryset = CustomUser.objects.filter(email=request.data['email'])
+            if member_serializer.is_valid():
+                queryset = CustomUser.objects.filter(email=request.data['email'])
 
-            if queryset.exists():
-                return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+                if queryset.exists():
+                    return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
 
-            serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
-            serializer.save()
-            user = CustomUser.objects.filter(email=request.data['email'])[0]
-            serializer=MemberSerializer(data=request.data)
-            Member.objects.create(user=user)
-            member = Member.objects.get(user=user)
+                serializer.validated_data['password'] = make_password(serializer.validated_data['password'])
+                serializer.save()
+                user = CustomUser.objects.filter(email=request.data['email'])[0]
 
-            allowed_updates = ['bits_id', 'bits_email',
-                               'department', 'github', 'linked_in', 'summary']
+                Member.objects.create(user=user)
+                member = Member.objects.get(user=user)
 
-            dept_name=request.data['department']
-            request.data['department']=Department.objects.filter(name=dept_name)[0]     #this should always work because depts are fixed
-            request.data['department'].members.add(member)
-            for update in allowed_updates:
-                if update in request.data:
-                    setattr(member, update, request.data[update])
+                allowed_updates = ['bits_id', 'bits_email',
+                                    'github', 'linked_in', 'summary']
 
-            member.save()
-            return Response({'msg': 'User Created'}, status=status.HTTP_201_CREATED)
+                dept_name=request.data['department']
+                department=Department.objects.filter(name=dept_name)[0]     #this should always work because depts are fixed
+                department.members.add(member)
+                member.department = department
+                for update in allowed_updates:
+                    if update in request.data:
+                        setattr(member, update, request.data[update])
+
+                member.save()
+                return Response({'msg': 'User Created'}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"error_member": member_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)   
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)        
+            return Response({"error_user": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)        
 
 
 
@@ -241,7 +312,7 @@ class MemberProfileView(APIView):
             user = request.user
             member = Member.objects.get(user=user)
 
-            allowed_updates = ['bits_id', 'bits_email', 'department', 'github', 'linked_in', 'summary']
+            allowed_updates = ['bits_id', 'bits_email', 'github', 'linked_in', 'summary']
 
             for update in allowed_updates:
                 if update in request.data:
@@ -267,16 +338,59 @@ class CandidateRegistrationView(APIView):
 
 
 
-    def post(self, request, format=None):
-        request.data['is_candidate']=True
-        serializer = CustomUserSerializer(data=request.data)
-        if serializer.is_valid():
-            queryset = CustomUser.objects.filter(email=request.data['email'])
-            if queryset.exists():
-                return Response({'msg': 'Candidate already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
-            serializer.save()
-            user=CustomUser.objects.filter(email=request.data['email'])[0]
-            Candidate.objects.create(user=user)
-            return Response({'msg': 'Candidate Registered'}, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def post(self, request):
+        request.data['is_candidate'] = True
+        user_serializer = CustomUserSerializer(data=request.data)
+        candidate_serializer=CandidateSerializer(data=request.data)
+        if user_serializer.is_valid():
+            if candidate_serializer.is_valid():
+                queryset = CustomUser.objects.filter(email=request.data['email'])
 
+                if queryset.exists():
+                    return Response({'msg': 'User already exists'}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
+                user_serializer.validated_data['password'] = make_password(user_serializer.validated_data['password'])
+                user_serializer.save()
+                user = CustomUser.objects.filter(email=request.data['email'])[0]
+
+                Candidate.objects.create(user=user,pr1=request.data["pr1"],pr2=request.data["pr2"],pr3=request.data["pr3"],pr4=request.data["pr4"],
+                pr5=request.data["pr5"],bits_id=request.data['bits_id'],bits_email=request.data[ 'bits_email'],github=request.data['github'],gender=request.data['gender'])
+
+                return Response({'msg': 'Candidate Registered'}, status=status.HTTP_201_CREATED)
+            else:
+                return Response({"error_candidate": candidate_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)   
+        else:
+            return Response({"error_user": user_serializer.errors}, status=status.HTTP_400_BAD_REQUEST)        
+
+
+class CandidateProfileView(APIView):
+    '''
+        Get and Update candidate profile information.
+    '''
+    def get(self, request):
+        try:
+            user = request.user
+            member = Candidate.objects.get(user=user)
+            serializer = CandidateSerializer(member)
+
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+                return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
+
+    
+    def put(self, request):
+        try:
+            user = request.user
+            candidate = Candidate.objects.get(user=user)
+
+            allowed_updates = ['bits_id', 'bits_email', 'github', 'pr1', 'pr2', 'pr3', 'pr4','pr5']
+
+            for update in allowed_updates:
+                if update in request.data:
+                    setattr(candidate, update, request.data[update])
+            candidate.save()
+
+            return Response({"msg": "Profile updated."}, status=status.HTTP_200_OK)
+                
+        except Candidate.DoesNotExist:
+                return Response(status=status.HTTP_404_NOT_FOUND)

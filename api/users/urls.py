@@ -1,4 +1,4 @@
-from .views import VisitorRegistrationView,VisitorUpdateView, MemberRegistrationView, MemberProfileView, LoginView, LogoutView, VisitorRegistrationView,VisitorUpdateView,PasswordTokenCheck,SetNewPasswordView,RequestPasswordResetEmail,CandidateRegistrationView
+from .views import VisitorRegistrationView,VisitorUpdateView, MemberRegistrationView, MemberProfileView, LoginView, LogoutView, VisitorRegistrationView,VisitorUpdateView,PasswordTokenCheck,SetNewPasswordView,RequestPasswordResetEmail,CandidateRegistrationView,CandidateProfileView
 from django.urls import path
 
 
@@ -8,6 +8,7 @@ urlpatterns = [
     path('MemberRegistration/', MemberRegistrationView.as_view()),
     path('MemberProfile/', MemberProfileView.as_view()),
     path('CandidateRegistration', CandidateRegistrationView.as_view()),
+    path('CandidateProfile/', CandidateProfileView.as_view()),
     path('LoginView',LoginView.as_view()),
     path('LogoutView',LogoutView.as_view()),
     path('RequestPasswordReset', RequestPasswordResetEmail.as_view()),

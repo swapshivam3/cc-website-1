@@ -10,7 +10,7 @@ const CubeCarousel = () => {
   };
 
   return (
-    <div className="bg-gray-900 w-screen h-screen ">
+    <div className="cube-carousel-position w-screen h-screen ">
       <div className=" scene m-auto pt-40 scene w-20 h-20">
         <div className="cube relative">
           <div className="face a absolute  text-center  bg-red-500 text-white front">
