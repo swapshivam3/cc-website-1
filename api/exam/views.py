@@ -12,12 +12,13 @@ from django.http import JsonResponse
 import random,os.path
 from .questions import question_list
 from api.settings import MEDIA_ROOT
-import boto3
+import boto3,time
 
 
 # Create your views here.
 class QuestionGetView(APIView):
     def get(self,request):
+        time.sleep(0.01)
         # fix the file fields here as well if wanted
         #will fail if db is empty, create an object first using admin or the CreateQuestions view
         raw_questions=Question.objects.all()
