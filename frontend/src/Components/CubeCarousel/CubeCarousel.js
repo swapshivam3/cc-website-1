@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
 import "./CubeCarousel.css";
@@ -20,7 +20,7 @@ const CubeCarousel = () => {
 
   const expandImage = () => {
     console.log("Clicked");
-    //setClicked(!clicked);
+    setClicked(!clicked);
     //   setDimension({
     //     height: height + 500,
     //     width: width + 500,
@@ -39,24 +39,20 @@ const CubeCarousel = () => {
       <div className=" scene m-auto pt-40 scene w-20 h-20">
         <div className="cube cube-animation relative">
           <div className="face a absolute  text-center  bg-red-500 text-white front">
-            <Zoom zoomMargin={40} overlayBgColorEnd={"rgba(0,0,0,0.1)"}>
-              <img
-                onClick={expandImage}
-                src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-                alt="wall"
-                style={{ height: "16rem", width: "32rem" }}
-              />
-            </Zoom>
+            <img
+              onClick={expandImage}
+              src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
+              alt="wall"
+              style={{ height: "16rem", width: "32rem" }}
+            />
           </div>
           <div className="face b absolute text-center  bg-purple-500 text-white back">
-            <Zoom zoomMargin={40} overlayBgColorEnd={"rgba(0,0,0,0.1)"}>
-              <img
-                onClick={expandImage}
-                src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-                alt="wall"
-                style={{ height: "16rem", width: "32rem" }}
-              />
-            </Zoom>
+            <img
+              onClick={expandImage}
+              src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
+              alt="wall"
+              style={{ height: "16rem", width: "32rem" }}
+            />
           </div>
           <div
             className="face c absolute text-center  bg-pink-500 text-white right"
@@ -79,24 +75,20 @@ const CubeCarousel = () => {
             />
           </div>
           <div className="face e absolute text-center bg-blue-500 text-white top">
-            <Zoom zoomMargin={40} overlayBgColorEnd={"rgba(0,0,0,0.1)"}>
-              <img
-                onClick={expandImage}
-                src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-                alt="wall"
-                style={{ height: "16rem", width: "32rem" }}
-              />
-            </Zoom>
+            <img
+              onClick={expandImage}
+              src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
+              alt="wall"
+              style={{ height: "16rem", width: "32rem" }}
+            />
           </div>
           <div className="face f absolute text-center  bg-yellow-500 text-white bottom">
-            <Zoom zoomMargin={40} overlayBgColorEnd={"rgba(0,0,0,0.1)"}>
-              <img
-                onClick={expandImage}
-                src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-                alt="wall"
-                style={{ height: "16rem", width: "32rem" }}
-              />
-            </Zoom>
+            <img
+              onClick={expandImage}
+              src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
+              alt="wall"
+              style={{ height: "16rem", width: "32rem" }}
+            />
           </div>
         </div>
       </div>
