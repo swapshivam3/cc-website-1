@@ -19,15 +19,20 @@ class CalculateScores(APIView):
                 score=0
                 answer_json=candidate.answer_json
                 for ans_data in answer_json:
-                    q=Question.objects.filter(qid=ans_data['qid'])
-                    if q.is_blank:
+                    q=Question.objects.filter(id=ans_data['qid'])
+                    try:
                         if q.blank_answer == ans_data['answertext']:
                             score+=1
-                    else:
+                    except:
+                        pass
+                    try:
                         if q.answer==ans_data['answer']:
                             score+=1
+                    except:
+                        pass
                 candidate.score=score
                 candidate.save()
+                return Response({"msg":"success"},status=status.HTTP_200_OK)
 
 class GetScoreSheet(APIView):
     #NOT Tested
@@ -36,8 +41,9 @@ class GetScoreSheet(APIView):
         response['Content-Disposition'] = 'attachment; filename="scores.csv"'
         writer = csv.writer(response)
         writer.writerow(['Username', 'pr1', 'pr2', 'pr3','pr4','pr5','score'])
-        candidates = Candidate.objects.all().values_list(
-            'user.email', 'pr1', 'pr2', 'pr3','pr4','pr5','score')
+        candidates = Candidate.objects.all().values_list(     
+            'user', 'pr1', 'pr2', 'pr3','pr4','pr5','score')
+        #fix this to get email/name/number of candidate user, user.email does not work
         for candidate in candidates:
             writer.writerow(candidate)
         return response
