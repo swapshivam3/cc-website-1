@@ -1,0 +1,163 @@
+* {
+    box-sizing: border-box;
+  }
+
+  
+  #root {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  
+  .project-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+    width: 100%;
+    /* background-color: #1e282f; */
+    background-color: transparent;
+  }
+  
+  .project-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    /* background: linear-gradient(200deg,rgb(33,9,9),rgb(11,10,11)); */
+  }
+  
+  .project-hero-body {
+    display: flex;
+    flex-grow: 1;
+    flex-shrink: 0;
+    padding: 3rem 1.5rem;
+    text-align: center;
+  }
+
+  .project-card-title > a:hover {
+    color: rgb(187, 183, 183);
+  }
+
+
+  
+  @media screen and (min-width: 980px) {
+    .project-hero-body {
+      padding: 8rem 1.5rem;
+    }
+  }
+  
+  .container {
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .column {
+    display: flex;
+    flex: 1 1 auto;
+    padding: 10px;
+    width: 50%;
+    height: 100%;
+  }
+
+  @media screen and (max-width: 700px) {
+    .column {
+      width: 100%;
+    }
+  }
+  
+  @media screen and (min-width: 980px) {
+    .column {
+      width: 33.33333333333333%;
+      padding: 10px 15px 30px 15px !important;
+    }
+  }
+  
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding:40px;
+    background-color: #212529;
+    /* background-image: linear-gradient(315deg, #000000 1%, #b82e1f 90%); */
+    box-shadow: 5px 10px 20px 1px rgba(255, 255, 255, 0.273);
+    transition: box-shadow 0.5s;
+    will-change: transform;
+    height: 41em;
+    border-radius: 10px;
+  }
+  
+  .project-card-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: #f8f9fa;
+  }
+  
+  .project-card-body {
+    margin-top: 27px;
+    margin-bottom: 27px;
+    line-height: 1.5;
+    color: #6c757d;
+    /* font-size: 16px; */
+  font-size: 1rem;
+  }
+  
+  .project-card-skill {
+    line-height: 1.5;
+    color: black;
+    font-size: 1.1rem;
+    word-spacing: 10px;
+  }
+
+  @media screen and (min-width: 576px) {
+    .project-card-body {
+      font-size: 18px;
+    }
+  }
+  
+  .image-container {
+    margin-top: auto;
+    padding-top: 27px;
+    padding-bottom: 18px;
+    width: 100%;
+  }
+  
+  @media screen and (min-width: 576px) {
+    .image-container {
+      padding-bottom: 30px;
+    }
+  }
+  
+  .image-container img {
+    width: 100%;
+  }
+  
+  .image-inner-container {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 270px;
+  }
+  
+  .ratio {
+    position: relative;
+    width: 100%;
+    height: 0;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+  
+  .ratio-inner {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding-bottom: 40px;
+  }
+  
