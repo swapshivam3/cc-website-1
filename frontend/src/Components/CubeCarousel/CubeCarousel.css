@@ -31,6 +31,19 @@
   width: 100vw;
 }
 
+.zoom {
+  animation-name: zoom;
+  animation-duration: 10s;
+}
+@keyframes zoom {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
 @keyframes rotate {
   14% {
     transform: rotateY(0deg);

@@ -1,38 +1,22 @@
 import React, { useState, useCallback, useEffect } from "react";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
+import { useSpring, animated } from "react-spring";
 import "./CubeCarousel.css";
 
 const CubeCarousel = () => {
   const [clicked, setClicked] = useState(false);
-  // const [dimension, setDimension] = useState({
-  //   height: "16rem",
-  //   width: "32rem",
-  // });
-  // let height, width;
-
-  // useEffect(() => {
-  //   console.log("yo");
-  //   height = document.querySelector(".a").clientHeight;
-  //   width = document.querySelector(".a").clientWidth;
-  //   console.log(height, width);
-  // });
+  const [props, setprops] = useState("");
+  const props = useSpring({
+    to: { opacity: 1 },
+    from: { opacity: 0 },
+    delay: 200,
+  });
 
   const expandImage = () => {
     console.log("Clicked");
     setClicked(!clicked);
-    //   setDimension({
-    //     height: height + 500,
-    //     width: width + 500,
-    //   });
-    //document.querySelector(".cube").classList.toggle("cube-animation");
-    //   console.log(dimension.height, dimension.width);
   };
-
-  // const imgStyle = {
-  //   height: dimension.height,
-  //   width: dimension.width,
-  // };
 
   return (
     <div className="cube-carousel-position w-screen h-screen ">
@@ -93,33 +77,16 @@ const CubeCarousel = () => {
         </div>
       </div>
       {clicked ? (
-        <div>
+        <animated.div style={props}>
           <img
             onClick={() => {
               setClicked(false);
             }}
-            className="relative m-auto  z-10 -mt-20 modal"
+            className="relative m-auto z-10 -mt-20 modal"
             src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
             alt="wall"
           />
-          {/*<button
-            onClick={() => {
-              setClicked(false);
-            }}
-            className="absolute top-20 right-20 text-white z-20"
-          >
-            <svg
-              height="50px"
-              id="Layer_1"
-              version="1.1"
-              viewBox="0 0 512 512"
-              width="50px"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path d="M443.6,387.1L312.4,255.4l131.5-130c5.4-5.4,5.4-14.2,0-19.6l-37.4-37.6c-2.6-2.6-6.1-4-9.8-4c-3.7,0-7.2,1.5-9.8,4  L256,197.8L124.9,68.3c-2.6-2.6-6.1-4-9.8-4c-3.7,0-7.2,1.5-9.8,4L68,105.9c-5.4,5.4-5.4,14.2,0,19.6l131.5,130L68.4,387.1  c-2.6,2.6-4.1,6.1-4.1,9.8c0,3.7,1.4,7.2,4.1,9.8l37.4,37.6c2.7,2.7,6.2,4.1,9.8,4.1c3.5,0,7.1-1.3,9.8-4.1L256,313.1l130.7,131.1  c2.7,2.7,6.2,4.1,9.8,4.1c3.5,0,7.1-1.3,9.8-4.1l37.4-37.6c2.6-2.6,4.1-6.1,4.1-9.8C447.7,393.2,446.2,389.7,443.6,387.1z" />
-            </svg>
-          </button>*/}
-        </div>
+        </animated.div>
       ) : null}
     </div>
   );
