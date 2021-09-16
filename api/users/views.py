@@ -19,6 +19,7 @@ from .utils import Util
 from django.contrib.auth import login,authenticate,logout
 from django.http import HttpResponsePermanentRedirect
 import os
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 
 
 
@@ -97,9 +98,11 @@ class VisitorUpdateView(APIView):
         try:
             user = request.user
             visitor = Visitor.objects.get(user=user)
-            serializer = VisitorSerializer(visitor)
+            # serializer = VisitorSerializer(visitor)
 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            # return Response(serializer.data, status=status.HTTP_200_OK)
+            visitor_profile = {"name": user.name, "email": user.email, "phone": visitor.phone, "interests": visitor.interests, "city": visitor.city}
+            return Response(visitor_profile, status=status.HTTP_200_OK)
         except:
             return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
 
@@ -296,13 +299,19 @@ class MemberProfileView(APIView):
     '''
         Get and Update member profile information.
     '''
+
+    parser_classes = [JSONParser, MultiPartParser, FormParser]
     def get(self, request):
         try:
             user = request.user
             member = Member.objects.get(user=user)
-            serializer = MemberSerializer(member)
+            member_profile = {"name": user.name, "email": user.email, "bits_id": member.bits_id, "bits_email": member.bits_email, "department": str(member.department), "github": member.github, "codeforces_id": member.codeforces_id, "linked_in": member.linked_in, "skills": member.skills, "summary": member.summary}
 
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            try:
+                member_profile["pp"] = member.profile_pic.url
+            except:
+                pass    
+            return Response(member_profile, status=status.HTTP_200_OK)
         except:
                 return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
 
@@ -314,9 +323,12 @@ class MemberProfileView(APIView):
 
             allowed_updates = ['bits_id', 'bits_email', 'github', 'linked_in', 'summary']
 
+            for skill in request.data["skills"]:
+                member.skills.append(skill)
             for update in allowed_updates:
                 if update in request.data:
                     setattr(member, update, request.data[update])
+            member.profile_pic = request.FILES["pp"]
 
             member.save()
 
