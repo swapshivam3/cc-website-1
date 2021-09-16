@@ -15,11 +15,9 @@ function Main() {
   return (
     <Router>
       <div className="relative z-10 text-white">
-        
         <Navbar />
-        
         <Switch>
-          <Route exact path="/home" component={Home} />
+          <Route exact path="/" component={Home} />
           <Route path="/ourteam" component={OurTeam} />
           <Route path="/departments" component={Departments} />
           <Route path="/login" component={Login} />
