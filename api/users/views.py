@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from .models import CustomUser, Member, Visitor, Candidate
 from main.models import Feedback, Department
 from rest_framework import serializers, status,generics
-
+import time
 
 from .serializers import VisitorSerializer,CustomUserSerializer, MemberSerializer, CandidateSerializer
 from main.serializers import FeedbackSerializer
@@ -147,6 +147,7 @@ class LoginView(APIView):
     Login a user (any type)
     """
     def post(self, request, format=None):
+        time.sleep(0.01)
         data = request.data
         username = data['email']
         password = data['password']
