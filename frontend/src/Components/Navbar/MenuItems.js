@@ -25,6 +25,11 @@ export const MenuItems = [
         cName: 'nav-links'
     },
     {
+        title: "Recruitment Portal",
+        url: '/exam',
+        cName: 'nav-links'
+    },
+    {
         title: 'Our Projects',
         url: '/ourProjects',
         cName: 'nav-links'

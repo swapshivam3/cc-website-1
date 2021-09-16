@@ -1,3 +1,7 @@
+.react-reveal {
+  animation-duration: 1000ms !important;
+}
+
 .scene {
   perspective: 40rem;
   perspective-origin: center;
