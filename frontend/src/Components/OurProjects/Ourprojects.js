@@ -1,100 +1,122 @@
-import React from 'react'
-import { useState , Component , useEffect } from 'react';
+import React, { useState, useRef } from "react";
+import ReactDOM from "react-dom";
+import { useSpring, animated } from "react-spring";
 import './OurProjects.css';
-import Slider from "react-slick";
+import slides from './projects.json'
 
 
-const slides = [
-    {
-      class : "project-item-1",
-      title: "Machu Picchu",
-      subtitle: "Peru",
-      description: "Adventure is never far away",
-      image:
-        "https://images.unsplash.com/photo-1571771019784-3ff35f4f4277?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
-    },
-    {
-      class : "project-item-2",
-      title: "Chamonix",
-      subtitle: "France",
-      description: "Let your dreams come true",
-      image:
-        "https://images.unsplash.com/photo-1581836499506-4a660b39478a?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
-    },
-    {
-      class : "project-item-3",
-      title: "Mimisa Rocks",
-      subtitle: "Australia",
-      description: "A piece of heaven",
-      image:
-        "https://images.unsplash.com/photo-1566522650166-bd8b3e3a2b4b?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
-    },
-    {
-      class : "project-item-4",
-      title: "Four",
-      subtitle: "Australia",
-      description: "A piece of heaven",
-      image:
-        "https://images.unsplash.com/flagged/photo-1564918031455-72f4e35ba7a6?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
-    },
-    {
-      class : "project-item-5",
-      title: "Five",
-      subtitle: "Australia",
-      description: "A piece of heaven",
-      image:
-        "https://images.unsplash.com/photo-1579130781921-76e18892b57b?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
-    }
-  ];
-
-  const settings = {
-    className: "center",
-      centerMode: true,
-      dots: true,
-      // fade: true ,
-      autoplay: true,
-      autoplaySpeed: 2000,
-      infinite: true,
-      centerPadding: "60px",
-      slidesToShow: 1,
-      speed: 500 ,
-      slidesToScroll: 1 ,
-      arrows: false
-  };
-
-
-
-
-function Ourprojects() {
+function OurProjects() {
 
 
     return (
-        <div className="Mainbox">
-            <Slider {...settings}>
-          {slides.map(slide => (
-            
-              <div className={slide.class} className="project-items">  
-                   
-                    <img src={slide.image} className="project-img" alt={slide.title}/>  
-                   
-                    <div className="project-content">
-                      <div >
-                      <a href="#" className="hover-4">{slide.title}</a>
-                        <br/>
-                        <p className="project-desc">{slide.description} </p>
-                        
-                      </div>
-                        
-                    </div>
-                </div>
-            
+      <div className="project-main">
+      <Hero>
+        <div className="container">
+          <div className="row">
+            {slides.map((card, i) => (
+              <div className="column" key={card.id}>
+                <Card>
+                  <div className="project-card-title"><a href={card.target}> {card.title} </a></div>
+                  <div className="project-card-body">{card.description}</div>
+                  <div className="project-card-skill">{card.skills}</div>
+                  <Image ratio={900/900} src={card.image} />
+                </Card>
+              </div>
             ))}
-          </Slider> 
+          </div>
+        </div>
+      </Hero>
+    </div>
+         
 
           
-            
-        </div>
-    )
+ 
+    );
 }
 
-export default Ourprojects
+function Card({ children }) {
+  const ref = useRef();
+  const [isHovered, setHovered] = useState(false);
+
+  const [animatedProps, setAnimatedProps] = useSpring(() => {
+    return {
+      xys: [0, 0, 1],
+      config: { mass: 10, tension: 400, friction: 40, precision: 0.00001 }
+    };
+  });
+
+  return (
+    <animated.div
+      ref={ref}
+      className="project-card"
+      onMouseEnter={() => setHovered(true)}
+      onMouseMove={({ clientX, clientY }) => {
+        const x =
+          clientX -
+          (ref.current.offsetLeft -
+            (window.scrollX || window.pageXOffset || document.body.scrollLeft));
+        const y =
+          clientY -
+          (ref.current.offsetTop -
+            (window.scrollY || window.pageYOffset || document.body.scrollTop));
+
+        // Set animated values based on mouse position and card dimensions
+        const dampen = 50; // Lower the number the less rotation
+        const xys = [
+          -(y - ref.current.clientHeight / 2) / dampen, // rotateX
+          (x - ref.current.clientWidth / 2) / dampen, // rotateY
+          1.07 // Scale
+        ];
+
+        // Update values to animate to
+        setAnimatedProps({ xys: xys });
+      }}
+      onMouseLeave={() => {
+        setHovered(false);
+        // Set xys back to original
+        setAnimatedProps({ xys: [0, 0, 1] });
+      }}
+      style={{
+        // If hovered we want it to overlap other cards when it scales up
+        zIndex: isHovered ? 2 : 1,
+        // Interpolate function to handle css changes
+        transform: animatedProps.xys.to(
+          (x, y, s) =>
+            `perspective(600px) rotateX(${x}deg) rotateY(${y}deg) scale(${s})`
+        )
+      }}
+    >
+      {children}
+    </animated.div>
+  );
+}
+
+function Hero({ children }) {
+  return (
+    <div className="project-hero">
+      <div className="project-hero-body">{children}</div>
+    </div>
+  );
+}
+
+function Image({ ratio, src }) {
+  return (
+    <div className="image-container">
+      <div className="image-inner-container">
+        <div
+          className="ratio"
+          style={{
+            paddingTop: ratio * 100 + "%"
+          }}
+        >
+          <div className="ratio-inner">
+            <img src={src} alt="" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+export default OurProjects
