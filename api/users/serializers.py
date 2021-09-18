@@ -21,6 +21,7 @@ class VisitorSerializer(serializers.ModelSerializer):
 
 class CandidateSerializer(serializers.ModelSerializer): 
     user=CustomUserSerializer(required=False)
+    exam_given = serializers.BooleanField(required=False)
     class Meta:
         model = Candidate
         fields = '__all__'
@@ -43,12 +44,11 @@ class CandidateSerializer(serializers.ModelSerializer):
         return attrs
 
 class MemberSerializer(serializers.ModelSerializer):
-    user = CustomUserSerializer(required=False)
+    bits_email = serializers.EmailField(required=True)
+    bits_id = serializers.CharField(required=True)
     class Meta:
         model = Member
-        # extra_kwargs = {'password': {'write_only': True}}
-        # exclude = ('user', )   
-        fields='__all__'
+        exclude = ('user', )   
 
     def validate(self, attrs):
         yr = date.today().year

@@ -73,6 +73,8 @@ class Member(models.Model):
     github = models.CharField(max_length=20, blank=False, null=False, default="my_github")
     codeforces_id=models.CharField(max_length=30,blank=True)
     linked_in = models.CharField(max_length=20,blank=True)
+    profile_pic = models.FileField(upload_to='profile_pics', blank=True, null=True)
+    skills = []
     summary = models.TextField(blank=True)
 
     def __str__(self):
