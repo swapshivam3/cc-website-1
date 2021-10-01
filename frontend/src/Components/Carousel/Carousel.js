@@ -18,7 +18,7 @@ const Carousel = () => {
   };
 
   return (
-    <div className=" carousel-position w-screen h-screen flex justify-between items-center relative z-10">
+    <div className="carousel-position w-screen h-screen flex justify-between items-center relative z-10">
       <div>
         <button
           onClick={prevCarousel}
