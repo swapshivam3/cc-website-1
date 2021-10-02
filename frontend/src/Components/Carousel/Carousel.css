@@ -1,16 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Birthstone&display=swap");
+.achievement {
+  font-family: "Birthstone", cursive;
+}
+
 .container1 {
   margin: 0 auto;
   width: 20rem;
   height: 15rem;
-  perspective: 60rem;
+  -webkit-perspective: 60rem;
+          perspective: 60rem;
 }
+
 .carousel-position {
   position: relative;
-  top: 100vh;
+  top: 00vh;
 }
 
 .carousel {
-  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+  -webkit-transition: 1s;
   transition: 1s;
 }
 
@@ -24,6 +33,7 @@
   border-radius: 5%;
   line-height: 13rem;
   opacity: 50%;
+  -webkit-transition: 1s;
   transition: 1s;
 }
 
@@ -33,29 +43,37 @@
 }
 
 .rotateY {
-  transform: rotateY(60deg);
+  -webkit-transform: rotateY(60deg);
+          transform: rotateY(60deg);
 }
 
 .a1 {
-  transform: rotateY(0deg) translateZ(20rem);
+  -webkit-transform: rotateY(0deg) translateZ(20rem);
+          transform: rotateY(0deg) translateZ(20rem);
 }
 
 .b1 {
-  transform: rotateY(60deg) translateZ(20rem);
+  -webkit-transform: rotateY(60deg) translateZ(20rem);
+          transform: rotateY(60deg) translateZ(20rem);
 }
 
 .c1 {
-  transform: rotateY(120deg) translateZ(20rem);
+  -webkit-transform: rotateY(120deg) translateZ(20rem);
+          transform: rotateY(120deg) translateZ(20rem);
 }
 
 .d1 {
-  transform: rotateY(180deg) translateZ(20rem);
+  -webkit-transform: rotateY(180deg) translateZ(20rem);
+          transform: rotateY(180deg) translateZ(20rem);
 }
 
 .e1 {
-  transform: rotateY(240deg) translateZ(20rem);
+  -webkit-transform: rotateY(240deg) translateZ(20rem);
+          transform: rotateY(240deg) translateZ(20rem);
 }
 
 .f1 {
-  transform: rotateY(300deg) translateZ(20rem);
+  -webkit-transform: rotateY(300deg) translateZ(20rem);
+          transform: rotateY(300deg) translateZ(20rem);
 }
+/*# sourceMappingURL=Carousel.css.map */

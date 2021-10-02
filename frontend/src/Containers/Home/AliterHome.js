@@ -26,9 +26,7 @@ const AliterHome = () => {
 
   return (
     <div id="home" className="relative h-screen w-screen z-10">
-      <Landing />
       <Carousel />
-      <CubeCarousel />
     </div>
   );
 };
