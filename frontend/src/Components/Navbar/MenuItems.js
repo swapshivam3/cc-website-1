@@ -26,7 +26,7 @@ export const MenuItems = [
   },
   {
     title: "Recruitment Portal",
-    url: "/exam",
+    url: "/profile",
     cName: "nav-links",
   },
   {

@@ -1,15 +1,14 @@
 import Home from "./Home/AliterHome";
 import OurTeam from "./OurTeam/OurTeam";
-import React from 'react'
-import Login from "../Components/Login/Login"
-import Departments from "./Departments/Departments"
-import Navbar from '../Components/Navbar/Navbar'
-import BlogCards from '../Components/Blogcards/blogcard'
-import OurProjects from '../Components/OurProjects/Ourprojects'
-import Exam from '../Components/Exam/Exam'
+import React from "react";
+import Login from "../Components/Login/Login";
+import Departments from "./Departments/Departments";
+import Navbar from "../Components/Navbar/Navbar";
+import BlogCards from "../Components/Blogcards/blogcard";
+import OurProjects from "../Components/OurProjects/Ourprojects";
+import Profile from "../Components/Profile/Profile";
 
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 function Main() {
   return (
@@ -23,7 +22,7 @@ function Main() {
           <Route path="/login" component={Login} />
           <Route path="/blog" component={BlogCards} />
           <Route path="/ourProjects" component={OurProjects} />
-          <Route path="/exam" component={Exam} />
+          <Route path="/profile" component={Profile} />
         </Switch>
       </div>
     </Router>
