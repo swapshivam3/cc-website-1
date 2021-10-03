@@ -89,17 +89,16 @@ class Candidate (models.Model) :
     field_validate function checks if any choice is repeated in the priority of candidate
     '''
     departments=  (
-        ('competitive', 'Competitive Programing'),
-        ('frontend', 'Frontend Web Development'),
-        ('backend', 'Backend Web Development'),
-		('appD', 'App Development '),
-		('graphics', 'Graphics and Video Development'),
-        ('gameD', 'Game Development')
+        ('cp', 'Competitive Programing'),
+        ('fe', 'Frontend Web Development'),
+        ('be', 'Backend Web Development'),
+				('ap', 'App Development '),
+				( 'ui', 'UI/UX ')
     )
     gender_choices = (
-        ('M','Male'),
-        ('F','Female'),
-        ('O','Others')
+	('M','Male'),
+	('F','Female'),
+	('O','Others')
     )
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, primary_key=True,related_name="candidate")
     
