@@ -7,6 +7,7 @@ import Navbar from "../Components/Navbar/Navbar";
 import BlogCards from "../Components/Blogcards/blogcard";
 import OurProjects from "../Components/OurProjects/Ourprojects";
 import Profile from "../Components/Profile/Profile";
+import ContactUs from '../Components/ContactUs/ContactUs'
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -20,6 +21,7 @@ function Main() {
           <Route path="/ourteam" component={OurTeam} />
           <Route path="/departments" component={Departments} />
           <Route path="/login" component={Login} />
+          <Route path="/contact" component={ContactUs} />
           <Route path="/blog" component={BlogCards} />
           <Route path="/ourProjects" component={OurProjects} />
           <Route path="/profile" component={Profile} />
