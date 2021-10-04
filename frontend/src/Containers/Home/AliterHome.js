@@ -1,34 +1,47 @@
-import React, { useState, useEffect } from "react";
 import "./AliterHome.css";
 import Carousel from "../../Components/Carousel/Carousel";
 import CubeCarousel from "../../Components/CubeCarousel/CubeCarousel";
 import Landing from "../../Components/Landing/Landing";
 
-const AliterHome = () => {
-  // const [componentIndex, setComponentIndex] = useState(0);
-  // const components = [<Landing />, <Carousel />, <CubeCarousel />];
-  document.addEventListener("keydown", (e) => {
-    e.preventDefault();
-    switch (e.keyCode) {
-      case 38:
-        document.querySelector("#home").classList.add("top-1");
-        break;
-      case 40:
-        document.querySelector("#home").classList.add("top-2");
-        break;
-    }
-  });
+import React from 'react'
+import ScrollSnap from 'scroll-snap'
 
-  // //console.log(components);
-  // const keyHandler = (e) => {
-  //   console.log("PRESSED");
-  // };
 
-  return (
-    <div id="home" className="relative h-screen w-screen z-10">
-      <Carousel />
-    </div>
-  );
-};
+function callback() {
+  console.log('snapped')
+}
+
+class AliterHome extends React.Component {
+  container = React.createRef()
+
+  bindScrollSnap() {
+    const element = this.container.current
+    const snapElement = new ScrollSnap(element, {
+      snapDestinationY: '90%', duration: 120, timeout:75
+    })
+
+    snapElement.bind(callback)
+  }
+
+  componentDidMount() {
+    this.bindScrollSnap()
+  }
+
+  render() {
+    return (
+      <div id="container" ref={this.container}>
+        <div className="page first-page">
+          <Landing />
+        </div>
+        <div className="page second-page">
+          <Carousel />
+        </div>
+        <div className="page third-page">
+          <CubeCarousel />
+        </div>
+      </div>
+    )
+  }
+}
 
 export default AliterHome;

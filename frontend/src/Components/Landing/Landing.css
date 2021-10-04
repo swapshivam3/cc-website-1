@@ -1,11 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300&display=swap");
 
-.video {
+/* .video {
   height: 100vh;
   width: 100%;
   object-fit: cover;
   opacity: 1;
-}
+} */
 
 .typing {
   font-family: "Courier New", Courier, monospace;

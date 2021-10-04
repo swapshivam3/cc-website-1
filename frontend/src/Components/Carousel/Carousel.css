@@ -11,11 +11,6 @@
           perspective: 60rem;
 }
 
-.carousel-position {
-  position: relative;
-  top: 00vh;
-}
-
 .carousel {
   -webkit-transform-style: preserve-3d;
           transform-style: preserve-3d;

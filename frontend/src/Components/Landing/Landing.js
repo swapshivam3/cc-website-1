@@ -18,7 +18,7 @@ const Landing = () => {
 
   return (
     <div>
-      <div className="relative z-10">
+      <div className="z-10">
         <div className="w-screen flex justify-center">
           <h1 className="typing absolute top-60  text-white text-7xl">
             <div style={styles} className="type-text">
