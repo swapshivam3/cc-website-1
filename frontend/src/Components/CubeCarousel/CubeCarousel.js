@@ -76,14 +76,16 @@ const CubeCarousel = () => {
       ) : null}
       {clicked ? (
         <div>
-          <img
-            onClick={() => {
-              setClicked(false);
-            }}
-            className="relative m-auto z-10 -mt-20 modal"
-            src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
-            alt="wall"
-          />
+          <Zoom>
+            <img
+              onClick={() => {
+                setClicked(false);
+              }}
+              className="relative m-auto -ml-8 z-10 -mt-20 modal"
+              src="https://images.unsplash.com/photo-1508193638397-1c4234db14d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MzJ8fHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60"
+              alt="wall"
+            />
+          </Zoom>
         </div>
       ) : null}
     </div>
