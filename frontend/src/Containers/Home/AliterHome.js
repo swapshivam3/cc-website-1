@@ -3,28 +3,29 @@ import Carousel from "../../Components/Carousel/Carousel";
 import CubeCarousel from "../../Components/CubeCarousel/CubeCarousel";
 import Landing from "../../Components/Landing/Landing";
 
-import React from 'react'
-import ScrollSnap from 'scroll-snap'
-
+import React from "react";
+import ScrollSnap from "scroll-snap";
 
 function callback() {
-  console.log('snapped')
+  console.log("snapped");
 }
 
 class AliterHome extends React.Component {
-  container = React.createRef()
+  container = React.createRef();
 
   bindScrollSnap() {
-    const element = this.container.current
+    const element = this.container.current;
     const snapElement = new ScrollSnap(element, {
-      snapDestinationY: '90%', duration: 120, timeout:75
-    })
+      snapDestinationY: "90%",
+      duration: 120,
+      timeout: 75,
+    });
 
-    snapElement.bind(callback)
+    snapElement.bind(callback);
   }
 
   componentDidMount() {
-    this.bindScrollSnap()
+    this.bindScrollSnap();
   }
 
   render() {
@@ -40,7 +41,7 @@ class AliterHome extends React.Component {
           <CubeCarousel />
         </div>
       </div>
-    )
+    );
   }
 }
 
