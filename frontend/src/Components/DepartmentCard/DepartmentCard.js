@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import DepartmentDetails from "../DepartmentDetails/DepartmentDetails";
+import PopUp from "./PopUp/PopUp";
 import "./DepartmentCard.css";
 
 
@@ -76,25 +77,30 @@ const CardBody = styled.div`
   //background: #000;
 `;
 
-export default function App() {
+export default function App(props) {
   const options = {
     max: 30,
     scale: 1.5,
     speed: 1000,
   };
+
+
+  const [isOpen, setIsOpen] = React.useState(false); 
+
   return (
     <div className="text-center">
       <Container>
-        <Title className="tilt" options={options}>
-          <Card className="w-72">
+        <Title className="tilt" options={options} >
+          <Card className="w-72" onClick = { () => setIsOpen(!isOpen)}>
             <CardImage src="https://img.freepik.com/free-vector/app-development-banner_33099-1720.jpg?size=626&ext=jpg" alt="unicorn" />
-            <CardTitle className="mt-3 text-white font-bold text-xl">Department</CardTitle>
+            <CardTitle className="mt-3 text-white font-bold text-xl">Department {props.alignment}</CardTitle>
             <CardBody className="text-sm mt-3 text-white">
               <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five</p>
             </CardBody>
           </Card>
         </Title>
       </Container>
+      { isOpen ? <PopUp alignment={props.alignment} /> : null }
     </div>
   );
 }

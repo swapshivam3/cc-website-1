@@ -11,12 +11,12 @@ const Departments = () => {
   return (
     <div>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 h-full">
-        <DepartmentCard />
-        <DepartmentCard />
-        <DepartmentCard />
-        <DepartmentCard />
-        <DepartmentCard />
-        <DepartmentCard />
+        <DepartmentCard alignment={1}/>
+        <DepartmentCard alignment={2}/>
+        <DepartmentCard alignment={3}/>
+        <DepartmentCard alignment={1}/>
+        <DepartmentCard alignment={2}/>
+        <DepartmentCard alignment={3}/>
       </div>
     </div>
   );
