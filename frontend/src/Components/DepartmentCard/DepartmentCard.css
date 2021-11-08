@@ -15,3 +15,73 @@
   /* transform: perspective(1000px); */
 }
 
+.Pop-up-1{
+  clip-path: polygon(15% 5%, 20% 10%, 100% 10%, 100% 100%, 0 100%, 0 10%, 10% 10%);
+  padding-top: 8vw;
+  margin-left: 10vw;
+  
+}
+
+.Pop-up-2{
+  clip-path: polygon(50% 5%, 55% 10%, 100% 10%, 100% 100%, 0 100%, 0 10%, 45% 10%);
+  padding-top: 8vw;
+  margin-left: -20vw;
+}
+
+.Pop-up-3{
+  clip-path: polygon(85% 5%, 90% 10%, 100% 10%, 100% 100%, 0 100%, 0 10%, 80% 10%);
+  padding-top: 8vw;
+  margin-left: -50vw;
+}
+
+.Pop-up-box{
+  background-color: aliceblue;
+  width: 80vw;
+  height: 40vw;
+  display: flex ;
+  flex-wrap: nowrap;
+  overflow:hidden;
+  justify-content:space-evenly;
+  transform: none !important;
+  color: rgb(46, 46, 48);
+}
+
+.Pop-up-imgbox{
+text-align:center;
+}
+
+.Pop-up-img{
+  height:15em;
+  width:30em;
+  padding: 0px 10px; 
+}
+
+.Pop-up-subbox{
+  width:100%;
+  text-align:center;
+}
+
+.Pop-up-description{
+  font-size: 2.3ch;
+padding:0px 10px
+}
+
+.Technologies{
+  line-height: 1.5;
+  font-size: 1.8ch;
+  word-spacing: 10px;
+  overflow:hidden;
+
+}
+
+.Pop-up-box h1{
+  font-size:4ch; 
+  font-weight:bold;
+  margin-bottom: 30px;
+}
+
+.Pop-up-box h4{
+  font-size:x-large; 
+  font-weight:bold;
+  margin-top: 10px;
+}

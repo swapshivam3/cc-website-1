@@ -1,0 +1,47 @@
+[
+    { "id" : 1 ,
+        "class" : "fd",
+        "src":"https://img.freepik.com/free-vector/app-development-banner_33099-1720.jpg?size=626&ext=jpg",
+        "technologies": "html css git git javascript react nodejs",
+        "title": "frontend",
+        "description":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"
+
+    },
+    { "id" : 2 ,
+        "class" : "bkd",
+        "technologies": "html css git git javascript react nodejs",
+        "src":"https://img.freepik.com/free-vector/app-development-banner_33099-1720.jpg?size=626&ext=jpg",
+        "title": "backend",
+        "description":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"
+    },
+    { "id" : 3 ,
+        "class" : "gd",
+        "technologies": "html css git git javascript react nodejs",
+        "src":"https://img.freepik.com/free-vector/app-development-banner_33099-1720.jpg?size=626&ext=jpg",
+        "title": "game dev",
+        "description":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"
+
+    },
+    { "id" : 4 ,
+        "class" : "ui",
+        "technologies": "html css git git javascript react nodejs",
+        "src":"https://img.freepik.com/free-vector/app-development-banner_33099-1720.jpg?size=626&ext=jpg",
+        "title": "ui/ux",
+        "description":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"
+    },
+    { "id" : 5,
+        "class" : "cp",
+        "technologies": "html css git git javascript react nodejs",
+        "src":"https://img.freepik.com/free-vector/app-development-banner_33099-1720.jpg?size=626&ext=jpg",
+        "title": "cp",
+        "description":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"
+
+    },
+    { "id" : 6 ,
+        "class" : "ext",
+        "technologies": "html css git git javascript react nodejs",
+        "src":"https://img.freepik.com/free-vector/app-development-banner_33099-1720.jpg?size=626&ext=jpg",
+        "title": "backend",
+        "description":"Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"
+    }
+]
