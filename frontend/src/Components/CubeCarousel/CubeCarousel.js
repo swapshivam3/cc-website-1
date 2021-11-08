@@ -15,7 +15,7 @@ const CubeCarousel = () => {
       className="cube-carousel-position w-screen"
       style={{ marginBottom: "100px" }}
     >
-      <h1 className="achievement pl-8 text-7xl text-center">EVENTS</h1>
+      <h1 className="achievement pl-8 text-7xl text-center mb-10">EVENTS</h1>
       {!clicked ? (
         <div className=" scene m-auto pt-40 scene w-20 h-20">
           <div className="cube cube-animation relative">

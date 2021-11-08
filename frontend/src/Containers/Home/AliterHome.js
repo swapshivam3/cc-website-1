@@ -16,9 +16,9 @@ class AliterHome extends React.Component {
   bindScrollSnap() {
     const element = this.container.current;
     const snapElement = new ScrollSnap(element, {
-      snapDestinationY: "90%",
-      duration: 120,
-      timeout: 75,
+      snapDestinationY: "100%",
+      duration: 90,
+      timeout: 80,
     });
 
     snapElement.bind(callback);
@@ -31,13 +31,13 @@ class AliterHome extends React.Component {
   render() {
     return (
       <div id="container" ref={this.container}>
-        <div className="page first-page">
+        <div className="page first-page" style={{marginBottom:"5rem"}}>
           <Landing />
         </div>
-        <div className="page second-page">
+        <div className="page second-page" style={{marginBottom:"5rem"}}>
           <Carousel />
         </div>
-        <div className="page third-page">
+        <div className="page third-page" style={{marginBottom:"5rem"}}>
           <CubeCarousel />
         </div>
       </div>

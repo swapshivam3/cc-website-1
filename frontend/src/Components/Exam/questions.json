@@ -1,0 +1,38 @@
+[
+  {
+    "question": "Number of ways to go down a 7-step staircase if you down 1, 2 or 3 steps at a time, would be",
+    "answerOptions": [
+      { "answer": "12" },
+      { "answer": "28" },
+      { "answer": "34", "isCorrect": true },
+      { "answer": "44" }
+    ]
+  },
+  {
+    "question": "Who will be the captain of India?",
+    "answerOptions": [
+      { "answer": "Prithvi Shaw" },
+      { "answer": "Shubman Gill" },
+      { "answer": "KL Rahul", "isCorrect": true },
+      { "answer": "Jasprit Bumrah" }
+    ]
+  },
+  {
+    "question": "Number of ways to go down a 7-step staircase if you down 1, 2 or 3 steps at a time, would be",
+    "answerOptions": [
+      { "answer": "12" },
+      { "answer": "28" },
+      { "answer": "34", "isCorrect": true },
+      { "answer": "44" }
+    ]
+  },
+  {
+    "question": "Who will be the captain of India?",
+    "answerOptions": [
+      { "answer": "Prithvi Shaw" },
+      { "answer": "Shubman Gill" },
+      { "answer": "KL Rahul", "isCorrect": true },
+      { "answer": "Jasprit Bumrah" }
+    ]
+  }
+]
