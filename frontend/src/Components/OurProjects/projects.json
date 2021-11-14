@@ -1,6 +1,6 @@
 [
     { "id" : 1 ,
-      "title": "Machu Picchu",
+      "title": "Ma",
       "skills" : "HTML CSS Git React" ,
       "target" : "#",
       "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam deserunt fuga accusantium excepturi quia, voluptates obcaecati nam in voluptas perferendis velit harum dignissimos quasi ex? Tempore repellat quo doloribus magnam.",
@@ -8,7 +8,7 @@
         "https://images.unsplash.com/photo-1571771019784-3ff35f4f4277?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
     },
     { "id":2,
-      "title": "Chamonix",
+      "title": "Cham",
       "skills" : "HTML CSS Git React" ,
       "target" : "#",
       "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam deserunt fuga accusantium excepturi quia, voluptates obcaecati nam in voluptas perferendis velit harum dignissimos quasi ex? Tempore repellat quo doloribus magnam.",
@@ -16,7 +16,7 @@
         "https://images.unsplash.com/photo-1581836499506-4a660b39478a?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=800&fit=max&ixid=eyJhcHBfaWQiOjE0NTg5fQ"
     },
     { "id":3,
-      "title": "Mimisa Rocks",
+      "title": "Mim",
       "skills" : "HTML CSS Git React" ,
       "target" : "#",
       "description": "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Magnam deserunt fuga accusantium excepturi quia, voluptates obcaecati nam in voluptas perferendis velit harum dignissimos quasi ex? Tempore repellat quo doloribus magnam.",

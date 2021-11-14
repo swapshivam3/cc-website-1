@@ -78,14 +78,21 @@
   flex-direction: column;
   align-items: center;
   padding:40px;
-  background-color: #212529;
-  /* background-image: linear-gradient(315deg, #000000 1%, #b82e1f 90%); */
+  /* background-color: #212529;
   box-shadow: 5px 10px 20px 1px rgba(255, 255, 255, 0.273);
   transition: box-shadow 0.5s;
-  will-change: transform;
+  will-change: transform; */
   height: 41em;
   border-radius: 10px;
+
+  border: 1px solid #7e4e4e;
+  border-radius: 15px;
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(11px) saturate(700%) contrast(75%) brightness(100%);
+  background-color: rgb(0 0 0 / 80%);
+  opacity: 80%;
 }
+
 
 .project-card-title {
   font-size: 22px;
@@ -97,7 +104,7 @@
   margin-top: 27px;
   margin-bottom: 27px;
   line-height: 1.5;
-  color: #6c757d;
+  color: #bbbfc2;
   /* font-size: 16px; */
 font-size: 1rem;
 }
@@ -229,7 +236,7 @@ height: 400px;
     width: 250px;
     padding-top: 80px;
     text-align: center ;
-    background: linear-gradient(280deg,rgb(209, 29, 29),rgb(121, 5, 5));
+    background: linear-gradient(280deg,rgb(0 0 0),rgb(64 64 64));
     color: #fff;
     font-family: sans-serif;
     font-size: 12px;
