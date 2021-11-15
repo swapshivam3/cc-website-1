@@ -10,6 +10,7 @@ import Profile from "../Components/Profile/Profile";
 import ContactUs from '../Components/ContactUs/ContactUs'
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import Alumini from "./Alumini/Alumini";
 
 function Main() {
   return (
@@ -19,6 +20,7 @@ function Main() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/ourteam" component={OurTeam} />
+          <Route path="/alumini" component={Alumini} />
           <Route path="/departments" component={Departments} />
           <Route path="/login" component={Login} />
           <Route path="/contact" component={ContactUs} />

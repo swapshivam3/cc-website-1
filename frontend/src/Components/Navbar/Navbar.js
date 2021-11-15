@@ -53,7 +53,7 @@ class Navbar extends Component {
       <div>
       <div onClick={this.handleClick}>
         {this.state.hamOpen ? (
-          this.state.width > 960 ? 
+          this.state.width > 1024 ? 
           <section >  
             <div className = "content">
             <nav
