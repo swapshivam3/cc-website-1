@@ -89,12 +89,12 @@ class Candidate (models.Model) :
     field_validate function checks if any choice is repeated in the priority of candidate
     '''
     departments=  (
-        ('competitive', 'Competitive Programing'),
-        ('frontend', 'Frontend Web Development'),
-        ('backend', 'Backend Web Development'),
-		('appD', 'App Development '),
-		('graphics', 'Graphics and Video Development'),
-        ('gameD', 'Game Development')
+        ('cp', 'Competitive Programing'),
+        ('fe', 'Frontend Web Development'),
+        ('be', 'Backend Web Development'),
+		('ap', 'App Development '),
+		('ui', 'UI/UX'),
+        ('gd', 'Game Development')
     )
     gender_choices = (
         ('M','Male'),
@@ -115,7 +115,7 @@ class Candidate (models.Model) :
     pr5 = models.CharField(verbose_name="Fifth Priority",max_length=2,choices=departments,default=None)
  
     answer_json=JSONField()
-    exam_given=models.BooleanField()
+    exam_given=models.BooleanField(default=False)
     score=models.IntegerField(default=0,blank=True)
     #a phone number field is required over here, or link it using visitor upgrade to candidate
 
