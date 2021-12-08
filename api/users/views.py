@@ -72,7 +72,7 @@ class VisitorRegistrationView(APIView):
                 Visitor.objects.create(user=user)
                 visitor = Visitor.objects.get(user=user)
 
-                allowed_updates = ['phone', 'interests', 'city']
+                allowed_updates = [ 'interests', 'city']
 
 
                 for update in allowed_updates:
@@ -103,7 +103,7 @@ class VisitorUpdateView(APIView):
             # serializer = VisitorSerializer(visitor)
 
             # return Response(serializer.data, status=status.HTTP_200_OK)
-            visitor_profile = {"name": user.name, "email": user.email, "phone": visitor.phone, "interests": visitor.interests, "city": visitor.city}
+            visitor_profile = {"name": user.name, "email": user.email, "interests": visitor.interests, "city": visitor.city}
             return Response(visitor_profile, status=status.HTTP_200_OK)
         except:
             return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
@@ -125,7 +125,7 @@ class VisitorUpdateView(APIView):
             user = request.user
             visitor = Visitor.objects.get(user=user)
 
-            allowed_updates = ['phone','interests','city']
+            allowed_updates = ['interests','city']
             for update in allowed_updates:
                 if update in request.data:
                     setattr(visitor, update, request.data[update])
