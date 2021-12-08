@@ -2,7 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
-from phonenumber_field.modelfields import PhoneNumberField
+# from phonenumber_field.modelfields import PhoneNumberField
 from PIL import Image
 from django.db.models.expressions import F
 from jsonfield import JSONField
@@ -51,7 +51,7 @@ class Visitor(models.Model):
     '''
 
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, primary_key=True,related_name="visitor")
-    phone = PhoneNumberField(unique=True, null=True)
+    # phone = PhoneNumberField(unique=True, null=True)
     interests = models.TextField(blank=True, max_length=100) #optional field
     city = models.CharField(blank=True, max_length=100) #optional field
 
