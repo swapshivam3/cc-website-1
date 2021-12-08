@@ -77,9 +77,8 @@ class GetTime(APIView):
         user = request.user
         try:
             c = Candidate.objects.filter(user=user)[0]
-            if c.exam_attempt_time is None:
-                c.exam_attempt_time = pytz.timezone(
-                    'Asia/Kolkata').localize(datetime.now())
+            if c.exam_attempt_time == "null":
+                c.exam_attempt_time = time.time()
                 c.save()
             return JsonResponse({"time": c.exam_attempt_time}, status=status.HTTP_200_OK)
         except:
@@ -92,11 +91,10 @@ class AnswerPostView(APIView):
             user = request.user
             candidate = Candidate.objects.filter(user=user)[0]
         except:
-            return Response({"error": "Not authorized"}, status=status.HTTP_401_UNAUTHORIZED)
+            return Response({"error": "Not authorized"}, status=status.HTTP_401_UNAUTHORIZED)   
         candidate.answer_json = request.data
         candidate.exam_given = True
-        candidate.exam_submit_time = pytz.timezone(
-            'Asia/Kolkata').localize(datetime.now())
+        candidate.exam_given_time = time.time()
         candidate.save()
         return Response({"msg": "Success"}, status=status.HTTP_200_OK)
 

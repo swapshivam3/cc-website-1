@@ -116,7 +116,10 @@ class Candidate (models.Model) :
  
     answer_json=JSONField()
     exam_given=models.BooleanField(default=False)
+    exam_attempt_time=models.TextField()
+    exam_given_time = models.TextField() 
     score=models.IntegerField(default=0,blank=True)
+    
     #a phone number field is required over here, or link it using visitor upgrade to candidate
 
 
