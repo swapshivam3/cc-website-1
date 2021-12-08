@@ -20,6 +20,8 @@ from django.contrib.auth import login,authenticate,logout
 from django.http import HttpResponsePermanentRedirect
 import os
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
+from rest_framework.permissions import AllowAny
+
 
 
 
@@ -146,8 +148,11 @@ class LoginView(APIView):
     """
     Login a user (any type)
     """
+    permission_classes = (AllowAny,)
     def post(self, request, format=None):
         time.sleep(0.01)
+        if request.user.is_authenticated:
+            return Response({"msg": "Already Logged In"})
         data = request.data
         username = data['email']
         password = data['password']
@@ -314,7 +319,7 @@ class MemberProfileView(APIView):
                 pass    
             return Response(member_profile, status=status.HTTP_200_OK)
         except:
-                return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
 
     
     def put(self, request):
@@ -336,7 +341,7 @@ class MemberProfileView(APIView):
             return Response({"msg": "Profile updated."}, status=status.HTTP_200_OK)
                 
         except Member.DoesNotExist:
-                return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -388,7 +393,7 @@ class CandidateProfileView(APIView):
 
             return Response(serializer.data, status=status.HTTP_200_OK)
         except:
-                return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
 
     
     def put(self, request):
@@ -406,4 +411,4 @@ class CandidateProfileView(APIView):
             return Response({"msg": "Profile updated."}, status=status.HTTP_200_OK)
                 
         except Candidate.DoesNotExist:
-                return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response(status=status.HTTP_404_NOT_FOUND)
