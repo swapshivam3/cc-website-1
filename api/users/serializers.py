@@ -34,13 +34,13 @@ class CandidateSerializer(serializers.ModelSerializer):
     
         #Checking if BITS ID is correct 
         yr = date.today().year
-        id= re.match("((%s)+(((A[1-8A]{1})((B[1-5]{1})|(PS)))|((B[1-5]{1})((A[1-8A]{1})|(PS))))[0-9]{4}[pgh])" %yr,  attrs['bits_id'],re.IGNORECASE)
-        # if id : pass
-        # else :
-            #  raise serializers.ValidationError("Invalid BITS ID ")
+        id= re.match("((%s)+(((A[1-8AB]{1})((B[1-5]{1})|(PS)))|((B[1-5]{1})((A[1-8AB]{1})|(PS))))[0-9]{4}[pgh])" %yr,  attrs['bits_id'],re.IGNORECASE)
+        if id : pass
+        else :
+              raise serializers.ValidationError("Invalid BITS ID ")
         mail = re.match("f(%s)[0-9]{4}@((pilani)|(goa)|(hyderabad)).bits-pilani.ac.in" %yr ,attrs['bits_email'],re.IGNORECASE)
-        # if mail == None : 
-            #  raise serializers.ValidationError("Invalid BITS Email ")   
+        if mail == None : 
+              raise serializers.ValidationError("Invalid BITS Email ")   
         return attrs
 
 class MemberSerializer(serializers.ModelSerializer):
@@ -52,12 +52,12 @@ class MemberSerializer(serializers.ModelSerializer):
 
     def validate(self, attrs):
         yr = date.today().year
-        id = re.match("(%s|%s|%s|%s|%s)(((A[1-8A]{1})((B[1-5]{1})|(PS)))|((B[1-5]{1})((A[1-8A]{1})|(PS))))[0-9]{4}([PGH])" %(str(yr),str(yr-1),str(yr-2),str(yr-3),str(yr-4)) ,attrs['bits_id'],re.IGNORECASE)
+        id = re.match("(%s|%s|%s|%s|%s)(((A[1-8AB]{1})((B[1-5]{1})|(PS)))|((B[1-5]{1})((A[1-8AB]{1})|(PS))))[0-9]{4}([PGH])" %(str(yr),str(yr-1),str(yr-2),str(yr-3),str(yr-4)) ,attrs['bits_id'],re.IGNORECASE)
         if id == None : 
              raise serializers.ValidationError("Invalid BITS ID ")     
        
-        # mail = re.match("f(%s)[0-9]{4}@((pilani)|(goa)|(hyderabad)).bits-pilani.ac.in" %yr ,attrs['bits_email'],re.IGNORECASE)
-        # if mail == None : 
-        #      raise serializers.ValidationError("Invalid BITS Email ")   
+        mail = re.match("f(%s)[0-9]{4}@((pilani)|(goa)|(hyderabad)).bits-pilani.ac.in" %(str(yr),str(yr-1),str(yr-2),str(yr-3),str(yr-4)) ,attrs['bits_email'],re.IGNORECASE)
+        if mail == None : 
+             raise serializers.ValidationError("Invalid BITS Email ")   
         return attrs
 
