@@ -24,7 +24,7 @@ class CandidateSerializer(serializers.ModelSerializer):
     exam_given = serializers.BooleanField(required=False)
     class Meta:
         model = Candidate
-        fields = '__all__'
+        exclude = ("answer_json","github","score",)
  
     def validate(self, attrs):        
         # Checking if all priorities are unique 
@@ -35,12 +35,12 @@ class CandidateSerializer(serializers.ModelSerializer):
         #Checking if BITS ID is correct 
         yr = date.today().year
         id= re.match("((%s)+(((A[1-8A]{1})((B[1-5]{1})|(PS)))|((B[1-5]{1})((A[1-8A]{1})|(PS))))[0-9]{4}[pgh])" %yr,  attrs['bits_id'],re.IGNORECASE)
-        if id : pass
-        else :
-             raise serializers.ValidationError("Invalid BITS ID ")
+        # if id : pass
+        # else :
+            #  raise serializers.ValidationError("Invalid BITS ID ")
         mail = re.match("f(%s)[0-9]{4}@((pilani)|(goa)|(hyderabad)).bits-pilani.ac.in" %yr ,attrs['bits_email'],re.IGNORECASE)
-        if mail == None : 
-             raise serializers.ValidationError("Invalid BITS Email ")   
+        # if mail == None : 
+            #  raise serializers.ValidationError("Invalid BITS Email ")   
         return attrs
 
 class MemberSerializer(serializers.ModelSerializer):
@@ -56,8 +56,8 @@ class MemberSerializer(serializers.ModelSerializer):
         if id == None : 
              raise serializers.ValidationError("Invalid BITS ID ")     
        
-        mail = re.match("f(%s)[0-9]{4}@((pilani)|(goa)|(hyderabad)).bits-pilani.ac.in" %yr ,attrs['bits_email'],re.IGNORECASE)
-        if mail == None : 
-             raise serializers.ValidationError("Invalid BITS Email ")   
+        # mail = re.match("f(%s)[0-9]{4}@((pilani)|(goa)|(hyderabad)).bits-pilani.ac.in" %yr ,attrs['bits_email'],re.IGNORECASE)
+        # if mail == None : 
+        #      raise serializers.ValidationError("Invalid BITS Email ")   
         return attrs
 

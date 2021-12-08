@@ -358,6 +358,8 @@ class CandidateRegistrationView(APIView):
 
     def post(self, request):
         request.data['is_candidate'] = True
+        if 'github' not in request.data:
+            request.data['github'] = 'my_github'
         user_serializer = CustomUserSerializer(data=request.data)
         candidate_serializer=CandidateSerializer(data=request.data)
         if user_serializer.is_valid():

@@ -1,8 +1,10 @@
 from rest_framework import serializers
+from rest_framework.views import APIView
 from django.shortcuts import render, get_object_or_404
 from users.models import CustomUser, Candidate
 from django.http import JsonResponse
 import random
+from .models import Question
 import os.path
 from .questions import question_list
 from api.settings import MEDIA_ROOT
