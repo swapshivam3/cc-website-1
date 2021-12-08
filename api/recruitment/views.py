@@ -20,13 +20,15 @@ class CalculateScores(APIView):
                 answer_json=candidate.answer_json
                 for ans_data in answer_json:
                     q=Question.objects.filter(id=ans_data['qid'])
+                    print(q.answer)
+                    print(ans_data['answer'])
                     try:
                         if q.blank_answer == ans_data['answertext']:
                             score+=1
                     except:
                         pass
                     try:
-                        if q.answer==ans_data['answer']:
+                        if q.answer==int(ans_data['answer']):
                             score+=1
                     except:
                         pass
