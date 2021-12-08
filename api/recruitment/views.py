@@ -19,9 +19,9 @@ class CalculateScores(APIView):
                 score=0
                 answer_json=candidate.answer_json
                 for ans_data in answer_json:
-                    q=Question.objects.filter(id=ans_data['qid'])
-                    print(q.answer)
-                    print(ans_data['answer'])
+                    q=Question.objects.filter(id=ans_data['qid'])[0]
+                    # print(q.answer)
+                    # print(ans_data['answer'])
                     try:
                         if q.blank_answer == ans_data['answertext']:
                             score+=1
