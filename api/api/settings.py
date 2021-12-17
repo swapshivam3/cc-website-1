@@ -24,8 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'mtog44-yzo9ad#_z&78g&y^7@j7x_xik+5ih#6w8ic-ftsk21u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 
@@ -50,6 +49,13 @@ INSTALLED_APPS = [
     'corsheaders',
     'jsonfield',
 ]
+
+# For Production Only
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+       'rest_framework.renderers.JSONRenderer',
+   )
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,13 +94,22 @@ WSGI_APPLICATION = 'api.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+#DATABASES = {
+ #   'default': {
+ #       'ENGINE': 'django.db.backends.sqlite3',
+ #       'NAME': BASE_DIR / 'db.sqlite3',
+  #  }
+#}
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+	'default': {
+		'ENGINE': 'django.db.backends.postgresql_psycopg2',
+		'NAME': 'ccdb',
+		'USER': 'ccadmin',
+		'PASSWORD': 'MP3@Aqp2zp7fZ34',
+		'HOST' :'localhost',
+		'PORT' :''
+	}
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
