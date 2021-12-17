@@ -6,3 +6,4 @@ db.sqlite3
 /migrations
 .DS_Store
 /env
+.env
