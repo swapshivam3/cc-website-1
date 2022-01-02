@@ -3,6 +3,8 @@ from .models import Candidate, CustomUser, Visitor, Member
 import re
 from datetime import date
 
+from rest_framework.authtoken.models import Token
+
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,6 +21,13 @@ class VisitorSerializer(serializers.ModelSerializer):
         # extra_kwargs = {'password': {'write_only': True}}
 
 
+
+class TokenSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Token
+        fields = ('key', 'user')
+
 class CandidateSerializer(serializers.ModelSerializer): 
     user=CustomUserSerializer(required=False)
     exam_given = serializers.BooleanField(required=False)
@@ -33,15 +42,15 @@ class CandidateSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("All preference choices should be different ")
     
         #Checking if BITS ID is correct 
-        yr = date.today().year
-        id= re.match("((%s)+(((A[1-8AB]{1})((B[1-5]{1})|(PS)))|((B[1-5]{1})((A[1-8AB]{1})|(PS))))[0-9]{4}[pgh])" %yr,  attrs['bits_id'],re.IGNORECASE)
-        if id : pass
-        else :
-              raise serializers.ValidationError("Invalid BITS ID ")
-        mail = re.match("f(%s)[0-9]{4}@((pilani)|(goa)|(hyderabad)).bits-pilani.ac.in" %yr ,attrs['bits_email'],re.IGNORECASE)
-        if mail == None : 
-              raise serializers.ValidationError("Invalid BITS Email ")   
-        return attrs
+        # yr = date.today().year
+        # id= re.match("((%s)+(((A[1-8AB]{1})((B[1-5]{1})|(PS)))|((B[1-5]{1})((A[1-8AB]{1})|(PS))))[0-9]{4}[pgh])" %yr,  attrs['bits_id'],re.IGNORECASE)
+        # if id : pass
+        # else :
+        #       raise serializers.ValidationError("Invalid BITS ID ")
+        # mail = re.match("f(%s)[0-9]{4}@((pilani)|(goa)|(hyderabad)).bits-pilani.ac.in" %yr ,attrs['bits_email'],re.IGNORECASE)
+        # if mail == None : 
+        #       raise serializers.ValidationError("Invalid BITS Email ")   
+        # return attrs
 
 class MemberSerializer(serializers.ModelSerializer):
     bits_email = serializers.EmailField(required=True)

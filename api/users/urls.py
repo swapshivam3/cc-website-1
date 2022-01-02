@@ -1,6 +1,6 @@
-from .views import VisitorRegistrationView,VisitorUpdateView, MemberRegistrationView, MemberProfileView, LoginView, LogoutView, VisitorRegistrationView,VisitorUpdateView,PasswordTokenCheck,SetNewPasswordView,RequestPasswordResetEmail,CandidateRegistrationView,CandidateProfileView
+from .views import VisitorRegistrationView,VisitorUpdateView, MemberRegistrationView, MemberProfileView, LoginView, GoogleLogin, LogoutView, VisitorRegistrationView,VisitorUpdateView,PasswordTokenCheck,SetNewPasswordView,RequestPasswordResetEmail,CandidateRegistrationView,CandidateProfileView
 from django.urls import path
-
+from .views import getkeys
 
 urlpatterns = [
     path('VisitorRegistration', VisitorRegistrationView.as_view()),
@@ -15,4 +15,5 @@ urlpatterns = [
     path('PasswordReset/<uidb64>/<token>',
          PasswordTokenCheck.as_view(), name="PasswordReset"),
     path('PasswordResetComplete', SetNewPasswordView.as_view()),
+    path('getCSRF',getkeys),
 ]

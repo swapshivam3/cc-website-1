@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'mtog44-yzo9ad#_z&78g&y^7@j7x_xik+5ih#6w8ic-ftsk21u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
@@ -38,9 +38,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # Apps (Modules)
     'rest_framework',
+    'rest_framework.authtoken',
     'blog.apps.BlogConfig',
     'exam.apps.ExamConfig',
     'main.apps.MainConfig',
@@ -48,14 +50,23 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'corsheaders',
     'jsonfield',
+    'rest_auth',
+    
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google'
 ]
+SITE_ID = 1
+
 
 # For Production Only
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': (
-       'rest_framework.renderers.JSONRenderer',
-   )
-}
+# REST_FRAMEWORK = {
+#     'DEFAULT_RENDERER_CLASSES': (
+#        'rest_framework.renderers.JSONRenderer',
+#    )
+# }
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -155,7 +166,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 AUTH_USER_MODEL = 'users.CustomUser'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
+    "allauth.account.auth_backends.AuthenticationBackend",
+
 )
+
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
+
+REST_AUTH_SERIALIZERS = {
+    'TOKEN_SERIALIZER': 'users.serializers.TokenSerializer',
+ }
+
 
 EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='smtp.gmail.com'

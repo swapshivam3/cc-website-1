@@ -16,14 +16,24 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,include
 from django.conf import settings
+from django.conf.urls import url
 from django.conf.urls.static import static
+from users.views import GoogleLogin,social_login #,login_helper
+from users.adapters import GoogleOAuth2AdapterIdToken
+from allauth.socialaccount.providers.oauth2.views import OAuth2CallbackView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('user-api/',include('users.urls')),
     path('main-api/',include('main.urls')),
     path('exam-api/',include('exam.urls')),
-    path('rec-api/',include('recruitment.urls'))
+    path('rec-api/',include('recruitment.urls')),
+    url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
+    url(r'^rest-auth/google/$', GoogleLogin.as_view(), name='google_login'),
+    path("rest-auth/google/callback/",social_login),
+    # path("rest-auth/googlehelper/",login_helper),
+
 ]
 
 if settings.DEBUG:

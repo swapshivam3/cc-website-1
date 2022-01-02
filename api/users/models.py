@@ -68,7 +68,6 @@ class Member(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name="member")   
     
     bits_id = models.CharField(max_length=50, blank=False, null=False, verbose_name="BITS ID", default="20XXXXXSXXXX")
-    bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False, default="f20xxxxxx@*.bits-pilani.ac.in")
     department = models.ForeignKey('main.Department', on_delete=models.CASCADE, related_name="department", blank=True,null=True)    
     github = models.CharField(max_length=20, blank=False, null=False, default="my_github")
     codeforces_id=models.CharField(max_length=30,blank=True)
@@ -104,8 +103,8 @@ class Candidate (models.Model) :
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, primary_key=True,related_name="candidate")
     
     gender= models.CharField(max_length=1,choices=gender_choices)
-    bits_id = models.CharField(verbose_name="BITS ID",max_length=13,unique=True,blank=False)
-    bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False, default="f20xxxxxx@*.bits-pilani.ac.in")
+    bits_id = models.CharField(verbose_name="BITS ID",max_length=13,blank=False,null=False,default="2021XXXXXXXXP")
+    # bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False, default="f20xxxxxx@pilani.bits-pilani.ac.in")
     github = models.CharField(max_length=20, blank=False, null=False, default="my_github")
     
     pr1 = models.CharField(verbose_name="First Priority",max_length=2,choices=departments,default=None)

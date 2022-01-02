@@ -1,13 +1,14 @@
 from django.contrib.auth.hashers import make_password,check_password
+from django.views.decorators.csrf import ensure_csrf_cookie
+
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404, render
 from rest_framework.views import APIView
-
+import requests
 from .models import CustomUser, Member, Visitor, Candidate
 from main.models import Feedback, Department
 from rest_framework import serializers, status,generics
-import time
-
+import time,json
 from .serializers import VisitorSerializer,CustomUserSerializer, MemberSerializer, CandidateSerializer
 from main.serializers import FeedbackSerializer
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
@@ -21,10 +22,17 @@ from django.http import HttpResponsePermanentRedirect
 import os
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.permissions import AllowAny
+from django.http import JsonResponse    
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 
+from rest_auth.registration.views import SocialLoginView
+from rest_auth.registration.serializers import SocialLoginSerializer
+from .adapters import GoogleOAuth2AdapterIdToken
 
+from django.http import HttpResponseRedirect
 
-
+from django.middleware import csrf
 class VisitorRegistrationView(APIView):
     """
     Create a new Visitor
@@ -86,9 +94,62 @@ class VisitorRegistrationView(APIView):
         else:
             return Response({"error_user": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
+@ensure_csrf_cookie
+def getkeys(request):
+    #response['csrftoken']=csrf.get_token(request)
+    #response['sessionid']=request.session.session_key
+#    context = RequestContext(request)
+ #   print(context)
+    return JsonResponse({'sessionid':request.session.session_key})
+  #  context = RequestContext(request)
+
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+    client_class = OAuth2Client
+    serializer_class = SocialLoginSerializer
+    callback_url='https://cc-api.eastus.cloudapp.azure.com/rest-auth/google/callback/'
+
+    def get_serializer(self, *args, **kwargs):
+        serializer_class = self.get_serializer_class()
+        kwargs['context'] = self.get_serializer_context()
+        return serializer_class(*args, **kwargs)
 
 
+def social_login(request):
+    token = request.GET["code"]
+    print(token)
+    headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
+    response = requests.post('https://oauth2.googleapis.com/token', data={'code': token, 'grant_type':'authorization_code','client_id':'754009890523-f8r6n04j7k09grmf1auf8c872a7j1nbm.apps.googleusercontent.com'
+    ,'client_secret':'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','redirect_uri':'https://cc-api.eastus.cloudapp.azure.com/rest-auth/google/callback/'}, headers=headers)
+    # print(response)
+    my_json = response.content.decode('utf8').strip().replace("'", '"')
+    data = json.loads(my_json)
+    print(data)
+    # return JsonResponse({'code':token,'access_token':data['access_token']})
+    
+# def login_helper(request):
+    response2=requests.post('https://cc-api.eastus.cloudapp.azure.com/rest-auth/google/',data={'code':token,'access_token':data['access_token']})
+  
+    user=response2.json()['user']
+    user=CustomUser.objects.filter(id=user)[0]
+    # print(response2.user)
+    user.is_candidate=True
+    user.name=user.first_name+" "+ user.last_name
+    user.save()
+
+    user.backend = 'django.contrib.auth.backends.ModelBackend'
+    # queryset=CustomUser.objects.filter(email=user.email)
+    candidatequery=Candidate.objects.filter(user=user)
+    response=HttpResponseRedirect('https://cc-recruitments.tech')
+    if candidatequery.exists():
+        login(request,user)
+        response['first_time']=False
+    else:
+        Candidate.objects.create(user=user,pr1='ap',pr2='fe',pr3='be',pr4='cp',pr5='ui',gender='M')
+        login(request,user)
+        response['first_time']=True
+    return response
 
 class VisitorUpdateView(APIView):
     """
@@ -197,7 +258,7 @@ class RequestPasswordResetEmail(APIView):
             relativeLink = reverse(
                 'PasswordReset', kwargs={'uidb64': uidb64, 'token': token})
 
-            absurl = 'http://'+current_site + relativeLink
+            absurl = 'https://'+current_site + relativeLink
             email_body = 'Hello, \nUse link below to reset your password  \n' + \
                 absurl
             data = {'email_body': email_body, 'to_email': user.email,
@@ -374,7 +435,7 @@ class CandidateRegistrationView(APIView):
                 user = CustomUser.objects.filter(email=request.data['email'])[0]
 
                 Candidate.objects.create(user=user,pr1=request.data["pr1"],pr2=request.data["pr2"],pr3=request.data["pr3"],pr4=request.data["pr4"],
-                pr5=request.data["pr5"],bits_id=request.data['bits_id'],bits_email=request.data[ 'bits_email'],github=request.data['github'],gender=request.data['gender'])
+                pr5=request.data["pr5"],bits_id=request.data['bits_id'],bits_email=request.data['bits_email'],github=request.data['github'],gender=request.data['gender'])
 
                 return Response({'msg': 'Candidate Registered'}, status=status.HTTP_201_CREATED)
             else:
