@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+from datetime import datetime
+from dateutil import tz
 # import jsonfielsd
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -62,11 +64,14 @@ SITE_ID = 1
 
 
 # For Production Only
-# REST_FRAMEWORK = {
+REST_FRAMEWORK = {
 #     'DEFAULT_RENDERER_CLASSES': (
 #        'rest_framework.renderers.JSONRenderer',
 #    )
-# }
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication', # <-- set this class
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,6 +84,21 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOWED_ORIGINS = [
+#     "http://localhost:8080",
+#     "http://127.0.0.1:9000",
+#     "https://www.cc-recruitments.tech",
+#     "https://cc-recruitments.tech",
+#     "https://api.cc-recruitments.tech",
+#     "http://localhost:3000",
+#     "http://cc-api.eastus.cloudapp.azure.com",
+#     "https://cc-api.eastus.cloudapp.azure.com"
+# ]
+
+CSRF_COOKIE_DOMAIN = ".cc-recruitments.tech"
+SESSION_COOKIE_DOMAIN = ".cc-recruitments.tech"
+CSRF_TRUSTED_ORIGINS = ".cc-recruitments.tech"
 
 
 ROOT_URLCONF = 'api.urls'
@@ -195,4 +215,7 @@ AWS_S3_REGION_NAME = "ap-south-1"
 AWS_S3_FILE_OVERWRITE = True
 AWS_DEFAULT_ACL = None
 AWS_S3_VERIFY = True
+AWS_QUERYSTRING_EXPIRE=86400
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# below is year month day hour(INPUT IN 24 HOUR) minute second microsecond tzinfo 
+START_TIME=datetime(2022,1,4,16,11,0,0,tz.gettz('Asia/Calcutta')).timestamp()

@@ -42,9 +42,9 @@ class GetScoreSheet(APIView):
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="scores.csv"'
         writer = csv.writer(response)
-        writer.writerow(['Username', 'pr1', 'pr2', 'pr3','pr4','pr5','score'])
+        writer.writerow(['Username', 'pr1', 'pr2', 'pr3','pr4','pr5','pr6','pr7','score','bits_id'])
         candidates = Candidate.objects.all().values_list(     
-            'user', 'pr1', 'pr2', 'pr3','pr4','pr5','score')
+            'user', 'pr1', 'pr2', 'pr3','pr4','pr5','pr6','pr7','score','bits_id')
         #fix this to get email/name/number of candidate user, user.email does not work
         for candidate in candidates:
             writer.writerow(candidate)

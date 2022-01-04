@@ -25,7 +25,7 @@ from rest_framework.permissions import AllowAny
 from django.http import JsonResponse    
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
-
+from django.shortcuts import redirect
 from rest_auth.registration.views import SocialLoginView
 from rest_auth.registration.serializers import SocialLoginSerializer
 from .adapters import GoogleOAuth2AdapterIdToken
@@ -100,14 +100,21 @@ def getkeys(request):
     #response['sessionid']=request.session.session_key
 #    context = RequestContext(request)
  #   print(context)
-    return JsonResponse({'sessionid':request.session.session_key})
+    # print(request.user)
+    # candidate=CustomUser.objects.filter(user=)
+    candidate=Candidate.objects.filter(user=CustomUser.objects.filter(email=request.user)[0])[0]
+    if(candidate.bits_id=='2021XXXXXXXXP'):
+        return JsonResponse({'sessionid':request.session.session_key, 'name':request.user.name, 'email':request.user.email, 'first_time_login':'yes'})
+    else:
+        return JsonResponse({'sessionid':request.session.session_key, 'name':request.user.name, 'email':request.user.email, 'first_time_login':'no'})
+
   #  context = RequestContext(request)
 
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
     client_class = OAuth2Client
     serializer_class = SocialLoginSerializer
-    callback_url='https://cc-api.eastus.cloudapp.azure.com/rest-auth/google/callback/'
+    callback_url='https://api.cc-recruitments.tech/rest-auth/google/callback/'
 
     def get_serializer(self, *args, **kwargs):
         serializer_class = self.get_serializer_class()
@@ -121,7 +128,7 @@ def social_login(request):
     headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
     response = requests.post('https://oauth2.googleapis.com/token', data={'code': token, 'grant_type':'authorization_code','client_id':'754009890523-f8r6n04j7k09grmf1auf8c872a7j1nbm.apps.googleusercontent.com'
-    ,'client_secret':'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','redirect_uri':'https://cc-api.eastus.cloudapp.azure.com/rest-auth/google/callback/'}, headers=headers)
+    ,'client_secret':'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','redirect_uri':'https://api.cc-recruitments.tech/rest-auth/google/callback/'}, headers=headers)
     # print(response)
     my_json = response.content.decode('utf8').strip().replace("'", '"')
     data = json.loads(my_json)
@@ -129,7 +136,8 @@ def social_login(request):
     # return JsonResponse({'code':token,'access_token':data['access_token']})
     
 # def login_helper(request):
-    response2=requests.post('https://cc-api.eastus.cloudapp.azure.com/rest-auth/google/',data={'code':token,'access_token':data['access_token']})
+
+    response2=requests.post('https://api.cc-recruitments.tech/rest-auth/google/',data={'code':token,'access_token':data['access_token']}, headers={'withCredentials': 'true'})
   
     user=response2.json()['user']
     user=CustomUser.objects.filter(id=user)[0]
@@ -141,15 +149,18 @@ def social_login(request):
     user.backend = 'django.contrib.auth.backends.ModelBackend'
     # queryset=CustomUser.objects.filter(email=user.email)
     candidatequery=Candidate.objects.filter(user=user)
-    response=HttpResponseRedirect('https://cc-recruitments.tech')
+    responsef=redirect('https://cc-recruitments.tech')
     if candidatequery.exists():
         login(request,user)
-        response['first_time']=False
+        responsef['first_time']=False
     else:
-        Candidate.objects.create(user=user,pr1='ap',pr2='fe',pr3='be',pr4='cp',pr5='ui',gender='M')
+        Candidate.objects.create(user=user,pr1='ap',pr2='fe',pr3='be',pr4='cp',pr5='ui',pr6='gd',pr7='vi',gender='M')
         login(request,user)
-        response['first_time']=True
-    return response
+        responsef['first_time']=True
+    responsef['name']=user.name
+    responsef['email']=user.email
+    responsef['key']=response2.json()['key']
+    return responsef
 
 class VisitorUpdateView(APIView):
     """
@@ -435,7 +446,7 @@ class CandidateRegistrationView(APIView):
                 user = CustomUser.objects.filter(email=request.data['email'])[0]
 
                 Candidate.objects.create(user=user,pr1=request.data["pr1"],pr2=request.data["pr2"],pr3=request.data["pr3"],pr4=request.data["pr4"],
-                pr5=request.data["pr5"],bits_id=request.data['bits_id'],bits_email=request.data['bits_email'],github=request.data['github'],gender=request.data['gender'])
+                pr5=request.data["pr5"],pr6=request.data["pr6"],pr7=request.data["pr7"],bits_id=request.data['bits_id'],bits_email=request.data['bits_email'],github=request.data['github'],gender=request.data['gender'])
 
                 return Response({'msg': 'Candidate Registered'}, status=status.HTTP_201_CREATED)
             else:
@@ -453,7 +464,7 @@ class CandidateProfileView(APIView):
             user = request.user
             member = Candidate.objects.get(user=user)
             serializer = CandidateSerializer(member)
-
+            
             return Response(serializer.data, status=status.HTTP_200_OK)
         except:
             return Response({"msg": "Please authenticate."}, status=status.HTTP_404_NOT_FOUND)
@@ -464,7 +475,7 @@ class CandidateProfileView(APIView):
             user = request.user
             candidate = Candidate.objects.get(user=user)
 
-            allowed_updates = ['bits_id', 'bits_email', 'github', 'pr1', 'pr2', 'pr3', 'pr4','pr5']
+            allowed_updates = ['bits_id', 'bits_email', 'github', 'pr1', 'pr2', 'pr3', 'pr4','pr5','pr6','pr7']
 
             for update in allowed_updates:
                 if update in request.data:

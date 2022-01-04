@@ -33,6 +33,7 @@ class Department(models.Model):
         ('ap', 'App Development'),
         ('ui', 'UI/UX'),
         ('gd', 'Game Development'),
+        ('vi', 'Video Editing'),
     )
     name = models.CharField(choices=departments, blank=False, max_length=2, primary_key=True)
     description = models.TextField()

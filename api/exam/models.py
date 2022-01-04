@@ -19,7 +19,8 @@ class Question(models.Model):
     option_three_file = models.FileField(blank=True, null=True,upload_to='questions/')
     option_four_text = models.CharField(max_length=500, blank=True, null=True)
     option_four_file = models.FileField(blank=True, null=True,upload_to='questions/')
-
+    hint_text=models.CharField(max_length=500,blank=True,null=True)
+    hint_link=models.CharField(max_length=500,blank=True,null=True)
     def __str__(self):
         return self.question
 

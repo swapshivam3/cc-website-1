@@ -9,11 +9,12 @@ import random
 from .models import Question
 import os.path
 from .questions import question_list
-from api.settings import MEDIA_ROOT
+from api.settings import MEDIA_ROOT,START_TIME
 import boto3
 import time
 from datetime import datetime
 import pytz
+from dateutil import tz
 questions = []
 
 
@@ -21,6 +22,11 @@ questions = []
 class QuestionGetView(APIView):
     def get(self, request):
         time.sleep(0.02)
+        questions=request.session.get('questions')     
+        if(request.user.is_anonymous or time.time()<START_TIME):
+            return JsonResponse({"msg":"Unauthorized"},status=status.HTTP_401_UNAUTHORIZED)
+        if questions is None:
+            questions=[]
         # fix the file fields here as well if wanted
         #will fail if db is empty, create an object first using admin or the CreateQuestions view
         raw_questions = Question.objects.all()
@@ -32,6 +38,8 @@ class QuestionGetView(APIView):
                 question['id'] = raw_question.id
                 question['qtxt'] = raw_question.question
                 question['is_blank'] = raw_question.is_blank
+               #question['hint_text'] = raw_question.hint_text
+              # question['hint_link']= raw_question.hint_link
                 try:
                     question['question_file.url'] = (
                         raw_question.question_file.url)
@@ -67,7 +75,8 @@ class QuestionGetView(APIView):
                 options.append(option.copy())
                 question['options'] = options
                 questions.append(question.copy())
-
+            print('executed')
+            request.session['questions'] = questions
         return JsonResponse(questions, safe=False)
 
 
@@ -80,7 +89,11 @@ class GetTime(APIView):
             if c.exam_attempt_time == "null":
                 c.exam_attempt_time = time.time()
                 c.save()
-            return JsonResponse({"time": c.exam_attempt_time}, status=status.HTTP_200_OK)
+                # print(time.time())
+                return JsonResponse({"time": 3600}, status=status.HTTP_200_OK)
+            else:
+                # print(time.time())
+                return JsonResponse({"time":3600-time.time()+float(c.exam_attempt_time)})
         except:
             return Response({"msg": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
 

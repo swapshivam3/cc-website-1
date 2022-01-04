@@ -88,12 +88,13 @@ class Candidate (models.Model) :
     field_validate function checks if any choice is repeated in the priority of candidate
     '''
     departments=  (
-        ('cp', 'Competitive Programing'),
+        ('cp', 'Competetive Programming'),
         ('fe', 'Frontend Web Development'),
         ('be', 'Backend Web Development'),
-		('ap', 'App Development '),
-		('ui', 'UI/UX'),
-        ('gd', 'Game Development')
+        ('ap', 'App Development'),
+        ('ui', 'UI/UX'),
+        ('gd', 'Game Development'),
+        ('vi', 'Video Editing'),
     )
     gender_choices = (
         ('M','Male'),
@@ -112,6 +113,8 @@ class Candidate (models.Model) :
     pr3 = models.CharField(verbose_name="Third Priority",max_length=2,choices=departments,default=None)
     pr4 = models.CharField(verbose_name="Fourth Priority",max_length=2,choices=departments,default=None)
     pr5 = models.CharField(verbose_name="Fifth Priority",max_length=2,choices=departments,default=None)
+    pr6 = models.CharField(verbose_name="Sixth Priority",max_length=2,choices=departments,default=None)
+    pr7 = models.CharField(verbose_name="Seventh Priority",max_length=2,choices=departments,default=None)
  
     answer_json=JSONField()
     exam_given=models.BooleanField(default=False)
