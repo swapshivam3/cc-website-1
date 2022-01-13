@@ -4,7 +4,7 @@ import React from 'react'
 const OurTeam = () => {
   return (
     <div className="App">
-      <div className="grid md:grid-cols-2 grid-cols-1">
+      <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1" >
         <TeamMemberCard name="Satvik Sinha" department="Frontend" />
         <TeamMemberCard name="Nachiket Kotalwar" department="Frontend" />
         <TeamMemberCard name="Anant Jain" department="Frontend" />

@@ -17,7 +17,7 @@ const TeamMemberCard = ({ name, department, src }) => {
           <div className="left_container center">
             <img src="https://media-exp1.licdn.com/dms/image/C5603AQFhT7NOIcTvTQ/profile-displayphoto-shrink_200_200/0/1605812371724?e=1633564800&v=beta&t=Thk_6fds9FYhFZQi2IKDey6D8C1Rjv5vsfGbwfOIKvA"
               alt=""></img>
-          </div>
+          </div> 
 
           <div className="right_container center">
             <p className="user_name">{name || "Swapnil Shivam"}</p>
