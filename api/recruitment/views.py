@@ -19,6 +19,8 @@ class CalculateScores(APIView):
                 score=0
                 answer_json=candidate.answer_json
                 for ans_data in answer_json:
+                    if ans_data == None:
+                        continue
                     q=Question.objects.filter(id=ans_data['qid'])[0]
                     # print(q.answer)
                     # print(ans_data['answer'])

@@ -69,7 +69,7 @@ class Member(models.Model):
     
     bits_id = models.CharField(max_length=50, blank=False, null=False, verbose_name="BITS ID", default="20XXXXXSXXXX")
     department = models.ForeignKey('main.Department', on_delete=models.CASCADE, related_name="department", blank=True,null=True)    
-    github = models.CharField(max_length=20, blank=False, null=False, default="my_github")
+    github = models.CharField(max_length=20, blank=True, null=True)
     codeforces_id=models.CharField(max_length=30,blank=True)
     linked_in = models.CharField(max_length=20,blank=True)
     profile_pic = models.FileField(upload_to='profile_pics', blank=True, null=True)
@@ -106,7 +106,7 @@ class Candidate (models.Model) :
     gender= models.CharField(max_length=1,choices=gender_choices)
     bits_id = models.CharField(verbose_name="BITS ID",max_length=13,blank=False,null=False,default="2021XXXXXXXXP")
     # bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False, default="f20xxxxxx@pilani.bits-pilani.ac.in")
-    github = models.CharField(max_length=20, blank=False, null=False, default="my_github")
+    github = models.CharField(max_length=20, blank=True, null=True, default="")
     
     pr1 = models.CharField(verbose_name="First Priority",max_length=2,choices=departments,default=None)
     pr2 = models.CharField(verbose_name="Second Priority",max_length=2,choices=departments,default=None)

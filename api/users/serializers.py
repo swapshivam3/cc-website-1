@@ -33,7 +33,7 @@ class CandidateSerializer(serializers.ModelSerializer):
     exam_given = serializers.BooleanField(required=False)
     class Meta:
         model = Candidate
-        exclude = ("answer_json","github","score","exam_given_time","exam_attempt_time",)
+        exclude = ("answer_json","score","exam_given_time","exam_attempt_time",)
  
     def validate(self, attrs):        
         # Checking if all priorities are unique 

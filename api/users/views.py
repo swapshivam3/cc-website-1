@@ -104,9 +104,9 @@ def getkeys(request):
     # candidate=CustomUser.objects.filter(user=)
     candidate=Candidate.objects.filter(user=CustomUser.objects.filter(email=request.user)[0])[0]
     if(candidate.bits_id=='2021XXXXXXXXP'):
-        return JsonResponse({'sessionid':request.session.session_key, 'name':request.user.name, 'email':request.user.email, 'first_time_login':'yes'})
+        return JsonResponse({'sessionid':request.session.session_key, 'name':request.user.name, 'email':request.user.email, 'first_time_login':'yes', 'exam_given':candidate.exam_given})
     else:
-        return JsonResponse({'sessionid':request.session.session_key, 'name':request.user.name, 'email':request.user.email, 'first_time_login':'no'})
+        return JsonResponse({'sessionid':request.session.session_key, 'name':request.user.name, 'email':request.user.email, 'first_time_login':'no','exam_given':candidate.exam_given})
 
   #  context = RequestContext(request)
 
@@ -124,7 +124,7 @@ class GoogleLogin(SocialLoginView):
 
 def social_login(request):
     token = request.GET["code"]
-    print(token)
+    # print(token)
     headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
     response = requests.post('https://oauth2.googleapis.com/token', data={'code': token, 'grant_type':'authorization_code','client_id':'754009890523-f8r6n04j7k09grmf1auf8c872a7j1nbm.apps.googleusercontent.com'
@@ -132,7 +132,7 @@ def social_login(request):
     # print(response)
     my_json = response.content.decode('utf8').strip().replace("'", '"')
     data = json.loads(my_json)
-    print(data)
+    # print(data)
     # return JsonResponse({'code':token,'access_token':data['access_token']})
     
 # def login_helper(request):
@@ -290,7 +290,7 @@ class PasswordTokenCheck(APIView):
         try:
             id = force_str(urlsafe_base64_decode(uidb64))
             user = CustomUser.objects.get(id=id)
-            print(user)
+            # print(user)
 
             if not PasswordResetTokenGenerator().check_token(user, token):
                 return Response({'msg': 'Invalid Token'}, status=status.HTTP_401_UNAUTHORIZED)
@@ -476,12 +476,11 @@ class CandidateProfileView(APIView):
             candidate = Candidate.objects.get(user=user)
 
             allowed_updates = ['bits_id', 'bits_email', 'github', 'pr1', 'pr2', 'pr3', 'pr4','pr5','pr6','pr7']
-
+            # print(request)
             for update in allowed_updates:
                 if update in request.data:
                     setattr(candidate, update, request.data[update])
             candidate.save()
-
             return Response({"msg": "Profile updated."}, status=status.HTTP_200_OK)
                 
         except Candidate.DoesNotExist:

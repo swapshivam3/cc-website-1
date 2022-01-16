@@ -22,14 +22,15 @@ questions = []
 class QuestionGetView(APIView):
     def get(self, request):
         time.sleep(0.02)
-        questions=request.session.get('questions')     
+        # questions=request.session.get('questions')     
         if(request.user.is_anonymous or time.time()<START_TIME):
             return JsonResponse({"msg":"Unauthorized"},status=status.HTTP_401_UNAUTHORIZED)
-        if questions is None:
-            questions=[]
+        # if questions is None:
+        questions=[]
         # fix the file fields here as well if wanted
         #will fail if db is empty, create an object first using admin or the CreateQuestions view
         raw_questions = Question.objects.all()
+        i=0
         if not questions:
             # print(raw_questions)
             for raw_question in raw_questions:
@@ -38,6 +39,7 @@ class QuestionGetView(APIView):
                 question['id'] = raw_question.id
                 question['qtxt'] = raw_question.question
                 question['is_blank'] = raw_question.is_blank
+                question['sno']=i
                #question['hint_text'] = raw_question.hint_text
               # question['hint_link']= raw_question.hint_link
                 try:
@@ -45,7 +47,14 @@ class QuestionGetView(APIView):
                         raw_question.question_file.url)
                 except:
                     question['question_file.url'] = "null"
-
+                try:
+                    question['hint_text']= raw_question.hint_text
+                except:
+                    question['hint_text']= "null"
+                try:
+                    question['hint_link']= raw_question.hint_link
+                except:
+                    question['hint_link']= "null"
                 options = []
                 option = {}
                 option['text'] = raw_question.option_one_text
@@ -75,7 +84,8 @@ class QuestionGetView(APIView):
                 options.append(option.copy())
                 question['options'] = options
                 questions.append(question.copy())
-            print('executed')
+                i+=1
+            # print('executed')
             request.session['questions'] = questions
         return JsonResponse(questions, safe=False)
 
@@ -130,7 +140,7 @@ class CreateQuestionView(APIView):
                 q = Question.objects.create(is_blank=question['is_blank'], question=question['question'],
                                             answer=question['answer'], blank_answer=question['blank_answer'],
                                             option_one_text=question['option_one_text'], option_two_text=question['option_two_text'],
-                                            option_three_text=question['option_three_text'], option_four_text=question['option_four_text'])
+                                            option_three_text=question['option_three_text'], option_four_text=question['option_four_text'],hint_text=question['hint_text'],hint_link=question['hint_link'])
                 if os.path.exists(MEDIA_ROOT+q_image_path):
                     q.question_file = q_image_path
                     s3.meta.client.upload_file(
