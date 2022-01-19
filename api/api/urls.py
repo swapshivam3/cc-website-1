@@ -21,6 +21,11 @@ from django.conf.urls.static import static
 from users.views import GoogleLogin,social_login #,login_helper
 from users.adapters import GoogleOAuth2AdapterIdToken
 from allauth.socialaccount.providers.oauth2.views import OAuth2CallbackView
+from django.http import HttpResponse
+
+def load_tester(request):
+    content = 'loaderio-02f752c0c85733ff78633507fe01fc51'
+    return HttpResponse(content, content_type='text/plain')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -33,6 +38,7 @@ urlpatterns = [
     url(r'^rest-auth/google/$', GoogleLogin.as_view(), name='google_login'),
     path("rest-auth/google/callback/",social_login),
     # path("rest-auth/googlehelper/",login_helper),
+    path("loaderio-02f752c0c85733ff78633507fe01fc51/",load_tester),
 
 ]
 

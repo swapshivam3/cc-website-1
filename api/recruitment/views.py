@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from rest_framework import status
-from users.models import Candidate
+from users.models import Candidate,CustomUser
 from exam.models import Question
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -44,11 +44,16 @@ class GetScoreSheet(APIView):
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="scores.csv"'
         writer = csv.writer(response)
-        writer.writerow(['Username', 'pr1', 'pr2', 'pr3','pr4','pr5','pr6','pr7','score','bits_id'])
+        writer.writerow(['Username', 'pr1', 'pr2', 'pr3','pr4','pr5','pr6','pr7','score','bits_id','bits_email'])
         candidates = Candidate.objects.all().values_list(     
             'user', 'pr1', 'pr2', 'pr3','pr4','pr5','pr6','pr7','score','bits_id')
+        # related_user=CustomUser.objects.filter(id=can)
         #fix this to get email/name/number of candidate user, user.email does not work
         for candidate in candidates:
+            candidate=list(candidate)
+            related_user=CustomUser.objects.filter(id=candidate[0])[0].email
+            candidate.append(related_user)
+            # related_user=CustomUser.objects.filter(id=candidate[0])
             writer.writerow(candidate)
         return response
         

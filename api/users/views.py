@@ -103,6 +103,8 @@ def getkeys(request):
     # print(request.user)
     # candidate=CustomUser.objects.filter(user=)
     candidate=Candidate.objects.filter(user=CustomUser.objects.filter(email=request.user)[0])[0]
+    # if(request.user.email[0:5]!='f2021'):
+    #     return logout(request)
     if(candidate.bits_id=='2021XXXXXXXXP'):
         return JsonResponse({'sessionid':request.session.session_key, 'name':request.user.name, 'email':request.user.email, 'first_time_login':'yes', 'exam_given':candidate.exam_given})
     else:

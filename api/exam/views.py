@@ -23,15 +23,17 @@ class QuestionGetView(APIView):
     def get(self, request):
         time.sleep(0.02)
         # questions=request.session.get('questions')     
-        if(request.user.is_anonymous or time.time()<START_TIME):
-            return JsonResponse({"msg":"Unauthorized"},status=status.HTTP_401_UNAUTHORIZED)
-        # if questions is None:
-        questions=[]
+        # if(request.user.is_anonymous or time.time()<START_TIME):
+        #     return JsonResponse({"msg":"Unauthorized"},status=status.HTTP_401_UNAUTHORIZED)
+        global questions
         # fix the file fields here as well if wanted
         #will fail if db is empty, create an object first using admin or the CreateQuestions view
         raw_questions = Question.objects.all()
+        raw_questions.order_by('pk')
         i=0
-        if not questions:
+        if questions is None or len(questions) != 20:
+            questions=[]
+            print("SHIT")
             # print(raw_questions)
             for raw_question in raw_questions:
                 # print(raw_question)
@@ -40,6 +42,7 @@ class QuestionGetView(APIView):
                 question['qtxt'] = raw_question.question
                 question['is_blank'] = raw_question.is_blank
                 question['sno']=i
+                question['score']=raw_question.score
                #question['hint_text'] = raw_question.hint_text
               # question['hint_link']= raw_question.hint_link
                 try:
@@ -86,7 +89,7 @@ class QuestionGetView(APIView):
                 questions.append(question.copy())
                 i+=1
             # print('executed')
-            request.session['questions'] = questions
+            # request.session['questions'] = questions
         return JsonResponse(questions, safe=False)
 
 
@@ -115,6 +118,7 @@ class AnswerPostView(APIView):
             candidate = Candidate.objects.filter(user=user)[0]
         except:
             return Response({"error": "Not authorized"}, status=status.HTTP_401_UNAUTHORIZED)   
+            # candidate=Candidate.objects.all()[0]
         candidate.answer_json = request.data
         candidate.exam_given = True
         candidate.exam_given_time = time.time()
@@ -140,7 +144,7 @@ class CreateQuestionView(APIView):
                 q = Question.objects.create(is_blank=question['is_blank'], question=question['question'],
                                             answer=question['answer'], blank_answer=question['blank_answer'],
                                             option_one_text=question['option_one_text'], option_two_text=question['option_two_text'],
-                                            option_three_text=question['option_three_text'], option_four_text=question['option_four_text'],hint_text=question['hint_text'],hint_link=question['hint_link'])
+                                            option_three_text=question['option_three_text'], option_four_text=question['option_four_text'],hint_text=question['hint_text'],hint_link=question['hint_link'],score=question['score'])
                 if os.path.exists(MEDIA_ROOT+q_image_path):
                     q.question_file = q_image_path
                     s3.meta.client.upload_file(
