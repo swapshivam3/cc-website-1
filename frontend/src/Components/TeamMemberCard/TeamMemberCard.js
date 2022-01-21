@@ -85,10 +85,7 @@ const TeamMemberCard = ({ name, department, src }) => {
                 </svg>
               </a>
             </div>
-            {/* know more button */}
-            {/* <div className="mt-4 ml-20">
-              <button onClick={onButtonClick} className="butn rounded-lg px-2 font-bold text-red-400 hover:text-white">Know More</button>
-            </div> */}
+            
           </div>
           
           
