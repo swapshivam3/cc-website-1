@@ -40,7 +40,8 @@
   
 }
 .container11 .card1 .item-dept  img{
-  width: 75%;
+  width: 80%;
+  border-radius: 5%;
   height: auto;
 }
 .content {
@@ -50,18 +51,20 @@
 }
 .container11 .card1 .item-dept.itemd1{
   position: relative;
-  background: -webkit-linear-gradient( 271deg, #323232, rgb(0 0 0));
+  background: -webkit-linear-gradient( 271deg, #181818, rgb(0 0 0 / 10%));
   justify-content: center;
   z-index: 1;
   display: flex;
   align-items: center;
   transform: translateY(150px);
-  border: 1px solid #7e4e4e;
+  border: 1px solid #462020;
+  border-radius: 5%;
 
 }
 .container11 .card1:hover .item-dept.itemd1{
   transform: translateY(0);
-  background-color: rgb(39, 39, 39);
+  background-color: rgb(39, 39, 39 , 0.5);
+  border-radius: 5% 5% 0% 0%;
 }
 .container11 .card1 .item-dept.itemd1 .content{
   opacity: .7;
@@ -90,19 +93,24 @@
   box-shadow: 0px 0px 20px 0px rgb(46 ,46 ,46 ,1);
   box-sizing: border-box;
   transform: translateY(-115px);
-  border: 1px solid #7e4e4e;
+  border: 1px solid #462020;
+  border-radius: 5%;
+  opacity: 0;
 }
 .container11 .card1:hover .item-dept.itemd2{
   transform: translateY(0);
-  background: -webkit-linear-gradient( 271deg, #ffffff, rgb(252, 180, 180));
+  background: -webkit-linear-gradient( 271deg, #222222, rgba(0, 0, 0, 0.3));
+  opacity: 1;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+  border-radius: 0% 0% 5% 5%;
+  border-top: 0;
 }
 .container11 .card1 .item-dept.itemd2 p{
   padding: 0em;
   margin: 0em;
-  color: rgb(78, 77, 77);
+  color: rgb(255, 255, 255);
   font-size: 15px;
   font-weight: bold;
   margin-bottom: 15px;
@@ -112,14 +120,14 @@
   display: inline-block;
   text-decoration: none;
   font-weight: bold;
-  color: #333;
+  color: rgb(255, 255, 255);
   border: 0.5px solid rgb(255, 74, 74);
   transition: .5s;
   padding: 10px ;
   text-transform:uppercase;
 }
 .container11 .card1 .item-dept.itemd2 a:hover{
-  background-color: rgb(165, 0, 0);
+  background-color: rgb(255, 61, 61);
   color: #fff;
   transition: .5s;
 
