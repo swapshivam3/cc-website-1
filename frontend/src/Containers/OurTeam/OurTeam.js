@@ -1,7 +1,7 @@
 import TeamMemberCard from "../../Components/TeamMemberCard/TeamMemberCard"
 import './OurTeam.css'
 import React , { useState } from 'react'
-import OurTeam1 from "../OurTeam/OurTeam1"
+// import OurTeam1 from "../OurTeam/OurTeam1"
 import { Swiper, SwiperSlide } from "swiper/react";
 import 'swiper/swiper-bundle.min.css'
 import 'swiper/swiper.min.css'
