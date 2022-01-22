@@ -26,12 +26,14 @@ class CalculateScores(APIView):
                     # print(ans_data['answer'])
                     try:
                         if q.blank_answer == ans_data['answertext']:
-                            score+=1
+                            score+=q.score
+                        print("checked")
                     except:
                         pass
                     try:
                         if q.answer==int(ans_data['answer']):
-                            score+=1
+                            score+=q.score
+                        print("checkedFI")
                     except:
                         pass
                 candidate.score=score
@@ -44,9 +46,9 @@ class GetScoreSheet(APIView):
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="scores.csv"'
         writer = csv.writer(response)
-        writer.writerow(['Username', 'pr1', 'pr2', 'pr3','pr4','pr5','pr6','pr7','score','bits_id','bits_email'])
+        writer.writerow(['Username', 'pr1', 'pr2', 'pr3','pr4','pr5','pr6','pr7','pr8','score','bits_id','bits_email'])
         candidates = Candidate.objects.all().values_list(     
-            'user', 'pr1', 'pr2', 'pr3','pr4','pr5','pr6','pr7','score','bits_id')
+            'user', 'pr1', 'pr2', 'pr3','pr4','pr5','pr6','pr7','pr8','score','bits_id')
         # related_user=CustomUser.objects.filter(id=can)
         #fix this to get email/name/number of candidate user, user.email does not work
         for candidate in candidates:

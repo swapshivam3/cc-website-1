@@ -115,6 +115,8 @@ class Candidate (models.Model) :
     pr5 = models.CharField(verbose_name="Fifth Priority",max_length=2,choices=departments,default=None)
     pr6 = models.CharField(verbose_name="Sixth Priority",max_length=2,choices=departments,default=None)
     pr7 = models.CharField(verbose_name="Seventh Priority",max_length=2,choices=departments,default=None)
+    pr8 = models.CharField(verbose_name="Eigth Priority",max_length=2,choices=departments,default=None)
+    
  
     answer_json=JSONField()
     exam_given=models.BooleanField(default=False)

@@ -1,6 +1,6 @@
 from django.contrib.auth.hashers import make_password,check_password
 from django.views.decorators.csrf import ensure_csrf_cookie
-
+import time
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404, render
 from rest_framework.views import APIView
@@ -102,13 +102,22 @@ def getkeys(request):
  #   print(context)
     # print(request.user)
     # candidate=CustomUser.objects.filter(user=)
+    # try:
     candidate=Candidate.objects.filter(user=CustomUser.objects.filter(email=request.user)[0])[0]
+    # except:
+        # return JsonResponse({'msg':'Not logged in'})
     # if(request.user.email[0:5]!='f2021'):
     #     return logout(request)
-    if(candidate.bits_id=='2021XXXXXXXXP'):
-        return JsonResponse({'sessionid':request.session.session_key, 'name':request.user.name, 'email':request.user.email, 'first_time_login':'yes', 'exam_given':candidate.exam_given})
+    timer=0
+    if candidate.exam_attempt_time == "null":
+        timer=3600
     else:
-        return JsonResponse({'sessionid':request.session.session_key, 'name':request.user.name, 'email':request.user.email, 'first_time_login':'no','exam_given':candidate.exam_given})
+        timer=3600-time.time()+float(candidate.exam_attempt_time)
+
+    if(candidate.bits_id=='2021XXXXXXXXP'):
+        return JsonResponse({'sessionid':request.session.session_key, 'name':request.user.name, 'email':request.user.email, 'first_time_login':'yes', 'exam_given':candidate.exam_given, 'time':timer})
+    else:
+        return JsonResponse({'sessionid':request.session.session_key, 'name':request.user.name, 'email':request.user.email, 'first_time_login':'no','exam_given':candidate.exam_given, 'time':timer})
 
   #  context = RequestContext(request)
 
@@ -156,7 +165,7 @@ def social_login(request):
         login(request,user)
         responsef['first_time']=False
     else:
-        Candidate.objects.create(user=user,pr1='ap',pr2='fe',pr3='be',pr4='cp',pr5='ui',pr6='gd',pr7='vi',gender='M')
+        Candidate.objects.create(user=user,pr1='ap',pr2='fe',pr3='be',pr4='cp',pr5='ui',pr6='gd',pr7='vi',pr8='gr',gender='M')
         login(request,user)
         responsef['first_time']=True
     responsef['name']=user.name
@@ -448,7 +457,7 @@ class CandidateRegistrationView(APIView):
                 user = CustomUser.objects.filter(email=request.data['email'])[0]
 
                 Candidate.objects.create(user=user,pr1=request.data["pr1"],pr2=request.data["pr2"],pr3=request.data["pr3"],pr4=request.data["pr4"],
-                pr5=request.data["pr5"],pr6=request.data["pr6"],pr7=request.data["pr7"],bits_id=request.data['bits_id'],bits_email=request.data['bits_email'],github=request.data['github'],gender=request.data['gender'])
+                pr5=request.data["pr5"],pr6=request.data["pr6"],pr7=request.data["pr7"],pr8=request.data["pr8"],bits_id=request.data['bits_id'],bits_email=request.data['bits_email'],github=request.data['github'],gender=request.data['gender'])
 
                 return Response({'msg': 'Candidate Registered'}, status=status.HTTP_201_CREATED)
             else:
@@ -477,7 +486,7 @@ class CandidateProfileView(APIView):
             user = request.user
             candidate = Candidate.objects.get(user=user)
 
-            allowed_updates = ['bits_id', 'bits_email', 'github', 'pr1', 'pr2', 'pr3', 'pr4','pr5','pr6','pr7']
+            allowed_updates = ['bits_id', 'bits_email', 'github', 'pr1', 'pr2', 'pr3', 'pr4','pr5','pr6','pr7','pr8']
             # print(request)
             for update in allowed_updates:
                 if update in request.data:

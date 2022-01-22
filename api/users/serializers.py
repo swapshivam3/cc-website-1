@@ -37,7 +37,7 @@ class CandidateSerializer(serializers.ModelSerializer):
  
     def validate(self, attrs):        
         # Checking if all priorities are unique 
-        list=[attrs['pr1'],attrs['pr2'],attrs['pr3'],attrs['pr4'],attrs['pr5'],attrs['pr6'],attrs['pr7']]
+        list=[attrs['pr1'],attrs['pr2'],attrs['pr3'],attrs['pr4'],attrs['pr5'],attrs['pr6'],attrs['pr7'],attrs['pr8']]
         if len(list) != len(set(list)):
             raise serializers.ValidationError("All preference choices should be different ")
     

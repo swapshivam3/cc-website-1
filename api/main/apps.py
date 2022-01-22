@@ -14,3 +14,4 @@ class MainConfig(AppConfig):
             Department.objects.get_or_create(name='be')
             Department.objects.get_or_create(name='ap')
             Department.objects.get_or_create(name='ui')
+            
