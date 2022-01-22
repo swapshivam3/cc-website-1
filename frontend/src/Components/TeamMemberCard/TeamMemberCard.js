@@ -85,7 +85,7 @@ const TeamMemberCard = ({ name, department, src }) => {
                 </svg>
               </a>
             </div>
-            
+
           </div>
           
           
