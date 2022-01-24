@@ -117,6 +117,7 @@ class Candidate (models.Model) :
     pr7 = models.CharField(verbose_name="Seventh Priority",max_length=2,choices=departments,default=None)
     pr8 = models.CharField(verbose_name="Eigth Priority",max_length=2,choices=departments,default=None)
     
+    phone_number=models.CharField(max_length=20,blank=True,null=True,default="")
  
     answer_json=JSONField()
     exam_given=models.BooleanField(default=False)
