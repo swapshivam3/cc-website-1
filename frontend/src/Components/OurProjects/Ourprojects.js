@@ -5,9 +5,10 @@ import './OurProjects.css';
 import slides from './projects.json'
 import 'react-responsive-modal/styles.css';
 import { Modal } from 'react-responsive-modal';
-import  { Breakpoint, BreakpointProvider } from 'react-socks';
+// import  { Breakpoint, BreakpointProvider } from 'react-socks';
 import ReactCardCarousel from "react-card-carousel";
-
+import Tilt from 'react-tilt'
+import Fade from 'react-reveal/Fade';
 
 
 function OurProjects() {
@@ -45,21 +46,36 @@ function OurProjects() {
     
     
       <div>
-    <BreakpointProvider>  
-      <Breakpoint medium up>
+  
+     
         <div className="project-main">
       <Hero>
         <div className="container">
           <div className="row">
-            {slides.map((card, i) => (
+            {slides.map((card, i) => (      
               <div className="column" key={card.id}>
-                <Card>
-                  <div className="project-card-title"><a id={card.id} onClick={(e) => handleModal(e)}> {card.title} </a></div>
-                  <div className="project-card-body">{card.description}</div>
-                  <div className="project-card-techstack">{card.techstack}</div>
-                  <Image ratio={900/900} src={card.image} />
-                </Card>
+                <Fade >
+                  <Tilt className="Tilt" options={{ max : 15 , scale: 1.05  }}  >
+                    <div className="Tilt-inner"> 
+                        <Card>
+                            <div className="project-card-title"><a id={card.id} onClick={(e)=> handleModal(e)}> {card.title} </a></div>
+                            <div className="project-card-body">{card.description}</div>
+                            <div className="project-card-techstack">{card.techstack}</div>
+                            <Image ratio={900/900} src={card.image} />
+                        </Card>
+                      </div>
+                  </Tilt>
+                </Fade>
               </div>
+  
+              // <div className="column" key={card.id}>
+              //   <Card>
+              //     <div className="project-card-title"><a id={card.id}> {card.title} </a></div>
+              //     <div className="project-card-body">{card.description}</div>
+              //     <div className="project-card-techstack">{card.techstack}</div>
+              //     <Image ratio={900/900} src={card.image} />
+              //   </Card>
+              // </div>
             ))}
           </div>
         </div>
@@ -162,9 +178,9 @@ function OurProjects() {
             </Modal>
         </div>
       
-        </Breakpoint> 
+     
 
-        <Breakpoint medium down>
+      
         <div className="project-card-carousel">
         <ReactCardCarousel autoplay={true} autoplay_speed={2500}>
         {slides.map((card, i) => (
@@ -172,7 +188,7 @@ function OurProjects() {
              
                 <div className="project-card-carousel-style">
                 <h1 style={{padding: "10px" , fontSize: "3ch"}}><a href={card.target}> {card.title} </a></h1>
-                  <div>{card.description}</div>
+                  <div className="project-card-text">{card.description}</div>
                   <div style={{padding: "10px" }}>{card.techstack}</div>
                   <Image ratio={200/200} src={card.image} />
                 </div>
@@ -181,15 +197,12 @@ function OurProjects() {
             ))}
           </ReactCardCarousel>
           </div>    
-        </Breakpoint>
+     
       
-      </BreakpointProvider>
+     
       </div>
       
-         
-
-          
- 
+    
     );
 }
 
