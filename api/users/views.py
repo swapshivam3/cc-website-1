@@ -102,12 +102,17 @@ def getkeys(request):
  #   print(context)
     # print(request.user)
     # candidate=CustomUser.objects.filter(user=)
-    # try:
-    candidate=Candidate.objects.filter(user=CustomUser.objects.filter(email=request.user)[0])[0]
-    # except:
-        # return JsonResponse({'msg':'Not logged in'})
-    # if(request.user.email[0:5]!='f2021'):
-    #     return logout(request)
+    try:
+        candidate=Candidate.objects.filter(user=CustomUser.objects.filter(email=request.user)[0])[0]
+    except:
+        return JsonResponse({'msg':'Not User'})
+    
+   if(request.user.is_anonymous):
+        return JsonRepsonse({'msg':'Not User'})
+        
+    elif(request.user.email[0:5]!='f2021' and request.user.is_staff==False):
+        logout(request)
+        return JsonResponse({'msg':'Not in 2021'})
     timer=0
     if candidate.exam_attempt_time == "null":
         timer=3600
@@ -457,7 +462,7 @@ class CandidateRegistrationView(APIView):
                 user = CustomUser.objects.filter(email=request.data['email'])[0]
 
                 Candidate.objects.create(user=user,pr1=request.data["pr1"],pr2=request.data["pr2"],pr3=request.data["pr3"],pr4=request.data["pr4"],
-                pr5=request.data["pr5"],pr6=request.data["pr6"],pr7=request.data["pr7"],pr8=request.data["pr8"],bits_id=request.data['bits_id'],bits_email=request.data['bits_email'],github=request.data['github'],gender=request.data['gender'])
+                pr5=request.data["pr5"],pr6=request.data["pr6"],pr7=request.data["pr7"],pr8=request.data["pr8"],bits_id=request.data['bits_id'],phone_number=request.data['phone_number'],bits_email=request.data['bits_email'],github=request.data['github'],gender=request.data['gender'])
 
                 return Response({'msg': 'Candidate Registered'}, status=status.HTTP_201_CREATED)
             else:
@@ -486,7 +491,7 @@ class CandidateProfileView(APIView):
             user = request.user
             candidate = Candidate.objects.get(user=user)
 
-            allowed_updates = ['bits_id', 'bits_email', 'github', 'pr1', 'pr2', 'pr3', 'pr4','pr5','pr6','pr7','pr8']
+            allowed_updates = ['bits_id', 'bits_email', 'github','phone_number', 'pr1', 'pr2', 'pr3', 'pr4','pr5','pr6','pr7','pr8']
             # print(request)
             for update in allowed_updates:
                 if update in request.data:

@@ -9,27 +9,33 @@ import random
 from .models import Question
 import os.path
 from .questions import question_list
-from api.settings import MEDIA_ROOT,START_TIME
+from api.settings import MEDIA_ROOT,START_TIME,START_BUFFER_TIME
 import boto3
 import time
 from datetime import datetime
 import pytz
 from dateutil import tz
 questions = []
+# from django.views.decorators.cache import cache_page
+
 
 
 # Create your views here.
 class QuestionGetView(APIView):
+    # @cache_page(60*60)
     def get(self, request):
         time.sleep(0.02)
         # questions=request.session.get('questions')     
-        # if(request.user.is_anonymous or time.time()<START_TIME):
+        # if(request.user.is_staff==False):
         #     return JsonResponse({"msg":"Unauthorized"},status=status.HTTP_401_UNAUTHORIZED)
-        global questions
+        questions=[]
+        if(request.user.is_anonymous or time.time()<START_TIME):
+            return JsonResponse({"msg":"Unauthorized"},status=status.HTTP_401_UNAUTHORIZED)
+        # global questions
         # fix the file fields here as well if wanted
         #will fail if db is empty, create an object first using admin or the CreateQuestions view
-        raw_questions = Question.objects.all()
-        raw_questions.order_by('pk')
+        raw_questions_fetch = Question.objects.all()
+        raw_questions=raw_questions_fetch.order_by('pk')
         i=0
         if questions is None or len(questions) != 20:
             questions=[]
@@ -88,6 +94,7 @@ class QuestionGetView(APIView):
                 question['options'] = options
                 questions.append(question.copy())
                 i+=1
+                # time.sleep(1)
             # print('executed')
             # request.session['questions'] = questions
         return JsonResponse(questions, safe=False)
@@ -100,10 +107,19 @@ class GetTime(APIView):
         try:
             c = Candidate.objects.filter(user=user)[0]
             if c.exam_attempt_time == "null":
-                c.exam_attempt_time = time.time()
-                c.save()
+                if time.time()<START_BUFFER_TIME:
+                    c.exam_attempt_time = time.time()
+                    c.save()
+                    return JsonResponse({"time": 3600}, status=status.HTTP_200_OK)
+                else:
+                    # c.exam_attempt_time=time.time()-START_BUFFER_TIME
+                    penalty=time.time()-START_BUFFER_TIME
+                    c.exam_attempt_time=START_BUFFER_TIME
+                    c.save()
+                    return JsonResponse({"time":3600-penalty},status=status.HTTP_200_OK)
                 # print(time.time())
-                return JsonResponse({"time": 3600}, status=status.HTTP_200_OK)
+            elif c.exam_given==True:
+                return JsonResponse({"time":-1})
             else:
                 # print(time.time())
                 return JsonResponse({"time":3600-time.time()+float(c.exam_attempt_time)})
@@ -113,6 +129,7 @@ class GetTime(APIView):
 
 class AnswerPostView(APIView):
     def post(self, request):
+        # return Response({"msg": "Success"}, status=status.HTTP_401_UNAUTHORIZED)
         try:
             user = request.user
             candidate = Candidate.objects.filter(user=user)[0]

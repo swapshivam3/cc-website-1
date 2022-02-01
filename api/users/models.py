@@ -95,6 +95,7 @@ class Candidate (models.Model) :
         ('ui', 'UI/UX'),
         ('gd', 'Game Development'),
         ('vi', 'Video Editing'),
+        ('gr', 'Graphic Design'),
     )
     gender_choices = (
         ('M','Male'),
@@ -106,7 +107,7 @@ class Candidate (models.Model) :
     gender= models.CharField(max_length=1,choices=gender_choices)
     bits_id = models.CharField(verbose_name="BITS ID",max_length=13,blank=False,null=False,default="2021XXXXXXXXP")
     # bits_email = models.EmailField(max_length=100, verbose_name="BITS Email", blank=False, null=False, default="f20xxxxxx@pilani.bits-pilani.ac.in")
-    github = models.CharField(max_length=20, blank=True, null=True, default="")
+    github = models.CharField(max_length=100, blank=True, null=True, default="")
     
     pr1 = models.CharField(verbose_name="First Priority",max_length=2,choices=departments,default=None)
     pr2 = models.CharField(verbose_name="Second Priority",max_length=2,choices=departments,default=None)
@@ -123,7 +124,7 @@ class Candidate (models.Model) :
     exam_given=models.BooleanField(default=False)
     exam_attempt_time=models.TextField(default="null")
     exam_given_time = models.TextField(default="null") 
-    score=models.IntegerField(default=0,blank=True)
+    score=models.IntegerField(default=-1,blank=True)
     
     #a phone number field is required over here, or link it using visitor upgrade to candidate
 

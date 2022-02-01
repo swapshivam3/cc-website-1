@@ -218,4 +218,5 @@ AWS_S3_VERIFY = True
 AWS_QUERYSTRING_EXPIRE=86400
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 # below is year month day hour(INPUT IN 24 HOUR) minute second microsecond tzinfo 
-START_TIME=datetime(2022,1,4,16,11,0,0,tz.gettz('Asia/Calcutta')).timestamp()
+START_TIME=datetime(2022,1,30,20,29,0,0,tz.gettz('Asia/Calcutta')).timestamp()
+START_BUFFER_TIME=datetime(2022,1,30,20,35,0,0,tz.gettz('Asia/Calcutta')).timestamp()
